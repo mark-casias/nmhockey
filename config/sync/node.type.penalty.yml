@@ -1,0 +1,17 @@
+uuid: 3c2dc5fa-2c40-46cd-841a-0860627c8e9e
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Penalty
+type: penalty
+description: 'Game Penalties'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

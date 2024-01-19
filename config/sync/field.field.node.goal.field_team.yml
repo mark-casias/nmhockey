@@ -1,0 +1,29 @@
+uuid: eb11f497-e343-4072-b0ef-8ba416f8e872
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_team
+    - node.type.goal
+    - node.type.team
+id: node.goal.field_team
+field_name: field_team
+entity_type: node
+bundle: goal
+label: Team
+description: 'The team the goal was scored for'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      team: team
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

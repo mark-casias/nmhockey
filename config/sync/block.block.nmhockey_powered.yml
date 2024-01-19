@@ -1,0 +1,22 @@
+uuid: 8bc722bc-8b86-433f-a251-9f34c216bd01
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - nmhockey
+_core:
+  default_config_hash: eYL19CLDyinGTWYQfBD1DswWzglEotE_kHnHx3AxTXM
+id: nmhockey_powered
+theme: nmhockey
+region: header
+weight: 1
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

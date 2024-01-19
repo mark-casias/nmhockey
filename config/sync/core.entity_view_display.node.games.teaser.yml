@@ -1,0 +1,45 @@
+uuid: 67ccdb8b-5360-41f4-b2ad-6de5d6eac29c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.games.body
+    - field.field.node.games.field_game_away
+    - field.field.node.games.field_game_date
+    - field.field.node.games.field_game_home
+    - field.field.node.games.field_game_season
+    - node.type.games
+  module:
+    - field_layout
+    - layout_discovery
+    - text
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.games.teaser
+targetEntityType: node
+bundle: games
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_game_away: true
+  field_game_date: true
+  field_game_home: true
+  field_game_season: true

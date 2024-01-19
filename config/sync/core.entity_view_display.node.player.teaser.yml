@@ -1,0 +1,41 @@
+uuid: 9c063703-45a8-4dfc-a29f-1c314fdf9ace
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.player.field_email
+    - field.field.node.player.field_first_name
+    - field.field.node.player.field_last_name
+    - field.field.node.player.field_level
+    - field.field.node.player.field_media
+    - field.field.node.player.field_number
+    - field.field.node.player.field_telephone
+    - node.type.player
+  module:
+    - field_layout
+    - layout_discovery
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.player.teaser
+targetEntityType: node
+bundle: player
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_email: true
+  field_first_name: true
+  field_last_name: true
+  field_level: true
+  field_media: true
+  field_number: true
+  field_telephone: true

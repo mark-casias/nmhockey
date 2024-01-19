@@ -1,0 +1,21 @@
+uuid: 139a1631-b102-4a93-a5f4-44beeb306165
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_period
+    - node.type.goal
+  module:
+    - options
+id: node.goal.field_period
+field_name: field_period
+entity_type: node
+bundle: goal
+label: Period
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer

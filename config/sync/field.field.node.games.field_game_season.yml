@@ -1,0 +1,29 @@
+uuid: cd317784-8144-4ab9-a11a-2c72e08045b4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_game_season
+    - node.type.games
+    - node.type.league
+id: node.games.field_game_season
+field_name: field_game_season
+entity_type: node
+bundle: games
+label: 'Game Season'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      league: league
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

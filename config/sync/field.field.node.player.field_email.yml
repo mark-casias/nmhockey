@@ -1,0 +1,19 @@
+uuid: eb7fabad-b3cc-4099-8465-58970a9326e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email
+    - node.type.player
+id: node.player.field_email
+field_name: field_email
+entity_type: node
+bundle: player
+label: 'Email (admin only)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

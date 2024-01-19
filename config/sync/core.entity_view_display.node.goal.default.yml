@@ -1,0 +1,88 @@
+uuid: a834eeb9-a7b2-4e93-8590-9aa23bc17690
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.goal.field_assist
+    - field.field.node.goal.field_game
+    - field.field.node.goal.field_period
+    - field.field.node.goal.field_player
+    - field.field.node.goal.field_team
+    - field.field.node.goal.field_time
+    - field.field.node.goal.field_type
+    - node.type.goal
+  module:
+    - field_layout
+    - layout_discovery
+    - nomarkup
+    - options
+    - time_field
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.goal.default
+targetEntityType: node
+bundle: goal
+mode: default
+content:
+  field_assist:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+    weight: 3
+    region: content
+  field_period:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+    weight: 0
+    region: content
+  field_player:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+    weight: 2
+    region: content
+  field_time:
+    type: time_formatter
+    label: hidden
+    settings:
+      time_format: 'i:s'
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+    weight: 1
+    region: content
+  field_type:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden:
+  field_game: true
+  field_team: true
+  links: true

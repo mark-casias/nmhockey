@@ -1,0 +1,43 @@
+uuid: d3d60af1-55a9-4ab1-8adc-064ec1ba4c33
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.league.body
+    - field.field.node.league.field_current
+    - field.field.node.league.field_date
+    - field.field.node.league.field_teams
+    - node.type.league
+  module:
+    - field_layout
+    - layout_discovery
+    - text
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.league.teaser
+targetEntityType: node
+bundle: league
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_current: true
+  field_date: true
+  field_teams: true

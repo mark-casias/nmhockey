@@ -1,0 +1,18 @@
+uuid: 770ab19a-452d-4ffb-9a82-fa2370678669
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'League / Season'
+type: league
+description: 'League information. Holds Teams ie: B1 Spring 2023.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

@@ -1,0 +1,17 @@
+uuid: b46991c5-32ed-4fab-b8e2-24ffa52be612
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Player
+type: player
+description: "Basic Player Information, Name, Image, Level, Default Number\r\n\r\nAdmin Only:\r\nAddress, Email, Phone Number"
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

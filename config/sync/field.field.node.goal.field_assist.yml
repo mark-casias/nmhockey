@@ -1,0 +1,29 @@
+uuid: 0cb3716a-a329-4757-a118-0488c6896992
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_assist
+    - node.type.goal
+    - node.type.player
+id: node.goal.field_assist
+field_name: field_assist
+entity_type: node
+bundle: goal
+label: Assist
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      player: player
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

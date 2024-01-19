@@ -1,0 +1,18 @@
+uuid: 9eb916a0-0e7a-496d-acdc-22b41a296e68
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.player
+id: node.player.title
+field_name: title
+entity_type: node
+bundle: player
+label: Name
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

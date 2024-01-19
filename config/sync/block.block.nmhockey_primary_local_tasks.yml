@@ -1,0 +1,22 @@
+uuid: 6172b601-4524-4af4-b84e-7f387b3c0574
+langcode: en
+status: true
+dependencies:
+  theme:
+    - nmhockey
+_core:
+  default_config_hash: nGE3EoPQQaQCuqTUtZgw0-KIzmrqdKDzdNQf2JyPUt4
+id: nmhockey_primary_local_tasks
+theme: nmhockey
+region: primary_menu
+weight: -6
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Primary tabs'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }

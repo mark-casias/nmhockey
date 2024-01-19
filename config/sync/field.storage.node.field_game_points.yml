@@ -1,0 +1,30 @@
+uuid: e9783914-b9eb-4219-93c6-4da842245d5b
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_game_points
+field_name: field_game_points
+entity_type: node
+type: list_integer
+settings:
+  allowed_values:
+    -
+      value: 2
+      label: Win
+    -
+      value: 0
+      label: Loss
+    -
+      value: 1
+      label: OTL
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

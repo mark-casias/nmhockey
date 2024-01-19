@@ -1,0 +1,21 @@
+uuid: db830f9c-4647-422e-a818-0fb4fd811e3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_game_points
+    - node.type.goalie_stats
+  module:
+    - options
+id: node.goalie_stats.field_game_points
+field_name: field_game_points
+entity_type: node
+bundle: goalie_stats
+label: W/L/T
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer

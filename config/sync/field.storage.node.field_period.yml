@@ -1,0 +1,33 @@
+uuid: 7ffc82aa-8358-43ff-9c97-7e5e0e500789
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_period
+field_name: field_period
+entity_type: node
+type: list_integer
+settings:
+  allowed_values:
+    -
+      value: 1
+      label: '1'
+    -
+      value: 2
+      label: '2'
+    -
+      value: 3
+      label: '3'
+    -
+      value: 4
+      label: OT
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

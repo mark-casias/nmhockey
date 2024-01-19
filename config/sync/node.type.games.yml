@@ -1,0 +1,17 @@
+uuid: 91c3e388-ef08-4724-adc3-345576756c92
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Games
+type: games
+description: 'Holds Game stats such as Players, Points and Penalties.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

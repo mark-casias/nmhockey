@@ -1,0 +1,21 @@
+uuid: 4db77ea3-3036-44c4-a0fb-03e690efcbbd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_current
+    - node.type.league
+id: node.league.field_current
+field_name: field_current
+entity_type: node
+bundle: league
+label: Current
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: Active
+  off_label: Archived
+field_type: boolean

@@ -1,0 +1,45 @@
+uuid: 921e3e63-a363-4ce6-b924-79e048a68b35
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.goalie_stats.body
+    - field.field.node.goalie_stats.field_game
+    - field.field.node.goalie_stats.field_game_points
+    - field.field.node.goalie_stats.field_player
+    - field.field.node.goalie_stats.field_team
+    - node.type.goalie_stats
+  module:
+    - field_layout
+    - layout_discovery
+    - text
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.goalie_stats.teaser
+targetEntityType: node
+bundle: goalie_stats
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_game: true
+  field_game_points: true
+  field_player: true
+  field_team: true

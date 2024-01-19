@@ -1,0 +1,23 @@
+uuid: eb280125-8337-4698-b4ce-8b267d03223e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_number
+    - node.type.player
+id: node.player.field_number
+field_name: field_number
+entity_type: node
+bundle: player
+label: 'Preferred Number'
+description: 'Default number for player'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

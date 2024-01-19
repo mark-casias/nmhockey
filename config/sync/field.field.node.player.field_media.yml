@@ -1,0 +1,29 @@
+uuid: cedfac4f-de1f-4879-b2f4-b639b4a8fbf8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_media
+    - media.type.image
+    - node.type.player
+id: node.player.field_media
+field_name: field_media
+entity_type: node
+bundle: player
+label: 'Logo (Optional)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

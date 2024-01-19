@@ -1,0 +1,17 @@
+uuid: 911b2101-5bff-42e3-b20c-b2ac2d3c63f6
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Team
+type: team
+description: 'Team information. Attached to Leagues. Holds Players'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

@@ -1,0 +1,98 @@
+uuid: d4648f5e-9c09-44d7-8519-fe9574851de0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.player.field_email
+    - field.field.node.player.field_first_name
+    - field.field.node.player.field_last_name
+    - field.field.node.player.field_level
+    - field.field.node.player.field_media
+    - field.field.node.player.field_number
+    - field.field.node.player.field_telephone
+    - image.style.thumbnail
+    - node.type.player
+  module:
+    - field_layout
+    - layout_discovery
+    - media
+    - nomarkup
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.player.default
+targetEntityType: node
+bundle: player
+mode: default
+content:
+  field_first_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+    weight: 1
+    region: content
+  field_last_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+    weight: 0
+    region: content
+  field_level:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+    weight: 4
+    region: content
+  field_media:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: thumbnail
+      image_loading:
+        attribute: lazy
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+    weight: 3
+    region: content
+  field_number:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
+    weight: 2
+    region: content
+hidden:
+  field_email: true
+  field_telephone: true
+  links: true

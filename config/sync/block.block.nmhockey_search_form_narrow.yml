@@ -1,0 +1,23 @@
+uuid: 6f15e6eb-cf27-40e2-b5e1-0a9ce5dd4552
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - nmhockey
+_core:
+  default_config_hash: yEBET0cqDbk8dkWzaJw-8CKft0961VBflsISoSR6Lj8
+id: nmhockey_search_form_narrow
+theme: nmhockey
+region: sidebar_first
+weight: -7
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (narrow)'
+  label_display: '0'
+  provider: search
+  page_id: ''
+visibility: {  }

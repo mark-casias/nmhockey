@@ -1,0 +1,20 @@
+uuid: fefea155-b9b1-438e-8379-c113c4bd93d2
+langcode: en
+status: true
+dependencies:
+  theme:
+    - nmhockey
+_core:
+  default_config_hash: 6aOgWsNTXjqrDm98TXSAjP6qd2nCijD1xw45MrnbK-Y
+id: nmhockey_page_title
+theme: nmhockey
+region: header
+weight: -6
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

@@ -1,0 +1,33 @@
+uuid: e65d9a0f-9bc4-4853-b0a0-41a43d88fc1f
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.penalty.field_game
+    - field.field.node.penalty.field_period
+    - field.field.node.penalty.field_player
+    - node.type.penalty
+  module:
+    - field_layout
+    - layout_discovery
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.penalty.teaser
+targetEntityType: node
+bundle: penalty
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_game: true
+  field_period: true
+  field_player: true

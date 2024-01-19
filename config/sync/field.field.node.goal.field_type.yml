@@ -1,0 +1,23 @@
+uuid: bd01fc52-a069-48cf-9c99-94f5e5976ad4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_type
+    - node.type.goal
+  module:
+    - options
+id: node.goal.field_type
+field_name: field_type
+entity_type: node
+bundle: goal
+label: Type
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: even_strength
+default_value_callback: ''
+settings: {  }
+field_type: list_string

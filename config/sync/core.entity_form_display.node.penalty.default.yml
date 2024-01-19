@@ -1,0 +1,54 @@
+uuid: ac7f5770-d694-400a-b6b6-8d704d7efe34
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.penalty.field_game
+    - field.field.node.penalty.field_period
+    - field.field.node.penalty.field_player
+    - node.type.penalty
+  module:
+    - field_layout
+    - layout_discovery
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.penalty.default
+targetEntityType: node
+bundle: penalty
+mode: default
+content:
+  field_period:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_player:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_game: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

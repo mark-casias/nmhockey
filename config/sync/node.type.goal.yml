@@ -1,0 +1,17 @@
+uuid: 37040799-ea76-4903-aa04-92c2dcbbb4c9
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Goal
+type: goal
+description: 'Goal information. Goal, Assist, Second Assist, Game, Period, Time'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false
