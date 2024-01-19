@@ -1,0 +1,25 @@
+# Ignore core when managing all of a project's dependencies with Composer
+# including Drupal core.
+web/core
+
+# Ignore dependencies that are managed with Composer.
+/vendor/
+
+# Ignore configuration files that may contain sensitive information.
+web/sites/*/settings*.php
+web/sites/*/services*.yml
+!web/sites/default/settings.php
+
+# Ignore paths that contain user-generated content.
+web/sites/*/files
+web/sites/*/private
+
+# Ignore multi-site test environment.
+web/sites/simpletest
+
+# Ignore contributed modules
+/web/modules/contrib/*
+/web/themes/contrib/*
+/web/.htaccess
+.DS_Store
+node_modules
