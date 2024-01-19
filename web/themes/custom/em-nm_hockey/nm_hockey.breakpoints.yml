@@ -1,0 +1,15 @@
+nm_hockey.small:
+  label: small
+  mediaQuery: 'all and (min-width: 25em)'
+nm_hockey.small-med:
+  label: small-med
+  mediaQuery: 'all and (min-width: 26em)'
+nm_hockey.small-large:
+  label: small-large
+  mediaQuery: 'all and (min-width: 41em)'
+nm_hockey.medium:
+  label: medium
+  mediaQuery: 'all and (min-width: 48em)'
+nm_hockey.large:
+  label: large
+  mediaQuery: 'all and (min-width: 61.25em)'
