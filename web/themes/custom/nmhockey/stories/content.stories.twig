@@ -1,0 +1,11 @@
+{% stories content_types with { title: "NMHockey/Content"} %}
+
+  {% story goals with {
+    name: "Goal",
+    args: {
+      label: "I am a label"
+    }
+  } %}
+    {% include "nmhockey:goals" %}
+  {% endstory %}
+{% endstories %}

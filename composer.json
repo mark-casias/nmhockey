@@ -25,7 +25,9 @@
         "drupal/emulsify_twig": "^4.0",
         "drupal/gin": "@rc",
         "drupal/gin_toolbar": "@rc",
+        "drupal/navigation": "^1.0@dev",
         "drupal/nomarkup": "^1.0",
+        "drupal/storybook": "^1.0@alpha",
         "drupal/time_field": "^2.1",
         "drupal/token": "^1.13",
         "drush/drush": "^12.4"
@@ -84,27 +86,6 @@
             ],
             "web/themes/custom/{$name}": [
                 "type:drupal-custom-theme"
-            ]
-        },
-        "drupal-core-project-message": {
-            "include-keys": [
-                "homepage",
-                "support"
-            ],
-            "post-create-project-cmd-message": [
-                "<bg=blue;fg=white>                                                         </>",
-                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
-                "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
-                "<bg=blue;fg=white>                                                         </>",
-                "",
-                "<bg=yellow;fg=black>Next steps</>:",
-                "  * Install the site: https://www.drupal.org/docs/installing-drupal",
-                "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
-                "  * Get support: https://www.drupal.org/support",
-                "  * Get involved with the Drupal community:",
-                "      https://www.drupal.org/getting-involved",
-                "  * Remove the plugin that prints this message:",
-                "      composer remove drupal/core-project-message"
             ]
         }
     },

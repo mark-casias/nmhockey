@@ -1,0 +1,17 @@
+{
+  "packageManager": "yarn@4.0.2",
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.10",
+    "@storybook/addon-links": "^7.6.10",
+    "@storybook/blocks": "^7.6.10",
+    "@storybook/server": "^7.6.10",
+    "@storybook/server-webpack5": "^7.6.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.6.10"
+  },
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  }
+}
