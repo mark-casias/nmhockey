@@ -8,4 +8,44 @@
   } %}
     {% include "nmhockey:goals" %}
   {% endstory %}
+
+  {% story player_card with {
+    name: "Player Card",
+    args: {
+      name: "Mark Casias",
+      number: 42,
+      player_stats:[
+        { name: 'season 1', goals: 10, assists: 14, pim: 2},
+        { name: 'season 2', goals: 10, assists: 14, pim: 2}
+      ],
+      goalie_stats:[
+        { name: 'season 1', wins: 1, loss: 2, otl: 0, so: 1, sa: 100, ga: 5 },
+        { name: 'season 2', wins: 1, loss: 2, otl: 0, so: 0, sa: 100, ga: 5}
+      ]
+    }
+  } %}
+    {% include "nmhockey:player" %}
+  {% endstory %}
+
+  {% story team_card with {
+    name: 'Team Card',
+    args: {
+      name: "my great team",
+      season: "the season",
+      record: "10 - 1",
+      captain: "my captain",
+      players:[
+        { name: 'player 1', image: 'img1', number: 42, player_stats:[
+        { name: 'season 1', goals: 10, assists: 14, pim: 2}]},
+        { name: 'player 2', image: 'img2', number: 32, player_stats:[
+        { name: 'season 1', goals: 10, assists: 14, pim: 2},] }
+      ],
+      goalies: [
+        { name: 'goalie 1', image: 'img3', number: 123, goalie_stats:[
+        { name: 'season 1', wins: 1, loss: 2, otl: 0, so: 1, sa: 100, ga: 5 }] }
+      ]
+    }
+  } %}
+    {% include "nmhockey:team-card" %}
+  {% endstory %}
 {% endstories %}

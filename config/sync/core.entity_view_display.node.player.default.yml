@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.player.feeds_item
     - field.field.node.player.field_email
     - field.field.node.player.field_first_name
     - field.field.node.player.field_last_name
@@ -93,6 +94,7 @@ content:
     weight: 2
     region: content
 hidden:
+  feeds_item: true
   field_email: true
   field_telephone: true
   links: true

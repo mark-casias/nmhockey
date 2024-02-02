@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.player.feeds_item
     - field.field.node.player.field_email
     - field.field.node.player.field_first_name
     - field.field.node.player.field_last_name
@@ -32,6 +33,7 @@ content:
     weight: 100
     region: content
 hidden:
+  feeds_item: true
   field_email: true
   field_first_name: true
   field_last_name: true

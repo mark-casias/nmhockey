@@ -1,0 +1,45 @@
+<div {{ attributes.addClass('player-card')}}>
+  <h2>{{ name }}</h2>
+  <div>Number: {{ number }}</div>
+  <img src={{image}} />
+
+  {% if player_stats is defined %}
+  <div class="player-stats">
+    <ol>
+      <li>Season</li>
+      <li>Goals</li>
+      <li>Assists</li>
+      <li>Penalties</li>
+    </ol>
+    {% for season in player_stats %}
+      <ul>
+        <li>{{ season.name }}</li>
+        <li>{{ season.goals }}</li>
+        <li>{{ season.assists }}</li>
+        <li>{{ season.pim }}</li>
+      </ul>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if goalie_stats is defined %}
+  <div class="goalie-stats">
+    <ol>
+      <li>Season</li>
+      <li>Wins</li>
+      <li>Losses</li>
+      <li>OTL</li>
+      <li>SO</li>
+    </ol>
+    {% for key, stat in goalie_stats %}
+      <ul>
+        <li>{{ key }}</li>
+        <li>{{ stat.wins }}</li>
+        <li>{{ stat.loss }}</li>
+        <li>{{ stat.otl }}</li>
+        <li>{{ stat.so }}</li>
+      </ul>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>

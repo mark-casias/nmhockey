@@ -1,0 +1,22 @@
+[data-component-id="nmhockey:player-card"] {
+  border: 1px solid red;
+  border-radius: 3rem;
+  padding: 1rem 2rem;
+  max-width: 400px;
+
+  li {
+    display: block;
+    text-align: center;
+
+  }
+  .player-stats {
+    ol, ul {
+      columns: 4;
+    }
+  }
+  .goalie-stats {
+    ol, ul {
+      columns: 5;
+    }
+  }
+}

@@ -1,0 +1,84 @@
+uuid: 8e072860-9f10-4a54-a5f8-2bd89616bec1
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.base_field_override.node.player.title
+    - field.field.node.player.field_number
+    - node.type.player
+  module:
+    - feeds_tamper
+    - node
+third_party_settings:
+  feeds_tamper:
+    tampers:
+      53bfcb7a-3c99-41c1-9318-56297a679366:
+        separator: ', '
+        limit: null
+        uuid: 53bfcb7a-3c99-41c1-9318-56297a679366
+        plugin: explode
+        source: jersey
+        weight: 0
+        label: Explode
+      87793642-9ac5-4a7c-8312-a952df2e064e:
+        separator: ', '
+        limit: null
+        uuid: 87793642-9ac5-4a7c-8312-a952df2e064e
+        plugin: explode
+        source: name
+        weight: 0
+        label: Explode
+label: Players
+id: players
+description: 'Createse players'
+help: ''
+import_period: -1
+fetcher: upload
+fetcher_configuration:
+  allowed_extensions: 'txt csv tsv xml opml'
+  directory: 'public://feeds'
+parser: csv
+parser_configuration:
+  delimiter: ','
+  no_headers: false
+  line_limit: 100
+processor: 'entity:node'
+processor_configuration:
+  values:
+    type: player
+  langcode: en
+  insert_new: 1
+  update_existing: 0
+  update_non_existent: _keep
+  skip_hash_check: false
+  authorize: true
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  name:
+    value: Name
+    label: Name
+    machine_name: name
+    type: csv
+  jersey:
+    value: Num
+    label: jersey
+    machine_name: jersey
+    type: csv
+mappings:
+  -
+    target: title
+    map:
+      value: name
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_number
+    map:
+      value: jersey
+    settings:
+      language: null
+    unique: {  }

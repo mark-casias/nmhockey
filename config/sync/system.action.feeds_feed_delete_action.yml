@@ -1,0 +1,13 @@
+uuid: 5654e0e5-e994-41b1-b5fe-f0ed754cffb2
+langcode: en
+status: true
+dependencies:
+  module:
+    - feeds
+_core:
+  default_config_hash: yZW4ELH2L51kf2mGKd7f62uozGH-jFuWz1k9abACq1U
+id: feeds_feed_delete_action
+label: 'Delete selected feeds'
+type: feeds_feed
+plugin: feeds_feed_delete_action
+configuration: {  }

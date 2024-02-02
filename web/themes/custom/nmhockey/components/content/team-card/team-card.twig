@@ -1,0 +1,32 @@
+<div {{ attributes.addClass('team-card')}}>
+  <h2>{{ name }}</h2>
+  <h3>{{ season }}</h3>
+  <h4>Record: {{ record }}</h4>
+  <div class="players-list">
+    <h3>Captain: {{ captain }}</h3>
+    <h3>Players</h3>
+    {% for player in players %}
+      {% include "nmhockey:player" with {
+        name: player.name,
+        number: player.number,
+        player_stats: player.player_stats,
+      } %}
+    {% endfor %}
+    <p>select player_id from goals where team_id = team_id</p>
+    <p>select count(player_id) from goals where team_id = team_id and player_id = player_id</p>
+    <p>select count(assist) + count(assist2) from goals where team_id = team_id and player_id = player_id</p>
+    <p>selelct sum(duration) from penalties where team_id = team_id and player_id = player_id</p>
+    <h3>Goalies</h3>
+    {% for goalie in goalies %}
+      {% include "nmhockey:player" with {
+        name: goalie.name,
+        number: goalie.number,
+        goalie_stats: goalie.goalie_stats
+      } %}
+    {% endfor %}
+    <p>select count(player_id) from goalie_stats where team_id = team_id and wlt = w and player_id = player_id</p>
+    <p>select count(player_id) from goalie_stats where team_id = team_id and wlt = l and player_id = player_id</p>
+    <p>select count(player_id) from goalie_stats where team_id = team_id and wlt = o and player_id = player_id</p>
+    <p>select sum(goals_against), sum(shots_against) from goalie_stats where team_id = team_id and player_id = player_id</p>
+  </div>
+</div>
