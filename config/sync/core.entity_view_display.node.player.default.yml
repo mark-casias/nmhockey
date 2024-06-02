@@ -15,7 +15,6 @@ dependencies:
     - node.type.player
   module:
     - field_layout
-    - layout_discovery
     - media
     - nomarkup
     - user

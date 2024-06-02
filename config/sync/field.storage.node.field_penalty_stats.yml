@@ -1,0 +1,19 @@
+uuid: 39c26eba-65da-4518-8d78-fd469a684f33
+langcode: en
+status: true
+dependencies:
+  module:
+    - nmhockey_stats
+    - node
+id: node.field_penalty_stats
+field_name: field_penalty_stats
+entity_type: node
+type: nmhockey_stats_penalty_stats
+settings: {  }
+module: nmhockey_stats
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

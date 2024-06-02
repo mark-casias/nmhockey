@@ -15,7 +15,6 @@ dependencies:
     - node.type.player
   module:
     - field_layout
-    - layout_discovery
     - user
 third_party_settings:
   field_layout:

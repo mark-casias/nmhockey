@@ -11,7 +11,7 @@ id: node.games.field_game_date
 field_name: field_game_date
 entity_type: node
 bundle: games
-label: 'Game Date'
+label: Date
 description: ''
 required: false
 translatable: false

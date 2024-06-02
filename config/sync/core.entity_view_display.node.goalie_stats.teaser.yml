@@ -12,7 +12,6 @@ dependencies:
     - node.type.goalie_stats
   module:
     - field_layout
-    - layout_discovery
     - text
     - user
 third_party_settings:

@@ -4,8 +4,9 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.penalty.field_game
-    - field.field.node.penalty.field_period
+    - field.field.node.penalty.field_penalty_game
+    - field.field.node.penalty.field_penalty_stats
+    - field.field.node.penalty.field_penalty_team
     - field.field.node.penalty.field_player
     - node.type.penalty
   module:
@@ -28,6 +29,7 @@ content:
     weight: 100
     region: content
 hidden:
-  field_game: true
-  field_period: true
+  field_penalty_game: true
+  field_penalty_stats: true
+  field_penalty_team: true
   field_player: true

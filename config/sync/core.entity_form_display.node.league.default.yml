@@ -6,11 +6,13 @@ dependencies:
     - field.field.node.league.body
     - field.field.node.league.field_current
     - field.field.node.league.field_date
+    - field.field.node.league.field_games
     - field.field.node.league.field_teams
     - node.type.league
   module:
     - datetime_range
     - field_layout
+    - inline_entity_form
     - layout_discovery
     - text
 third_party_settings:
@@ -46,19 +48,45 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_games:
+    type: inline_entity_form_complex
+    weight: 5
+    region: content
+    settings:
+      form_mode: season_game_create
+      override_labels: true
+      label_singular: Game
+      label_plural: Games
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: true
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
   field_teams:
-    type: entity_reference_autocomplete
+    type: inline_entity_form_complex
     weight: 4
     region: content
     settings:
+      form_mode: default
+      override_labels: true
+      label_singular: Team
+      label_plural: Teams
+      allow_new: true
+      allow_existing: false
       match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 5
+    weight: 6
     region: content
     settings:
       display_label: true

@@ -5,14 +5,17 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.games.body
-    - field.field.node.games.field_game_away
     - field.field.node.games.field_game_date
-    - field.field.node.games.field_game_home
+    - field.field.node.games.field_game_goals_away
+    - field.field.node.games.field_game_goals_home
+    - field.field.node.games.field_game_penalties_away
+    - field.field.node.games.field_game_penalties_home
     - field.field.node.games.field_game_season
+    - field.field.node.games.field_game_team_away
+    - field.field.node.games.field_game_team_home
     - node.type.games
   module:
     - field_layout
-    - layout_discovery
     - text
     - user
 third_party_settings:
@@ -39,7 +42,11 @@ content:
     weight: 100
     region: content
 hidden:
-  field_game_away: true
   field_game_date: true
-  field_game_home: true
+  field_game_goals_away: true
+  field_game_goals_home: true
+  field_game_penalties_away: true
+  field_game_penalties_home: true
   field_game_season: true
+  field_game_team_away: true
+  field_game_team_home: true

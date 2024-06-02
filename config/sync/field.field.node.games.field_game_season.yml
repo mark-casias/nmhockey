@@ -10,7 +10,7 @@ id: node.games.field_game_season
 field_name: field_game_season
 entity_type: node
 bundle: games
-label: 'Game Season'
+label: Season
 description: ''
 required: false
 translatable: false

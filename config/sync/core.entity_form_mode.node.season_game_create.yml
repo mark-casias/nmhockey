@@ -1,0 +1,11 @@
+uuid: 21e045d8-52fd-4daa-a3a2-eeff541de43d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.season_game_create
+label: 'Season Game Create'
+description: 'Embedded form to adding games to a season.'
+targetEntityType: node
+cache: true

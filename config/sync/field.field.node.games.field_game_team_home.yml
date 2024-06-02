@@ -1,0 +1,29 @@
+uuid: 0c031f4c-ffea-45f2-96f3-fc1679140c93
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_game_team_home
+    - node.type.games
+    - node.type.team
+id: node.games.field_game_team_home
+field_name: field_game_team_home
+entity_type: node
+bundle: games
+label: 'Home Team'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      team: team
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

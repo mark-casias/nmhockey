@@ -10,7 +10,6 @@ dependencies:
     - node.type.team
   module:
     - field_layout
-    - layout_discovery
     - text
     - user
 third_party_settings:

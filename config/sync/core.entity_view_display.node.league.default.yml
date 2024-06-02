@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.league.body
     - field.field.node.league.field_current
     - field.field.node.league.field_date
+    - field.field.node.league.field_games
     - field.field.node.league.field_teams
     - node.type.league
   module:
@@ -45,6 +46,14 @@ content:
         separator: '|'
         referenced_entity: ''
     weight: 0
+    region: content
+  field_games:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
     region: content
   field_teams:
     type: entity_reference_label

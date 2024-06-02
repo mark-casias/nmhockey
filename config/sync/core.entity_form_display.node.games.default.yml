@@ -4,14 +4,19 @@ status: true
 dependencies:
   config:
     - field.field.node.games.body
-    - field.field.node.games.field_game_away
     - field.field.node.games.field_game_date
-    - field.field.node.games.field_game_home
+    - field.field.node.games.field_game_goals_away
+    - field.field.node.games.field_game_goals_home
+    - field.field.node.games.field_game_penalties_away
+    - field.field.node.games.field_game_penalties_home
     - field.field.node.games.field_game_season
+    - field.field.node.games.field_game_team_away
+    - field.field.node.games.field_game_team_home
     - node.type.games
   module:
     - datetime
     - field_layout
+    - inline_entity_form
     - layout_discovery
     - text
 third_party_settings:
@@ -26,7 +31,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 5
+    weight: 2
     region: content
     settings:
       rows: 9
@@ -34,40 +39,95 @@ content:
       placeholder: ''
       show_summary: false
     third_party_settings: {  }
-  field_game_away:
-    type: options_select
-    weight: 4
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_game_date:
     type: datetime_default
     weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_game_home:
+  field_game_goals_away:
+    type: inline_entity_form_complex
+    weight: 7
+    region: content
+    settings:
+      form_mode: default
+      override_labels: true
+      label_singular: Goal
+      label_plural: Goal
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
+  field_game_goals_home:
+    type: inline_entity_form_complex
+    weight: 4
+    region: content
+    settings:
+      form_mode: default
+      override_labels: true
+      label_singular: Goal
+      label_plural: ''
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
+  field_game_penalties_away:
+    type: inline_entity_form_complex
+    weight: 8
+    region: content
+    settings:
+      form_mode: default
+      override_labels: true
+      label_singular: Penalty
+      label_plural: Penalty
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
+  field_game_penalties_home:
+    type: inline_entity_form_complex
+    weight: 5
+    region: content
+    settings:
+      form_mode: default
+      override_labels: true
+      label_singular: Penalty
+      label_plural: ''
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
+  field_game_team_away:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_game_team_home:
     type: options_select
     weight: 3
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_game_season:
-    type: entity_reference_autocomplete
-    weight: 2
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  status:
-    type: boolean_checkbox
-    weight: 6
-    region: content
-    settings:
-      display_label: true
     third_party_settings: {  }
   title:
     type: string_textfield
@@ -79,7 +139,9 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_game_season: true
   path: true
   promote: true
+  status: true
   sticky: true
   uid: true

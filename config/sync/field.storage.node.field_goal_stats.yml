@@ -1,16 +1,16 @@
-uuid: 23e5afcc-c996-40a5-9e9b-80489ed34bfb
+uuid: d4dbea0f-0a34-4a6e-a492-bd7bf0690280
 langcode: en
 status: true
 dependencies:
   module:
+    - nmhockey_stats
     - node
-id: node.field_game_home
-field_name: field_game_home
+id: node.field_goal_stats
+field_name: field_goal_stats
 entity_type: node
-type: entity_reference
-settings:
-  target_type: node
-module: core
+type: nmhockey_stats_goal_stats
+settings: {  }
+module: nmhockey_stats
 locked: false
 cardinality: 1
 translatable: true

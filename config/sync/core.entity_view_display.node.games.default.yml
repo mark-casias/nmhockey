@@ -4,15 +4,18 @@ status: true
 dependencies:
   config:
     - field.field.node.games.body
-    - field.field.node.games.field_game_away
     - field.field.node.games.field_game_date
-    - field.field.node.games.field_game_home
+    - field.field.node.games.field_game_goals_away
+    - field.field.node.games.field_game_goals_home
+    - field.field.node.games.field_game_penalties_away
+    - field.field.node.games.field_game_penalties_home
     - field.field.node.games.field_game_season
+    - field.field.node.games.field_game_team_away
+    - field.field.node.games.field_game_team_home
     - node.type.games
   module:
     - datetime
     - field_layout
-    - layout_discovery
     - nomarkup
     - text
     - user
@@ -33,19 +36,6 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
-  field_game_away:
-    type: entity_reference_entity_view
-    label: hidden
-    settings:
-      view_mode: default
-      link: false
-    third_party_settings:
-      nomarkup:
-        enabled: true
-        separator: '|'
-        referenced_entity: 0
-    weight: 2
-    region: content
   field_game_date:
     type: datetime_default
     label: hidden
@@ -59,18 +49,53 @@ content:
         referenced_entity: ''
     weight: 0
     region: content
-  field_game_home:
-    type: entity_reference_entity_view
-    label: hidden
+  field_game_goals_away:
+    type: entity_reference_label
+    label: above
     settings:
-      view_mode: default
-      link: false
-    third_party_settings:
-      nomarkup:
-        enabled: true
-        separator: '|'
-        referenced_entity: 0
-    weight: 1
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_game_goals_home:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_game_penalties_away:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_game_penalties_home:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_game_team_away:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_game_team_home:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
     region: content
 hidden:
   field_game_season: true

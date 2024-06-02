@@ -1,16 +1,16 @@
-uuid: f4685381-2512-4563-9f16-77934b3bc100
+uuid: 16414fd7-5868-4653-909b-d0f5e6745e9f
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_game_away
+    - field.storage.node.field_penalty_game
     - node.type.games
-    - node.type.team
-id: node.games.field_game_away
-field_name: field_game_away
+    - node.type.penalty
+id: node.penalty.field_penalty_game
+field_name: field_penalty_game
 entity_type: node
-bundle: games
-label: 'Game Away'
+bundle: penalty
+label: Game
 description: ''
 required: false
 translatable: false
@@ -20,7 +20,7 @@ settings:
   handler: 'default:node'
   handler_settings:
     target_bundles:
-      team: team
+      games: games
     sort:
       field: _none
       direction: ASC

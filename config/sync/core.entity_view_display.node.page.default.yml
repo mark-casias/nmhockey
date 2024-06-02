@@ -7,7 +7,6 @@ dependencies:
     - node.type.page
   module:
     - field_layout
-    - layout_discovery
     - text
     - user
 third_party_settings:
@@ -30,6 +29,8 @@ content:
     weight: 100
     region: content
   links:
+    settings: {  }
+    third_party_settings: {  }
     weight: 101
     region: content
 hidden: {  }

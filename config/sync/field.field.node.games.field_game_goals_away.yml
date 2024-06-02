@@ -1,0 +1,29 @@
+uuid: 4e3ec25f-dd61-42f6-b0a3-717ca7580628
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_game_goals_away
+    - node.type.games
+    - node.type.goal
+id: node.games.field_game_goals_away
+field_name: field_game_goals_away
+entity_type: node
+bundle: games
+label: 'Away Goals'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      goal: goal
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

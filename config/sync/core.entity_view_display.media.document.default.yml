@@ -8,7 +8,6 @@ dependencies:
   module:
     - field_layout
     - file
-    - layout_discovery
 third_party_settings:
   field_layout:
     id: layout_onecol
@@ -24,7 +23,8 @@ content:
   field_media_document:
     type: file_default
     label: visually_hidden
-    settings: {  }
+    settings:
+      use_description_as_link_text: true
     third_party_settings: {  }
     weight: 1
     region: content

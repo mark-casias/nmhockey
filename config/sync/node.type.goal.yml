@@ -3,11 +3,17 @@ langcode: en
 status: true
 dependencies:
   module:
+    - autotitle
     - menu_ui
 third_party_settings:
   menu_ui:
     available_menus: {  }
     parent: ''
+  autotitle:
+    enabled: true
+    field: _none
+    fallback_title: 'Untitled [goal]'
+    headings: {  }
 name: Goal
 type: goal
 description: 'Goal information. Goal, Assist, Second Assist, Game, Period, Time'
