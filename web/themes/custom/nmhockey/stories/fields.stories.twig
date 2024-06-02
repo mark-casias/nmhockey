@@ -1,0 +1,17 @@
+{% stories nmhockey_fields with { "title": "NMHockey/Fields"} %}
+
+  {% story fields_stats with {
+    "name": "Stats",
+    "args": {
+      "items": {
+        "period": 1,
+        "minute": 20,
+        "seconds": 15,
+        "type": "Empty Net"
+      }
+    }
+  } %}
+    {% include nmhockey/}
+  {% end story %}
+
+{% endstories %}

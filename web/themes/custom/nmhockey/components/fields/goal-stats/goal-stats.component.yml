@@ -3,7 +3,7 @@
 
 # This is so your IDE knows about the syntax for fixes and autocomplete.
 $schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
-name: Goal - Full
+name: Goal - Stats
 status: stable
 group: NMHockey
 
