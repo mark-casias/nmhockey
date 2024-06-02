@@ -1,0 +1,187 @@
+From 0b5ddcca65920b979c12786ef1c68fcb0381cba3 Mon Sep 17 00:00:00 2001
+From: Joachim Noreiko <joachim@107701.no-reply.drupal.org>
+Date: Thu, 23 Mar 2023 06:45:06 +0000
+Subject: [PATCH 1/5] Declare computed base fields to Views data.
+
+---
+ core/modules/views/src/EntityViewsData.php | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/core/modules/views/src/EntityViewsData.php b/core/modules/views/src/EntityViewsData.php
+index ce2ac1519cac..49925a285d31 100644
+--- a/core/modules/views/src/EntityViewsData.php
++++ b/core/modules/views/src/EntityViewsData.php
+@@ -361,6 +361,25 @@ public function getViewsData() {
+             ],
+           ];
+         }
++
++        // Declare computed base fields.
++        // @todo Also declare computed bundle fields, but these can't yet be
++        // output: see https://www.drupal.org/project/drupal/issues/2981047.
++        if ($field_definition->isComputed() && !$field_definition->isInternal()) {
++          $views_field = [];
++          $views_field['title'] = $field_definition->getLabel();
++
++          if ($description = $field_definition->getDescription()) {
++            $views_field['help'] = $description;
++          }
++
++          // Computed fields have no database storage, so can't participate in
++          // a query, so there is no sort, argument, or filter.
++          $views_field['field']['id'] = 'field';
++          $views_field['entity field'] = $field_definition->getName();
++
++          $data[$table_mapping->getBaseTable()][$field_definition->getName()] = $views_field;
++        }
+       }
+     }
+     if (($uid_key = $entity_keys['uid'] ?? '')) {
+-- 
+GitLab
+
+
+From 2fe91fa8ec08bb2e6327b7c9ff859bd7abca5ca4 Mon Sep 17 00:00:00 2001
+From: Joachim Noreiko <joachim@107701.no-reply.drupal.org>
+Date: Thu, 23 Mar 2023 06:48:35 +0000
+Subject: [PATCH 2/5] Added special handling for uri field type.
+
+---
+ core/modules/views/src/EntityViewsData.php | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/core/modules/views/src/EntityViewsData.php b/core/modules/views/src/EntityViewsData.php
+index 49925a285d31..ddcd481991d2 100644
+--- a/core/modules/views/src/EntityViewsData.php
++++ b/core/modules/views/src/EntityViewsData.php
+@@ -378,6 +378,11 @@ public function getViewsData() {
+           $views_field['field']['id'] = 'field';
+           $views_field['entity field'] = $field_definition->getName();
+ 
++          // Special handling for field type.
++          if ($field_definition->getType() == 'uri') {
++            $views_field['field']['default_formatter'] = 'string';
++          }
++
+           $data[$table_mapping->getBaseTable()][$field_definition->getName()] = $views_field;
+         }
+       }
+-- 
+GitLab
+
+
+From 360bfeb35164d1f6192f74b446a6c285f57a63ea Mon Sep 17 00:00:00 2001
+From: Joachim Noreiko <joachim@107701.no-reply.drupal.org>
+Date: Thu, 23 Mar 2023 06:48:59 +0000
+Subject: [PATCH 3/5] Removed explicit declaration of test computed field.
+
+---
+ .../modules/entity_test/src/EntityTestViewsData.php   | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php b/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
+index 27a1186ada6f..3bb0d24c648e 100644
+--- a/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
++++ b/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
+@@ -16,17 +16,6 @@ class EntityTestViewsData extends EntityViewsData {
+   public function getViewsData() {
+     $views_data = parent::getViewsData();
+ 
+-    if ($this->entityType->id() === 'entity_test_computed_field') {
+-      $views_data['entity_test_computed_field']['computed_string_field'] = [
+-        'title' => $this->t('Computed String Field'),
+-        'field' => [
+-          'id' => 'field',
+-          'default_formatter' => 'string',
+-          'field_name' => 'computed_string_field',
+-        ],
+-      ];
+-    }
+-
+     if ($this->entityType->id() != 'entity_test') {
+       return $views_data;
+     }
+-- 
+GitLab
+
+
+From 69a790ed9682a85810282f6467e8940eb4e31bfb Mon Sep 17 00:00:00 2001
+From: Joachim Noreiko <joachim@107701.no-reply.drupal.org>
+Date: Thu, 13 Apr 2023 21:37:19 +0100
+Subject: [PATCH 4/5] Added @todo.
+
+---
+ core/modules/views/src/EntityViewsData.php | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/core/modules/views/src/EntityViewsData.php b/core/modules/views/src/EntityViewsData.php
+index ddcd481991d2..f5dc66db93c5 100644
+--- a/core/modules/views/src/EntityViewsData.php
++++ b/core/modules/views/src/EntityViewsData.php
+@@ -379,6 +379,8 @@ public function getViewsData() {
+           $views_field['entity field'] = $field_definition->getName();
+ 
+           // Special handling for field type.
++          // @todo Remove this hardcoding in
++          // https://www.drupal.org/project/drupal/issues/2337515
+           if ($field_definition->getType() == 'uri') {
+             $views_field['field']['default_formatter'] = 'string';
+           }
+-- 
+GitLab
+
+
+From 92d55eb160f116202e2f5409471898836d45e11c Mon Sep 17 00:00:00 2001
+From: Joachim Noreiko <joachim@107701.no-reply.drupal.org>
+Date: Thu, 13 Apr 2023 21:37:36 +0100
+Subject: [PATCH 5/5] Added test.
+
+---
+ .../src/Kernel/Entity/EntityViewsDataTest.php | 31 +++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+diff --git a/core/modules/views/tests/src/Kernel/Entity/EntityViewsDataTest.php b/core/modules/views/tests/src/Kernel/Entity/EntityViewsDataTest.php
+index 6fc3c673d130..af6af9c94510 100644
+--- a/core/modules/views/tests/src/Kernel/Entity/EntityViewsDataTest.php
++++ b/core/modules/views/tests/src/Kernel/Entity/EntityViewsDataTest.php
+@@ -188,6 +188,37 @@ public function testBaseTables() {
+     $this->assertFalse(isset($data['revision_data_table']));
+   }
+ 
++  /**
++   * Tests computed fields.
++   */
++  public function testComputedFields() {
++    // Only base computed fields are registered automatically.
++    // @see https://www.drupal.org/project/drupal/issues/2981047 for bundle
++    // fields.
++    $base_field_definitions = $this->commonBaseFields;
++
++    $base_field_definitions['computed_string'] = BaseFieldDefinition::create('string')
++      ->setLabel('computed string')
++      ->setComputed(TRUE);
++    $base_field_definitions['computed_uri'] = BaseFieldDefinition::create('uri')
++      ->setLabel('computed uri')
++      ->setComputed(TRUE);
++
++    $this->setUpEntityType($this->baseEntityType, $base_field_definitions);
++
++    $data = $this->entityTypeManager->getHandler('entity_test', 'views_data')->getViewsData();
++
++    // Check the computed fields.
++    $this->assertArrayHasKey('computed_string', $data['entity_test']);
++    $this->assertViewsDataField($data['entity_test']['computed_string'], 'computed_string');
++    $this->assertArrayNotHasKey('filter', $data['entity_test']['computed_string']);
++    $this->assertArrayNotHasKey('sort', $data['entity_test']['computed_string']);
++    $this->assertArrayNotHasKey('argument', $data['entity_test']['computed_string']);
++
++    // Check special handling for uri fields.
++    $this->assertEquals('string', $data['entity_test']['computed_uri']['field']['default_formatter']);
++  }
++
+   /**
+    * Tests data_table support.
+    */
+-- 
+GitLab
+

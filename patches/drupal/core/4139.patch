@@ -1,0 +1,2548 @@
+From 681746df9f871c2e8ad471e86448b2f0cbfa7471 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Thu, 8 Jun 2023 12:12:24 -0400
+Subject: [PATCH 01/23] Initial commit of 11.x support for computed bundle base
+ fields in views
+
+---
+ .../EntityTestComputedBundleFieldTest.php     | 208 ++++++++++++++++
+ .../config/schema/entity_test.schema.yml      |  14 ++
+ .../entity_test/entity_test.routing.yml       |   8 +
+ .../Entity/EntityTestComputedBundleField.php  |  95 +++++++
+ .../EntityTestComputedBundleFieldBundle.php   |  33 +++
+ .../entity_test/src/EntityTestViewsData.php   |  14 ++
+ .../Field/ComputedTestBundleFieldItemList.php |  24 ++
+ .../EntityTestComputedFieldNormalizerTest.php |  25 ++
+ .../src/Plugin/views/field/EntityField.php    |  21 +-
+ .../views.view.computed_bundle_field_view.yml | 234 ++++++++++++++++++
+ .../Handler/ComputedBundleFieldTest.php       |  92 +++++++
+ core/modules/views/views.api.php              |  26 ++
+ 12 files changed, 791 insertions(+), 3 deletions(-)
+ create mode 100644 core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
+ create mode 100644 core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
+ create mode 100644 core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php
+ create mode 100644 core/modules/system/tests/modules/entity_test/src/Plugin/Field/ComputedTestBundleFieldItemList.php
+ create mode 100644 core/modules/views/tests/modules/views_test_config/test_views/views.view.computed_bundle_field_view.yml
+ create mode 100644 core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+
+diff --git a/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php b/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
+new file mode 100644
+index 000000000000..11e059dff933
+--- /dev/null
++++ b/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
+@@ -0,0 +1,208 @@
++<?php
++
++namespace Drupal\Tests\jsonapi\Functional;
++
++use Drupal\Core\Cache\Cache;
++use Drupal\Core\Url;
++use Drupal\entity_test\Entity\EntityTestComputedBundleField;
++use Drupal\entity_test\Entity\EntityTestComputedBundleFieldBundle;
++use Drupal\user\Entity\User;
++
++/**
++ * JSON:API integration test for the "EntityTestComputedBundleField" content entity type.
++ *
++ * @group jsonapi
++ */
++class EntityTestComputedBundleFieldTest extends ResourceTestBase {
++
++  /**
++   * {@inheritdoc}
++   */
++  protected static $modules = ['entity_test'];
++
++  /**
++   * {@inheritdoc}
++   */
++  protected $defaultTheme = 'stark';
++
++  /**
++   * {@inheritdoc}
++   */
++  protected static $entityTypeId = 'entity_test_computed_bund_fld';
++
++  /**
++   * {@inheritdoc}
++   */
++  protected static $resourceTypeName = 'entity_test_computed_bund_fld--entity_test_computed_bund_fld';
++
++  /**
++   * {@inheritdoc}
++   */
++  protected static $patchProtectedFieldNames = [];
++
++  /**
++   * {@inheritdoc}
++   *
++   * @var \Drupal\entity_test\Entity\EntityTestComputedField
++   */
++  protected $entity;
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setUpAuthorization($method) {
++    $this->grantPermissionsToTestedRole(['administer entity_test content']);
++
++    switch ($method) {
++      case 'GET':
++        $this->grantPermissionsToTestedRole(['view test entity']);
++        break;
++
++      case 'POST':
++        $this->grantPermissionsToTestedRole(['create entity_test entity_test_with_bundle entities']);
++        break;
++
++      case 'PATCH':
++      case 'DELETE':
++        $this->grantPermissionsToTestedRole(['administer entity_test content']);
++        break;
++    }
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function createEntity() {
++    $bundle = EntityTestComputedBundleFieldBundle::create([
++      'name' => 'Entity Test Computed Bundle Field Bundle',
++      'type' => 'entity_test_computed_bund_fld',
++      'id' => 'entity_test_computed_bund_fld',
++    ]);
++    $bundle->save();
++    $entity_test = EntityTestComputedBundleField::create([
++      'name' => 'Llama',
++      'type' => 'entity_test_computed_bund_fld',
++    ]);
++
++    $entity_test->setOwnerId(0);
++    $entity_test->save();
++
++    return $entity_test;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function getExpectedDocument() {
++    $self_url = Url::fromUri('base:/jsonapi/entity_test_computed_bundle_field/entity_test_computed_bundle_field/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
++    $author = User::load(0);
++    $bundle = EntityTestComputedBundleFieldBundle::load('entity_test_computed_bund_fld');
++    return [
++      'jsonapi' => [
++        'meta' => [
++          'links' => [
++            'self' => ['href' => 'http://jsonapi.org/format/1.0/'],
++          ],
++        ],
++        'version' => '1.0',
++      ],
++      'links' => [
++        'self' => ['href' => $self_url],
++      ],
++      'data' => [
++        'id' => $this->entity->uuid(),
++        'type' => 'entity_test_computed_bundle_field--entity_test_computed_bundle_field',
++        'links' => [
++          'self' => ['href' => $self_url],
++        ],
++        'attributes' => [
++          'created' => (new \DateTime())->setTimestamp($this->entity->get('created')->value)->setTimezone(new \DateTimeZone('UTC'))->format(\DateTime::RFC3339),
++          'name' => 'Llama',
++          'drupal_internal__id' => 1,
++          'computed_string_field' => NULL,
++          'computed_test_cacheable_string_field' => 'computed test cacheable string field',
++        ],
++        'relationships' => [
++          'computed_reference_field' => [
++            'data' => NULL,
++            'links' => [
++              'related' => ['href' => $self_url . '/computed_reference_field'],
++              'self' => ['href' => $self_url . '/relationships/computed_reference_field'],
++            ],
++          ],
++          'user_id' => [
++            'data' => [
++              'id' => $author->uuid(),
++              'meta' => [
++                'drupal_internal__target_id' => (int) $author->id(),
++              ],
++              'type' => 'user--user',
++            ],
++            'links' => [
++              'related' => ['href' => $self_url . '/user_id'],
++              'self' => ['href' => $self_url . '/relationships/user_id'],
++            ],
++          ],
++          'entity_test_computed_bund_fld_type' => [
++            'data' => [
++              'id' => $bundle->uuid(),
++              'meta' => [
++                'drupal_internal__target_id' => 'entity_test_computed_bund_fld',
++              ],
++              'type' => 'entity_test_comp_bund_fld_bundle--entity_test_comp_bund_fld_bundle',
++            ],
++            'links' => [
++              'related' => ['href' => $self_url . '/entity_test_computed_bund_fld_type'],
++              'self' => ['href' => $self_url . '/relationships/entity_test_computed_bund_fld_type'],
++            ],
++          ],
++        ],
++      ],
++    ];
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function getPostDocument() {
++    return [
++      'data' => [
++        'type' => 'entity_test_computed_bund_fld--entity_test_computed_bund_fld',
++        'attributes' => [
++          'name' => 'Dramallama',
++        ],
++      ],
++    ];
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function getSparseFieldSets() {
++    // EntityTest's owner field name is `user_id`, not `uid`, which breaks
++    // nested sparse fieldset tests.
++    return array_diff_key(parent::getSparseFieldSets(), array_flip([
++      'nested_empty_fieldset',
++      'nested_fieldset_with_owner_fieldset',
++    ]));
++  }
++
++  protected function getExpectedCacheContexts(array $sparse_fieldset = NULL) {
++    $cache_contexts = parent::getExpectedCacheContexts($sparse_fieldset);
++    if ($sparse_fieldset === NULL || in_array('computed_test_cacheable_string_field', $sparse_fieldset)) {
++      $cache_contexts = Cache::mergeContexts($cache_contexts, ['url.query_args:computed_test_cacheable_string_field']);
++    }
++
++    return $cache_contexts;
++  }
++
++  protected function getExpectedCacheTags(array $sparse_fieldset = NULL) {
++    $expected_cache_tags = parent::getExpectedCacheTags($sparse_fieldset);
++    if ($sparse_fieldset === NULL || in_array('computed_test_cacheable_string_field', $sparse_fieldset)) {
++      $expected_cache_tags = Cache::mergeTags($expected_cache_tags, ['field:computed_test_cacheable_string_field']);
++    }
++
++    return $expected_cache_tags;
++  }
++
++}
+diff --git a/core/modules/system/tests/modules/entity_test/config/schema/entity_test.schema.yml b/core/modules/system/tests/modules/entity_test/config/schema/entity_test.schema.yml
+index 31aa1d614ca4..b78cb167f0b4 100644
+--- a/core/modules/system/tests/modules/entity_test/config/schema/entity_test.schema.yml
++++ b/core/modules/system/tests/modules/entity_test/config/schema/entity_test.schema.yml
+@@ -28,6 +28,20 @@ entity_test.entity_test_bundle.*:
+       type: text
+       label: 'Description'
+ 
++entity_test.entity_test_comp_bund_fld_bundle.*:
++  type: config_entity
++  label: 'Entity test computed bundle field bundle'
++  mapping:
++    label:
++      type: label
++      label: 'Label'
++    id:
++      type: string
++      label: 'Machine-readable name'
++    description:
++      type: text
++      label: 'Description'
++
+ entity_test.entity_test_mul_bundle.*:
+   type: entity_test.entity_test_bundle.*
+   label: 'Entity test mul bundle'
+diff --git a/core/modules/system/tests/modules/entity_test/entity_test.routing.yml b/core/modules/system/tests/modules/entity_test/entity_test.routing.yml
+index 52278e4d7806..2787abe0d129 100644
+--- a/core/modules/system/tests/modules/entity_test/entity_test.routing.yml
++++ b/core/modules/system/tests/modules/entity_test/entity_test.routing.yml
+@@ -97,5 +97,13 @@ entity.entity_test_computed_field.canonical:
+   requirements:
+     _entity_access: 'entity_test_computed_field.view'
+ 
++entity.entity_test_computed_bundle_field.canonical:
++  path: '/entity_test_computed_bundle_field/{entity_test_computed_bund_fld}'
++  defaults:
++    _entity_view: 'entity_test_computed_bund_fld.full'
++    _title: 'Test full view mode'
++  requirements:
++    _entity_access: 'entity_test_computed_bund_fld.view'
++
+ route_callbacks:
+   - '\Drupal\entity_test\Routing\EntityTestRoutes::routes'
+diff --git a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
+new file mode 100644
+index 000000000000..5b5218ab732b
+--- /dev/null
++++ b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
+@@ -0,0 +1,95 @@
++<?php
++
++namespace Drupal\entity_test\Entity;
++
++use Drupal\Core\Entity\EntityTypeInterface;
++use Drupal\Core\Field\BaseFieldDefinition;
++use Drupal\Core\Field\FieldDefinition;
++use Drupal\Core\StringTranslation\TranslatableMarkup;
++use Drupal\entity_test\FieldStorageDefinition;
++use Drupal\entity_test\Plugin\Field\ComputedReferenceTestFieldItemList;
++use Drupal\entity_test\Plugin\Field\ComputedTestBundleFieldItemList;
++use Drupal\entity_test\Plugin\Field\ComputedTestCacheableStringItemList;
++use Drupal\entity_test\Plugin\Field\ComputedTestFieldItemList;
++
++/**
++ * An entity used for testing computed field values.
++ *
++ * @ContentEntityType(
++ *   id = "entity_test_computed_bund_fld",
++ *   label = @Translation("Entity Test computed bundle field"),
++ *   base_table = "entity_test_computed_bund_fld",
++ *   handlers = {
++ *     "views_data" = "Drupal\entity_test\EntityTestViewsData"
++ *   },
++ *   entity_keys = {
++ *     "id" = "id",
++ *     "uuid" = "uuid",
++ *     "label" = "name",
++ *     "bundle" = "type",
++ *   },
++ *   admin_permission = "administer entity_test content",
++ *   links = {
++ *     "canonical" = "/entity_test_computed_bund_fld/{entity_test_computed_bund_fld}",
++ *   },
++ *   bundle_entity_type = "entity_test_comp_bund_fld_bundle"
++ * )
++ */
++class EntityTestComputedBundleField extends EntityTest {
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
++    $fields = parent::baseFieldDefinitions($entity_type);
++
++    $fields['computed_string_field'] = BaseFieldDefinition::create('string')
++      ->setLabel('Computed Field Test')
++      ->setComputed(TRUE)
++      ->setClass(ComputedTestFieldItemList::class);
++
++    $fields['computed_reference_field'] = BaseFieldDefinition::create('entity_reference')
++      ->setLabel('Computed Reference Field Test')
++      ->setComputed(TRUE)
++      ->setSetting('target_type', 'entity_test')
++      ->setClass(ComputedReferenceTestFieldItemList::class);
++
++    $fields['computed_test_cacheable_string_field'] = BaseFieldDefinition::create('computed_test_cacheable_string_item')
++      ->setLabel(new TranslatableMarkup('Computed Cacheable String Field Test'))
++      ->setComputed(TRUE)
++      ->setClass(ComputedTestCacheableStringItemList::class)
++      ->setReadOnly(FALSE)
++      ->setInternal(FALSE);
++
++    return $fields;
++  }
++
++  /**
++   * {@inheritdoc}
++   */
++  public static function bundleFieldDefinitions(EntityTypeInterface $entity_type, $bundle, array $base_field_definitions) {
++    $fields = parent::bundleFieldDefinitions($entity_type, $bundle, $base_field_definitions);
++
++    $computed_field_bundles = [
++      'entity_test_comp_bund_fld_bund',
++      'entity_test_comp_bund_fld_bund_2',
++    ];
++
++    if (in_array($bundle, $computed_field_bundles, TRUE)) {
++      // @todo Use the proper FieldStorageDefinition class instead
++      // https://www.drupal.org/node/2280639.
++      $storageDefinition = FieldStorageDefinition::create('string')
++        ->setName('computed_bundle_field')
++        ->setTargetEntityTypeId($entity_type->id())
++        ->setComputed(TRUE)
++        ->setClass(ComputedTestBundleFieldItemList::class);
++      $fields['computed_bundle_field'] = FieldDefinition::createFromFieldStorageDefinition($storageDefinition)
++        ->setLabel(t('A computed Bundle Field Test'))
++        ->setComputed(TRUE)
++        ->setClass(ComputedTestBundleFieldItemList::class);
++    }
++
++    return $fields;
++  }
++
++}
+diff --git a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php
+new file mode 100644
+index 000000000000..c172972aca92
+--- /dev/null
++++ b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php
+@@ -0,0 +1,33 @@
++<?php
++
++namespace Drupal\entity_test\Entity;
++
++use Drupal\Core\Entity\EntityDescriptionInterface;
++
++/**
++ * Defines the Test entity computed field bundle configuration entity.
++ *
++ * @ConfigEntityType(
++ *   id = "entity_test_comp_bund_fld_bundle",
++ *   label = @Translation("Test entity computed field bundle"),
++ *   handlers = {
++ *     "access" = "\Drupal\Core\Entity\EntityAccessControlHandler",
++ *     "route_provider" = {
++ *       "html" = "Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider",
++ *     },
++ *   },
++ *   config_prefix = "entity_test_comp_bund_fld_bundle",
++ *   bundle_of = "entity_test_computed_bund_fld",
++ *   entity_keys = {
++ *     "id" = "id",
++ *     "label" = "label"
++ *   },
++ *   config_export = {
++ *     "id",
++ *     "label",
++ *     "description",
++ *   },
++ * )
++ */
++class EntityTestComputedBundleFieldBundle extends EntityTestBundle implements EntityDescriptionInterface {
++}
+diff --git a/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php b/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
+index 27a1186ada6f..db463ad080df 100644
+--- a/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
++++ b/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
+@@ -26,6 +26,20 @@ public function getViewsData() {
+         ],
+       ];
+     }
++    if ($this->entityType->id() === 'entity_test_computed_bund_fld') {
++      $views_data['entity_test_computed_bund_fld']['computed_bundle_field'] = [
++        'title' => $this->t('Computed Bundle Field'),
++        'field' => [
++          'id' => 'field',
++          'default_formatter' => 'string',
++          'field_name' => 'computed_bundle_field',
++          'bundles' => [
++            'entity_test_comp_bund_fld_bund',
++            'entity_test_comp_bund_fld_bund_2',
++          ],
++        ],
++      ];
++    }
+ 
+     if ($this->entityType->id() != 'entity_test') {
+       return $views_data;
+diff --git a/core/modules/system/tests/modules/entity_test/src/Plugin/Field/ComputedTestBundleFieldItemList.php b/core/modules/system/tests/modules/entity_test/src/Plugin/Field/ComputedTestBundleFieldItemList.php
+new file mode 100644
+index 000000000000..de77c0cf8d5e
+--- /dev/null
++++ b/core/modules/system/tests/modules/entity_test/src/Plugin/Field/ComputedTestBundleFieldItemList.php
+@@ -0,0 +1,24 @@
++<?php
++
++namespace Drupal\entity_test\Plugin\Field;
++
++use Drupal\Core\TypedData\ComputedItemListTrait;
++use Drupal\Core\Field\FieldItemList;
++
++/**
++ * A computed field item list for a bundle field.
++ */
++class ComputedTestBundleFieldItemList extends FieldItemList {
++
++  use ComputedItemListTrait;
++
++  /**
++   * Compute the list property from state.
++   */
++  protected function computeValue() {
++    foreach (\Drupal::state()->get('entity_test_computed_bund_fld_item_list_value', []) as $delta => $item) {
++      $this->list[$delta] = $this->createItem($delta, $item);
++    }
++  }
++
++}
+diff --git a/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php b/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php
+index b6c914e32d09..753c986aa3ea 100644
+--- a/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php
++++ b/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php
+@@ -4,6 +4,7 @@
+ 
+ use Drupal\Core\Cache\Cache;
+ use Drupal\Tests\rest\Functional\AnonResourceTestTrait;
++use Drupal\entity_test\Entity\EntityTestComputedFieldBundle;
+ 
+ /**
+  * Test normalization of computed field.
+@@ -42,11 +43,27 @@ protected function getExpectedUnauthorizedAccessMessage($method) {
+     return "The 'administer entity_test content' permission is required.";
+   }
+ 
++  /**
++   * {@inheritdoc}
++   */
++  protected function createEntity() {
++    $bundle = EntityTestComputedFieldBundle::create([
++      'name' => 'Entity Test Computed Field Bundle',
++      'type' => 'entity_test_computed_field',
++      'id' => 'entity_test_computed_field',
++    ]);
++    $bundle->save();
++
++    $entity_test = parent::createEntity();
++    return $entity_test;
++  }
++
+   /**
+    * {@inheritdoc}
+    */
+   protected function getExpectedNormalizedEntity() {
+     $expected = parent::getExpectedNormalizedEntity();
++    $bundle = EntityTestComputedFieldBundle::load('entity_test_computed_field');
+     $expected['computed_reference_field'] = [];
+     $expected['computed_string_field'] = [];
+     unset($expected['field_test_text'], $expected['langcode'], $expected['type'], $expected['uuid']);
+@@ -63,6 +80,14 @@ protected function getExpectedNormalizedEntity() {
+       ],
+     ];
+ 
++    $expected['type'] = [
++      0 => [
++        'target_id' => 'entity_test_computed_field',
++        'target_type' => 'entity_test_comp_field_bundle',
++        'target_uuid' => $bundle->uuid(),
++      ],
++    ];
++
+     return $expected;
+   }
+ 
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index fe2f28da8067..591cac34fa00 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -356,13 +356,28 @@ protected function getFieldStorageDefinition() {
+     }
+ 
+     // The list of field storage definitions above does not include computed
+-    // base fields, so we need to explicitly fetch a list of all base fields in
+-    // order to support them.
++    // fields, so we need to explicitly fetch a list of all fields in order to
++    // support them. If this is a bundle base computed field, then use the field
++    // map to locate the first bundle to define the field, and load the storage.
+     // @see \Drupal\Core\Entity\EntityFieldManager::getFieldStorageDefinitions()
++    if (!isset($this->definition['field_name'])) {
++      return NULL;
++    }
++
+     $base_fields = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
+-    if (isset($this->definition['field_name']) && isset($base_fields[$this->definition['field_name']])) {
++    if (!empty($base_fields[$this->definition['field_name']])) {
+       return $base_fields[$this->definition['field_name']]->getFieldStorageDefinition();
+     }
++
++    if (isset($this->definition['bundles'])) {
++      foreach ($this->definition['bundles'] as $bundle) {
++        $fields = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle);
++        if (isset($fields[$this->definition['field_name']])) {
++          return $fields[$this->definition['field_name']]->getFieldStorageDefinition();
++        }
++      }
++    }
++    return NULL;
+   }
+ 
+   /**
+diff --git a/core/modules/views/tests/modules/views_test_config/test_views/views.view.computed_bundle_field_view.yml b/core/modules/views/tests/modules/views_test_config/test_views/views.view.computed_bundle_field_view.yml
+new file mode 100644
+index 000000000000..b37ad5b12710
+--- /dev/null
++++ b/core/modules/views/tests/modules/views_test_config/test_views/views.view.computed_bundle_field_view.yml
+@@ -0,0 +1,234 @@
++langcode: en
++status: true
++dependencies:
++  module:
++    - entity_test
++id: computed_bundle_field_view
++label: 'Computed Bundled Field View'
++module: views
++description: ''
++tag: ''
++base_table: entity_test_computed_bund_fld
++base_field: id
++display:
++  default:
++    display_plugin: default
++    id: default
++    display_title: Default
++    position: 0
++    display_options:
++      access:
++        type: none
++        options: {  }
++      cache:
++        type: tag
++        options: {  }
++      query:
++        type: views_query
++        options:
++          disable_sql_rewrite: false
++          distinct: false
++          replica: false
++          query_comment: ''
++          query_tags: {  }
++      exposed_form:
++        type: basic
++        options:
++          submit_button: Apply
++          reset_button: false
++          reset_button_label: Reset
++          exposed_sorts_label: 'Sort by'
++          expose_sort_order: true
++          sort_asc_label: Asc
++          sort_desc_label: Desc
++      pager:
++        type: mini
++        options:
++          items_per_page: 10
++          offset: 0
++          id: 0
++          total_pages: null
++          expose:
++            items_per_page: false
++            items_per_page_label: 'Items per page'
++            items_per_page_options: '5, 10, 25, 50'
++            items_per_page_options_all: false
++            items_per_page_options_all_label: '- All -'
++            offset: false
++            offset_label: Offset
++          tags:
++            previous: ‹‹
++            next: ››
++      style:
++        type: default
++        options:
++          grouping: {  }
++          row_class: ''
++          default_row_class: true
++          uses_fields: false
++      row:
++        type: fields
++        options:
++          inline: {  }
++          separator: ''
++          hide_empty: false
++          default_field_elements: true
++      fields:
++        computed_string_field:
++          id: computed_string_field
++          table: entity_test_computed_bund_fld
++          field: computed_string_field
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: ''
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: false
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          click_sort_column: value
++          type: string
++          settings:
++            link_to_entity: false
++          group_column: value
++          group_columns: {  }
++          group_rows: true
++          delta_limit: 0
++          delta_offset: 0
++          delta_reversed: false
++          delta_first_last: false
++          multi_type: separator
++          separator: ', '
++          field_api_classes: false
++          entity_type: entity_test_computed_field
++          plugin_id: field
++        computed_bundle_field:
++          id: computed_bundle_field
++          table: entity_test_computed_bund_fld
++          field: computed_bundle_field
++          relationship: none
++          group_type: group
++          admin_label: ''
++          label: ''
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: false
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
++          click_sort_column: value
++          type: string
++          settings:
++            link_to_entity: false
++          group_column: value
++          group_columns: {  }
++          group_rows: true
++          delta_limit: 0
++          delta_offset: 0
++          delta_reversed: false
++          delta_first_last: false
++          multi_type: separator
++          separator: ', '
++          field_api_classes: false
++          entity_type: entity_test_computed_bund_fld
++          plugin_id: field
++      filters: {  }
++      sorts: {  }
++      header: {  }
++      footer: {  }
++      empty: {  }
++      relationships: {  }
++      arguments: {  }
++      display_extenders: {  }
++    cache_metadata:
++      max-age: -1
++      contexts:
++        - 'languages:language_content'
++        - 'languages:language_interface'
++        - url.query_args
++      tags: {  }
++  page_1:
++    display_plugin: page
++    id: page_1
++    display_title: Page
++    position: 1
++    display_options:
++      display_extenders: {  }
++      path: foo
++    cache_metadata:
++      max-age: -1
++      contexts:
++        - 'languages:language_content'
++        - 'languages:language_interface'
++        - url.query_args
++      tags: {  }
+diff --git a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+new file mode 100644
+index 000000000000..202ad4e4bef1
+--- /dev/null
++++ b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+@@ -0,0 +1,92 @@
++<?php
++
++namespace Drupal\Tests\views\Kernel\Handler;
++
++use Drupal\entity_test\Entity\EntityTestComputedBundleField;
++use Drupal\entity_test\Entity\EntityTestComputedField;
++use Drupal\Tests\views\Kernel\ViewsKernelTestBase;
++use Drupal\views\Views;
++
++/**
++ * Provides some integration tests for the Field handler.
++ *
++ * @see \Drupal\views\Plugin\views\field\EntityField
++ * @group views
++ */
++class ComputedBundleFieldTest extends ViewsKernelTestBase {
++
++  /**
++   * Views to be enabled.
++   *
++   * @var array
++   */
++  public static $testViews = ['computed_bundle_field_view'];
++
++  /**
++   * Modules to enable.
++   *
++   * @var array
++   */
++  protected static $modules = ['entity_test'];
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setUp($import_test_views = TRUE): void {
++    parent::setUp($import_test_views);
++
++    $this->installEntitySchema('entity_test_computed_bund_fld');
++    $this->installEntitySchema('entity_test_comp_bund_fld_bundle');
++
++    // Create a default bundle that has a computed field.
++    entity_test_create_bundle('entity_test_comp_bund_fld_bund', NULL, 'entity_test_computed_bund_fld');
++
++    // Create a second bundle that also has a computed field.
++    entity_test_create_bundle('entity_test_comp_bund_fld_bund_2', NULL, 'entity_test_computed_bund_fld');
++
++    // Create a bundle that does not have the computed field.
++    entity_test_create_bundle('entity_test_bundle_no_comp_field', NULL, 'entity_test_computed_bund_fld');
++
++    // Create an entity using the default bundle with a computed field.
++    $entity_with_comp_field = EntityTestComputedBundleField::create([
++      'type' => 'entity_test_comp_bund_fld_bund',
++      'name' => 'Entity with bundle field',
++    ]);
++    $entity_with_comp_field->save();
++
++    // Create an entity using the second bundle with a computed field.
++    $entity_with_comp_field_2 = EntityTestComputedBundleField::create([
++      'type' => 'entity_test_comp_bund_fld_bund_2',
++      'name' => 'Entity 2 with bundle field',
++    ]);
++    $entity_with_comp_field_2->save();
++
++    // Create an entity using the third bundle without a computed field.
++    $entity_no_computed_field = EntityTestComputedBundleField::create([
++      'type' => 'entity_test_bundle_no_comp_field',
++      'name' => 'Entity without bundle field',
++    ]);
++    $entity_no_computed_field->save();
++  }
++
++  /**
++   * Tests the computed field handler.
++   */
++  public function testComputedFieldHandler() {
++    \Drupal::state()->set('entity_test_computed_field_item_list_value', ['computed string']);
++    \Drupal::state()->set('entity_test_computed_bund_fld_item_list_value', ['some other string that is also computed']);
++
++    $view = Views::getView('computed_bundle_field_view');
++    $this->executeView($view);
++    $this->assertCount(3, $view->result, 'The number of returned rows match.');
++
++    // Entities 1 and 2 should have the computed bundle field. But entity 3
++    // should not.
++    $this->assertStringContainsString('some other string that is also computed', $view->field['computed_bundle_field']->render($view->result[0]));
++    $this->assertStringContainsString('some other string that is also computed', $view->field['computed_bundle_field']->render($view->result[1]));
++    $this->assertStringNotContainsString('some other string that is also computed', $view->field['computed_bundle_field']->render($view->result[2]));
++
++    $view->destroy();
++  }
++
++}
+diff --git a/core/modules/views/views.api.php b/core/modules/views/views.api.php
+index 49eb06513edb..b45c3aa40506 100644
+--- a/core/modules/views/views.api.php
++++ b/core/modules/views/views.api.php
+@@ -420,6 +420,32 @@ function hook_views_data() {
+     ],
+   ];
+ 
++  // Computed field example. Computed fields are not associated with actual data
++  // tables and fields, and therefore have no schema. Instead, they are computed
++  // at render time in code. Here's the definition of a computed field that
++  // exists for a number of different bundles of a particular entity type, the
++  // value of the field will be calculated by a defined class.
++  // If the defined class for the computed fields differs between multiple
++  // bundles of the same entity type, then each of those fields should be added
++  // separately.
++  // @see \Drupal\Core\TypedData\DataDefinitionInterface::setComputed().
++  // @see \Drupal\Core\TypedData\DataDefinitionInterface::setClass().
++  $data['example_table']['computed_bundle_field'] = [
++    'title' => t('Computed Bundle Field'),
++    'help' => t('The computed bundle field'),
++    'field' => [
++      'id' => 'computed',
++      'default_formatter' => 'string',
++      'field_name' => 'computed_bundle_field',
++      // The bundles for which this computed field is available.
++      // @see: https://www.drupal.org/project/drupal/issues/2981047.
++      'bundles' => [
++        'example_bundle',
++        'foo_bundle',
++      ],
++    ],
++  ];
++
+   // Area example. Areas are not generally associated with actual data
+   // tables and fields. This example is from views_views_data(), which defines
+   // the "Global" table (not really a table, but a group of Fields, Filters,
+-- 
+GitLab
+
+
+From abf3e784f654af4961a8e3a36e86309060cd628c Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Thu, 8 Jun 2023 14:10:51 -0400
+Subject: [PATCH 02/23] Revert normalizer test, remove unused use statement
+
+---
+ .../EntityTestComputedFieldNormalizerTest.php | 26 -------------------
+ .../Handler/ComputedBundleFieldTest.php       |  1 -
+ 2 files changed, 27 deletions(-)
+
+diff --git a/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php b/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php
+index 753c986aa3ea..f2fa063eb800 100644
+--- a/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php
++++ b/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php
+@@ -4,7 +4,6 @@
+ 
+ use Drupal\Core\Cache\Cache;
+ use Drupal\Tests\rest\Functional\AnonResourceTestTrait;
+-use Drupal\entity_test\Entity\EntityTestComputedFieldBundle;
+ 
+ /**
+  * Test normalization of computed field.
+@@ -43,27 +42,11 @@ protected function getExpectedUnauthorizedAccessMessage($method) {
+     return "The 'administer entity_test content' permission is required.";
+   }
+ 
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected function createEntity() {
+-    $bundle = EntityTestComputedFieldBundle::create([
+-      'name' => 'Entity Test Computed Field Bundle',
+-      'type' => 'entity_test_computed_field',
+-      'id' => 'entity_test_computed_field',
+-    ]);
+-    $bundle->save();
+-
+-    $entity_test = parent::createEntity();
+-    return $entity_test;
+-  }
+-
+   /**
+    * {@inheritdoc}
+    */
+   protected function getExpectedNormalizedEntity() {
+     $expected = parent::getExpectedNormalizedEntity();
+-    $bundle = EntityTestComputedFieldBundle::load('entity_test_computed_field');
+     $expected['computed_reference_field'] = [];
+     $expected['computed_string_field'] = [];
+     unset($expected['field_test_text'], $expected['langcode'], $expected['type'], $expected['uuid']);
+@@ -80,14 +63,6 @@ protected function getExpectedNormalizedEntity() {
+       ],
+     ];
+ 
+-    $expected['type'] = [
+-      0 => [
+-        'target_id' => 'entity_test_computed_field',
+-        'target_type' => 'entity_test_comp_field_bundle',
+-        'target_uuid' => $bundle->uuid(),
+-      ],
+-    ];
+-
+     return $expected;
+   }
+ 
+@@ -128,5 +103,4 @@ public function testDelete() {
+     // Delete test not required.
+     $this->markTestSkipped();
+   }
+-
+ }
+diff --git a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+index 202ad4e4bef1..0b82d984b656 100644
+--- a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
++++ b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+@@ -3,7 +3,6 @@
+ namespace Drupal\Tests\views\Kernel\Handler;
+ 
+ use Drupal\entity_test\Entity\EntityTestComputedBundleField;
+-use Drupal\entity_test\Entity\EntityTestComputedField;
+ use Drupal\Tests\views\Kernel\ViewsKernelTestBase;
+ use Drupal\views\Views;
+ 
+-- 
+GitLab
+
+
+From 2636ce08a06d4bd2b89167177d8f90b7859ecdb6 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Thu, 8 Jun 2023 14:18:07 -0400
+Subject: [PATCH 03/23] Restore missing blank line
+
+---
+ .../Functional/Rest/EntityTestComputedFieldNormalizerTest.php    | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php b/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php
+index f2fa063eb800..b6c914e32d09 100644
+--- a/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php
++++ b/core/modules/system/tests/modules/entity_test/tests/src/Functional/Rest/EntityTestComputedFieldNormalizerTest.php
+@@ -103,4 +103,5 @@ public function testDelete() {
+     // Delete test not required.
+     $this->markTestSkipped();
+   }
++
+ }
+-- 
+GitLab
+
+
+From f9744aab73a1d2f6caf47cedcbb18f91d3db76c5 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Thu, 8 Jun 2023 14:53:12 -0400
+Subject: [PATCH 04/23] Update return type to allow null, previously nothing
+ would be returned under certain circumstances
+
+---
+ core/modules/views/src/Plugin/views/field/EntityField.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index 591cac34fa00..091f839575f0 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -338,7 +338,7 @@ public function clickSort($order) {
+   /**
+    * Gets the field storage definition.
+    *
+-   * @return \Drupal\Core\Field\FieldStorageDefinitionInterface
++   * @return \Drupal\Core\Field\FieldStorageDefinitionInterface|null
+    *   The field storage definition used by this handler.
+    */
+   protected function getFieldStorageDefinition() {
+-- 
+GitLab
+
+
+From a75f2a70074e021661e3b0524657fc941a4ae855 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Tue, 13 Jun 2023 15:07:38 -0600
+Subject: [PATCH 05/23] WIP: trying out ideas
+
+---
+ .../EntityTestComputedBundleFieldTest.php     | 22 +++++-----
+ .../entity_test/entity_test.routing.yml       |  6 +--
+ .../Entity/EntityTestComputedBundleField.php  |  8 ++--
+ .../EntityTestComputedBundleFieldBundle.php   |  2 +-
+ .../entity_test/src/EntityTestViewsData.php   |  6 +--
+ .../Field/ComputedTestBundleFieldItemList.php |  2 +-
+ .../src/Plugin/views/field/EntityField.php    | 44 ++++++++++++-------
+ .../views.view.computed_bundle_field_view.yml |  8 ++--
+ .../Handler/ComputedBundleFieldTest.php       | 10 ++---
+ 9 files changed, 59 insertions(+), 49 deletions(-)
+
+diff --git a/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php b/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
+index 11e059dff933..5604dfa02dde 100644
+--- a/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
++++ b/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
+@@ -28,12 +28,12 @@ class EntityTestComputedBundleFieldTest extends ResourceTestBase {
+   /**
+    * {@inheritdoc}
+    */
+-  protected static $entityTypeId = 'entity_test_computed_bund_fld';
++  protected static $entityTypeId = 'entity_test_comp_bund_fld';
+ 
+   /**
+    * {@inheritdoc}
+    */
+-  protected static $resourceTypeName = 'entity_test_computed_bund_fld--entity_test_computed_bund_fld';
++  protected static $resourceTypeName = 'entity_test_comp_bund_fld--entity_test_comp_bund_fld';
+ 
+   /**
+    * {@inheritdoc}
+@@ -75,13 +75,13 @@ protected function setUpAuthorization($method) {
+   protected function createEntity() {
+     $bundle = EntityTestComputedBundleFieldBundle::create([
+       'name' => 'Entity Test Computed Bundle Field Bundle',
+-      'type' => 'entity_test_computed_bund_fld',
+-      'id' => 'entity_test_computed_bund_fld',
++      'type' => 'entity_test_comp_bund_fld',
++      'id' => 'entity_test_comp_bund_fld',
+     ]);
+     $bundle->save();
+     $entity_test = EntityTestComputedBundleField::create([
+       'name' => 'Llama',
+-      'type' => 'entity_test_computed_bund_fld',
++      'type' => 'entity_test_comp_bund_fld',
+     ]);
+ 
+     $entity_test->setOwnerId(0);
+@@ -96,7 +96,7 @@ protected function createEntity() {
+   protected function getExpectedDocument() {
+     $self_url = Url::fromUri('base:/jsonapi/entity_test_computed_bundle_field/entity_test_computed_bundle_field/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
+     $author = User::load(0);
+-    $bundle = EntityTestComputedBundleFieldBundle::load('entity_test_computed_bund_fld');
++    $bundle = EntityTestComputedBundleFieldBundle::load('entity_test_comp_bund_fld');
+     return [
+       'jsonapi' => [
+         'meta' => [
+@@ -143,17 +143,17 @@ protected function getExpectedDocument() {
+               'self' => ['href' => $self_url . '/relationships/user_id'],
+             ],
+           ],
+-          'entity_test_computed_bund_fld_type' => [
++          'entity_test_comp_bund_fld_type' => [
+             'data' => [
+               'id' => $bundle->uuid(),
+               'meta' => [
+-                'drupal_internal__target_id' => 'entity_test_computed_bund_fld',
++                'drupal_internal__target_id' => 'entity_test_comp_bund_fld',
+               ],
+               'type' => 'entity_test_comp_bund_fld_bundle--entity_test_comp_bund_fld_bundle',
+             ],
+             'links' => [
+-              'related' => ['href' => $self_url . '/entity_test_computed_bund_fld_type'],
+-              'self' => ['href' => $self_url . '/relationships/entity_test_computed_bund_fld_type'],
++              'related' => ['href' => $self_url . '/entity_test_comp_bund_fld_type'],
++              'self' => ['href' => $self_url . '/relationships/entity_test_comp_bund_fld_type'],
+             ],
+           ],
+         ],
+@@ -167,7 +167,7 @@ protected function getExpectedDocument() {
+   protected function getPostDocument() {
+     return [
+       'data' => [
+-        'type' => 'entity_test_computed_bund_fld--entity_test_computed_bund_fld',
++        'type' => 'entity_test_comp_bund_fld--entity_test_comp_bund_fld',
+         'attributes' => [
+           'name' => 'Dramallama',
+         ],
+diff --git a/core/modules/system/tests/modules/entity_test/entity_test.routing.yml b/core/modules/system/tests/modules/entity_test/entity_test.routing.yml
+index 2787abe0d129..1cebceea1f2f 100644
+--- a/core/modules/system/tests/modules/entity_test/entity_test.routing.yml
++++ b/core/modules/system/tests/modules/entity_test/entity_test.routing.yml
+@@ -98,12 +98,12 @@ entity.entity_test_computed_field.canonical:
+     _entity_access: 'entity_test_computed_field.view'
+ 
+ entity.entity_test_computed_bundle_field.canonical:
+-  path: '/entity_test_computed_bundle_field/{entity_test_computed_bund_fld}'
++  path: '/entity_test_computed_bundle_field/{entity_test_comp_bund_fld}'
+   defaults:
+-    _entity_view: 'entity_test_computed_bund_fld.full'
++    _entity_view: 'entity_test_comp_bund_fld.full'
+     _title: 'Test full view mode'
+   requirements:
+-    _entity_access: 'entity_test_computed_bund_fld.view'
++    _entity_access: 'entity_test_comp_bund_fld.view'
+ 
+ route_callbacks:
+   - '\Drupal\entity_test\Routing\EntityTestRoutes::routes'
+diff --git a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
+index 5b5218ab732b..411cb7f55310 100644
+--- a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
++++ b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
+@@ -13,12 +13,12 @@
+ use Drupal\entity_test\Plugin\Field\ComputedTestFieldItemList;
+ 
+ /**
+- * An entity used for testing computed field values.
++ * An entity used for testing computed bundle field values.
+  *
+  * @ContentEntityType(
+- *   id = "entity_test_computed_bund_fld",
++ *   id = "entity_test_comp_bund_fld",
+  *   label = @Translation("Entity Test computed bundle field"),
+- *   base_table = "entity_test_computed_bund_fld",
++ *   base_table = "entity_test_comp_bund_fld",
+  *   handlers = {
+  *     "views_data" = "Drupal\entity_test\EntityTestViewsData"
+  *   },
+@@ -30,7 +30,7 @@
+  *   },
+  *   admin_permission = "administer entity_test content",
+  *   links = {
+- *     "canonical" = "/entity_test_computed_bund_fld/{entity_test_computed_bund_fld}",
++ *     "canonical" = "/entity_test_comp_bund_fld/{entity_test_comp_bund_fld}",
+  *   },
+  *   bundle_entity_type = "entity_test_comp_bund_fld_bundle"
+  * )
+diff --git a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php
+index c172972aca92..cf95f9ab5386 100644
+--- a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php
++++ b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php
+@@ -17,7 +17,7 @@
+  *     },
+  *   },
+  *   config_prefix = "entity_test_comp_bund_fld_bundle",
+- *   bundle_of = "entity_test_computed_bund_fld",
++ *   bundle_of = "entity_test_comp_bund_fld",
+  *   entity_keys = {
+  *     "id" = "id",
+  *     "label" = "label"
+diff --git a/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php b/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
+index db463ad080df..c1ac1b7a0c79 100644
+--- a/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
++++ b/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
+@@ -26,8 +26,8 @@ public function getViewsData() {
+         ],
+       ];
+     }
+-    if ($this->entityType->id() === 'entity_test_computed_bund_fld') {
+-      $views_data['entity_test_computed_bund_fld']['computed_bundle_field'] = [
++    /* if ($this->entityType->id() === 'entity_test_comp_bund_fld') {
++      $views_data['entity_test_comp_bund_fld']['computed_bundle_field'] = [
+         'title' => $this->t('Computed Bundle Field'),
+         'field' => [
+           'id' => 'field',
+@@ -39,7 +39,7 @@ public function getViewsData() {
+           ],
+         ],
+       ];
+-    }
++    } */
+ 
+     if ($this->entityType->id() != 'entity_test') {
+       return $views_data;
+diff --git a/core/modules/system/tests/modules/entity_test/src/Plugin/Field/ComputedTestBundleFieldItemList.php b/core/modules/system/tests/modules/entity_test/src/Plugin/Field/ComputedTestBundleFieldItemList.php
+index de77c0cf8d5e..c69e36855888 100644
+--- a/core/modules/system/tests/modules/entity_test/src/Plugin/Field/ComputedTestBundleFieldItemList.php
++++ b/core/modules/system/tests/modules/entity_test/src/Plugin/Field/ComputedTestBundleFieldItemList.php
+@@ -16,7 +16,7 @@ class ComputedTestBundleFieldItemList extends FieldItemList {
+    * Compute the list property from state.
+    */
+   protected function computeValue() {
+-    foreach (\Drupal::state()->get('entity_test_computed_bund_fld_item_list_value', []) as $delta => $item) {
++    foreach (\Drupal::state()->get('entity_test_comp_bund_fld_item_list_value', []) as $delta => $item) {
+       $this->list[$delta] = $this->createItem($delta, $item);
+     }
+   }
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index 091f839575f0..fc74e5107ec0 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -9,6 +9,7 @@
+ use Drupal\Core\Entity\EntityFieldManagerInterface;
+ use Drupal\Core\Entity\EntityInterface;
+ use Drupal\Core\Entity\EntityRepositoryInterface;
++use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+ use Drupal\Core\Entity\EntityTypeManagerInterface;
+ use Drupal\Core\Field\FieldStorageDefinitionInterface;
+ use Drupal\Core\Field\FieldTypePluginManagerInterface;
+@@ -126,6 +127,13 @@ class EntityField extends FieldPluginBase implements CacheableDependencyInterfac
+    */
+   protected $entityFieldRenderer;
+ 
++  /**
++   * The entity type bundle info service.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface
++   */
++  protected $entityTypeBundleInfo;
++
+   /**
+    * The fields that we are actually grouping on.
+    */
+@@ -154,8 +162,10 @@ class EntityField extends FieldPluginBase implements CacheableDependencyInterfac
+    *   The entity repository.
+    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+    *   The entity field manager.
++   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
++   *   The entity type bundle info service.
+    */
+-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, FormatterPluginManager $formatter_plugin_manager, FieldTypePluginManagerInterface $field_type_plugin_manager, LanguageManagerInterface $language_manager, RendererInterface $renderer, EntityRepositoryInterface $entity_repository, EntityFieldManagerInterface $entity_field_manager) {
++  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, FormatterPluginManager $formatter_plugin_manager, FieldTypePluginManagerInterface $field_type_plugin_manager, LanguageManagerInterface $language_manager, RendererInterface $renderer, EntityRepositoryInterface $entity_repository, EntityFieldManagerInterface $entity_field_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info) {
+     parent::__construct($configuration, $plugin_id, $plugin_definition);
+ 
+     $this->entityTypeManager = $entity_type_manager;
+@@ -165,6 +175,7 @@ public function __construct(array $configuration, $plugin_id, $plugin_definition
+     $this->renderer = $renderer;
+     $this->entityRepository = $entity_repository;
+     $this->entityFieldManager = $entity_field_manager;
++    $this->entityTypeBundleInfo = $entity_type_bundle_info;
+ 
+     // @todo Unify 'entity field'/'field_name' instead of converting back and
+     //   forth. https://www.drupal.org/node/2410779
+@@ -188,7 +199,8 @@ public static function create(ContainerInterface $container, array $configuratio
+       $container->get('language_manager'),
+       $container->get('renderer'),
+       $container->get('entity.repository'),
+-      $container->get('entity_field.manager')
++      $container->get('entity_field.manager'),
++      $container->get('entity_type.bundle.info')
+     );
+   }
+ 
+@@ -356,28 +368,26 @@ protected function getFieldStorageDefinition() {
+     }
+ 
+     // The list of field storage definitions above does not include computed
+-    // fields, so we need to explicitly fetch a list of all fields in order to
+-    // support them. If this is a bundle base computed field, then use the field
+-    // map to locate the first bundle to define the field, and load the storage.
++    // base fields, so we need to explicitly fetch a list of all base fields in
++    // order to support them.
+     // @see \Drupal\Core\Entity\EntityFieldManager::getFieldStorageDefinitions()
+-    if (!isset($this->definition['field_name'])) {
+-      return NULL;
+-    }
+-
+     $base_fields = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
+-    if (!empty($base_fields[$this->definition['field_name']])) {
++    if (isset($this->definition['field_name']) && isset($base_fields[$this->definition['field_name']])) {
+       return $base_fields[$this->definition['field_name']]->getFieldStorageDefinition();
+     }
+ 
+-    if (isset($this->definition['bundles'])) {
+-      foreach ($this->definition['bundles'] as $bundle) {
+-        $fields = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle);
+-        if (isset($fields[$this->definition['field_name']])) {
+-          return $fields[$this->definition['field_name']]->getFieldStorageDefinition();
+-        }
++    $bundles = $this->entityTypeBundleInfo->getBundleInfo($entity_type_id);
++    foreach ($bundles as $bundle_id => $bundle) {
++      // FIGURE OUT WHY THE ACTUAL BUNDLES ARE NOT WORKING.
++      // I am creating two bundles 'entity_test_comp_bund_fld_bund' and 'entity_test_comp_bund_fld_bund_2'
++      // But getBundleInfo() is returning just 'entity_test_comp_bund_fld'
++      // Figure out why.
++      $bundle_fields = $this->entityFieldManager->getFieldDefinitions($entity_type_id, 'entity_test_comp_bund_fld_bund');
++      if (isset($bundle_fields[$this->definition['field_name']])) {
++        return $bundle_fields[$this->definition['field_name']]->getFieldStorageDefinition();
+       }
+     }
+-    return NULL;
++
+   }
+ 
+   /**
+diff --git a/core/modules/views/tests/modules/views_test_config/test_views/views.view.computed_bundle_field_view.yml b/core/modules/views/tests/modules/views_test_config/test_views/views.view.computed_bundle_field_view.yml
+index b37ad5b12710..9e1130df3d52 100644
+--- a/core/modules/views/tests/modules/views_test_config/test_views/views.view.computed_bundle_field_view.yml
++++ b/core/modules/views/tests/modules/views_test_config/test_views/views.view.computed_bundle_field_view.yml
+@@ -8,7 +8,7 @@ label: 'Computed Bundled Field View'
+ module: views
+ description: ''
+ tag: ''
+-base_table: entity_test_computed_bund_fld
++base_table: entity_test_comp_bund_fld
+ base_field: id
+ display:
+   default:
+@@ -76,7 +76,7 @@ display:
+       fields:
+         computed_string_field:
+           id: computed_string_field
+-          table: entity_test_computed_bund_fld
++          table: entity_test_comp_bund_fld
+           field: computed_string_field
+           relationship: none
+           group_type: group
+@@ -140,7 +140,7 @@ display:
+           plugin_id: field
+         computed_bundle_field:
+           id: computed_bundle_field
+-          table: entity_test_computed_bund_fld
++          table: entity_test_comp_bund_fld
+           field: computed_bundle_field
+           relationship: none
+           group_type: group
+@@ -200,7 +200,7 @@ display:
+           multi_type: separator
+           separator: ', '
+           field_api_classes: false
+-          entity_type: entity_test_computed_bund_fld
++          entity_type: entity_test_comp_bund_fld
+           plugin_id: field
+       filters: {  }
+       sorts: {  }
+diff --git a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+index 0b82d984b656..08468be8a2b4 100644
+--- a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
++++ b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+@@ -34,17 +34,17 @@ class ComputedBundleFieldTest extends ViewsKernelTestBase {
+   protected function setUp($import_test_views = TRUE): void {
+     parent::setUp($import_test_views);
+ 
+-    $this->installEntitySchema('entity_test_computed_bund_fld');
++    $this->installEntitySchema('entity_test_comp_bund_fld');
+     $this->installEntitySchema('entity_test_comp_bund_fld_bundle');
+ 
+     // Create a default bundle that has a computed field.
+-    entity_test_create_bundle('entity_test_comp_bund_fld_bund', NULL, 'entity_test_computed_bund_fld');
++    entity_test_create_bundle('entity_test_comp_bund_fld_bund', NULL, 'entity_test_comp_bund_fld');
+ 
+     // Create a second bundle that also has a computed field.
+-    entity_test_create_bundle('entity_test_comp_bund_fld_bund_2', NULL, 'entity_test_computed_bund_fld');
++    entity_test_create_bundle('entity_test_comp_bund_fld_bund_2', NULL, 'entity_test_comp_bund_fld');
+ 
+     // Create a bundle that does not have the computed field.
+-    entity_test_create_bundle('entity_test_bundle_no_comp_field', NULL, 'entity_test_computed_bund_fld');
++    entity_test_create_bundle('entity_test_bundle_no_comp_field', NULL, 'entity_test_comp_bund_fld');
+ 
+     // Create an entity using the default bundle with a computed field.
+     $entity_with_comp_field = EntityTestComputedBundleField::create([
+@@ -73,7 +73,7 @@ protected function setUp($import_test_views = TRUE): void {
+    */
+   public function testComputedFieldHandler() {
+     \Drupal::state()->set('entity_test_computed_field_item_list_value', ['computed string']);
+-    \Drupal::state()->set('entity_test_computed_bund_fld_item_list_value', ['some other string that is also computed']);
++    \Drupal::state()->set('entity_test_comp_bund_fld_item_list_value', ['some other string that is also computed']);
+ 
+     $view = Views::getView('computed_bundle_field_view');
+     $this->executeView($view);
+-- 
+GitLab
+
+
+From 57e9c1d3bd6cac4f2884ce906f74f0c6742b1c5e Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Tue, 13 Jun 2023 15:15:26 -0600
+Subject: [PATCH 06/23] Added back in field
+
+---
+ .../tests/modules/entity_test/src/EntityTestViewsData.php     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php b/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
+index c1ac1b7a0c79..85328bf9d962 100644
+--- a/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
++++ b/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
+@@ -26,7 +26,7 @@ public function getViewsData() {
+         ],
+       ];
+     }
+-    /* if ($this->entityType->id() === 'entity_test_comp_bund_fld') {
++    if ($this->entityType->id() === 'entity_test_comp_bund_fld') {
+       $views_data['entity_test_comp_bund_fld']['computed_bundle_field'] = [
+         'title' => $this->t('Computed Bundle Field'),
+         'field' => [
+@@ -39,7 +39,7 @@ public function getViewsData() {
+           ],
+         ],
+       ];
+-    } */
++    }
+ 
+     if ($this->entityType->id() != 'entity_test') {
+       return $views_data;
+-- 
+GitLab
+
+
+From eddbe8908c977fc0086ef1b1b89d1abcfbb0e760 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Tue, 13 Jun 2023 15:19:23 -0600
+Subject: [PATCH 07/23] Add a comment
+
+---
+ core/modules/views/src/Plugin/views/field/EntityField.php | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index fc74e5107ec0..4909be7ee923 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -376,12 +376,9 @@ protected function getFieldStorageDefinition() {
+       return $base_fields[$this->definition['field_name']]->getFieldStorageDefinition();
+     }
+ 
++    // Check for computed bundle base fields too.
+     $bundles = $this->entityTypeBundleInfo->getBundleInfo($entity_type_id);
+     foreach ($bundles as $bundle_id => $bundle) {
+-      // FIGURE OUT WHY THE ACTUAL BUNDLES ARE NOT WORKING.
+-      // I am creating two bundles 'entity_test_comp_bund_fld_bund' and 'entity_test_comp_bund_fld_bund_2'
+-      // But getBundleInfo() is returning just 'entity_test_comp_bund_fld'
+-      // Figure out why.
+       $bundle_fields = $this->entityFieldManager->getFieldDefinitions($entity_type_id, 'entity_test_comp_bund_fld_bund');
+       if (isset($bundle_fields[$this->definition['field_name']])) {
+         return $bundle_fields[$this->definition['field_name']]->getFieldStorageDefinition();
+-- 
+GitLab
+
+
+From 29bac1ba15880dd3b84bbb5febec72788597d85c Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Tue, 13 Jun 2023 15:21:25 -0600
+Subject: [PATCH 08/23] Remove bundles key and update views api docs
+
+---
+ .../entity_test/src/EntityTestViewsData.php       |  4 ----
+ core/modules/views/views.api.php                  | 15 ++++-----------
+ 2 files changed, 4 insertions(+), 15 deletions(-)
+
+diff --git a/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php b/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
+index 85328bf9d962..54a234e34b17 100644
+--- a/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
++++ b/core/modules/system/tests/modules/entity_test/src/EntityTestViewsData.php
+@@ -33,10 +33,6 @@ public function getViewsData() {
+           'id' => 'field',
+           'default_formatter' => 'string',
+           'field_name' => 'computed_bundle_field',
+-          'bundles' => [
+-            'entity_test_comp_bund_fld_bund',
+-            'entity_test_comp_bund_fld_bund_2',
+-          ],
+         ],
+       ];
+     }
+diff --git a/core/modules/views/views.api.php b/core/modules/views/views.api.php
+index b45c3aa40506..f5b3f241937e 100644
+--- a/core/modules/views/views.api.php
++++ b/core/modules/views/views.api.php
+@@ -423,11 +423,10 @@ function hook_views_data() {
+   // Computed field example. Computed fields are not associated with actual data
+   // tables and fields, and therefore have no schema. Instead, they are computed
+   // at render time in code. Here's the definition of a computed field that
+-  // exists for a number of different bundles of a particular entity type, the
+-  // value of the field will be calculated by a defined class.
+-  // If the defined class for the computed fields differs between multiple
+-  // bundles of the same entity type, then each of those fields should be added
+-  // separately.
++  // exists for a particular entity type, the value of the field will be
++  // calculated by a defined class. If the defined class for the computed fields
++  // differs between multiple bundles of the same entity type, then each of
++  // those fields should be added separately.
+   // @see \Drupal\Core\TypedData\DataDefinitionInterface::setComputed().
+   // @see \Drupal\Core\TypedData\DataDefinitionInterface::setClass().
+   $data['example_table']['computed_bundle_field'] = [
+@@ -437,12 +436,6 @@ function hook_views_data() {
+       'id' => 'computed',
+       'default_formatter' => 'string',
+       'field_name' => 'computed_bundle_field',
+-      // The bundles for which this computed field is available.
+-      // @see: https://www.drupal.org/project/drupal/issues/2981047.
+-      'bundles' => [
+-        'example_bundle',
+-        'foo_bundle',
+-      ],
+     ],
+   ];
+ 
+-- 
+GitLab
+
+
+From 92cdd5990c4e87765b58066f311f3eb21cdfb3ff Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Tue, 13 Jun 2023 15:40:56 -0600
+Subject: [PATCH 09/23] Adding entity type bundle info service to EntityField
+
+---
+ .../tests/src/Unit/Plugin/field/FieldTest.php | 35 ++++++++++++-------
+ 1 file changed, 22 insertions(+), 13 deletions(-)
+
+diff --git a/core/modules/views/tests/src/Unit/Plugin/field/FieldTest.php b/core/modules/views/tests/src/Unit/Plugin/field/FieldTest.php
+index c60e91447f0f..2566f40eb8a7 100644
+--- a/core/modules/views/tests/src/Unit/Plugin/field/FieldTest.php
++++ b/core/modules/views/tests/src/Unit/Plugin/field/FieldTest.php
+@@ -9,6 +9,7 @@
+ 
+ use Drupal\Core\Entity\EntityFieldManagerInterface;
+ use Drupal\Core\Entity\EntityRepositoryInterface;
++use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+ use Drupal\Core\Entity\EntityTypeManagerInterface;
+ use Drupal\Core\Field\FieldStorageDefinitionInterface;
+ use Drupal\Tests\UnitTestCase;
+@@ -67,6 +68,13 @@ class FieldTest extends UnitTestCase {
+    */
+   protected $fieldTypePluginManager;
+ 
++  /**
++   * The entity type bundle info service.
++   *
++   * @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface
++   */
++  protected $entityTypeBundleInfo;
++
+   /**
+    * The renderer.
+    *
+@@ -89,6 +97,7 @@ protected function setUp(): void {
+ 
+     $this->entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
+     $this->entityFieldManager = $this->createMock(EntityFieldManagerInterface::class);
++    $this->entityTypeBundleInfo = $this->createMock(EntityTypeBundleInfoInterface::class);
+     $this->entityRepository = $this->createMock(EntityRepositoryInterface::class);
+     $this->formatterPluginManager = $this->getMockBuilder('Drupal\Core\Field\FormatterPluginManager')
+       ->disableOriginalConstructor()
+@@ -126,7 +135,7 @@ public function testConstruct() {
+       // provides it.
+       'entity field' => 'title',
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+ 
+     $this->assertEquals('title', $handler->definition['field_name']);
+   }
+@@ -139,7 +148,7 @@ public function testDefineOptionsWithNoOptions() {
+       'entity_type' => 'test_entity',
+       'field_name' => 'title',
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+ 
+     // Setup the entity field manager to allow fetching the storage definitions.
+     $title_storage = $this->getBaseFieldStorage();
+@@ -168,7 +177,7 @@ public function testDefineOptionsWithDefaultFormatterOnFieldDefinition() {
+       'default_formatter' => 'test_example',
+       'default_formatter_settings' => ['link_to_entity' => TRUE],
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+ 
+     // Setup the entity field manager to allow fetching the storage definitions.
+     $title_storage = $this->getBaseFieldStorage();
+@@ -195,7 +204,7 @@ public function testDefineOptionsWithDefaultFormatterOnFieldType() {
+       'field_name' => 'title',
+       'default_formatter_settings' => ['link_to_entity' => TRUE],
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+ 
+     // Setup the entity field manager to allow fetching the storage definitions.
+     $title_storage = $this->getBaseFieldStorage();
+@@ -221,7 +230,7 @@ public function testCalculateDependenciesWithBaseField() {
+       'entity_type' => 'test_entity',
+       'field_name' => 'title',
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+ 
+     $title_storage = $this->getBaseFieldStorage();
+     $this->entityFieldManager->expects($this->atLeastOnce())
+@@ -243,7 +252,7 @@ public function testCalculateDependenciesWithConfiguredField() {
+       'entity_type' => 'test_entity',
+       'field_name' => 'body',
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+ 
+     $body_storage = $this->getConfigFieldStorage();
+     $this->entityFieldManager->expects($this->atLeastOnce())
+@@ -269,7 +278,7 @@ public function testAccess() {
+       'entity_type' => 'test_entity',
+       'field_name' => 'title',
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+     $handler->view = $this->executable;
+     $handler->setViewsData($this->viewsData);
+ 
+@@ -320,7 +329,7 @@ public function testClickSortWithOutConfiguredColumn($order) {
+       'entity_type' => 'test_entity',
+       'field_name' => 'title',
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+     $handler->view = $this->executable;
+ 
+     $this->entityFieldManager->expects($this->never())
+@@ -342,7 +351,7 @@ public function testClickSortWithBaseField($order) {
+       'entity_type' => 'test_entity',
+       'field_name' => 'title',
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+     $handler->view = $this->executable;
+ 
+     $field_storage = $this->getBaseFieldStorage();
+@@ -402,7 +411,7 @@ public function testClickSortWithConfiguredField($order) {
+       'entity_type' => 'test_entity',
+       'field_name' => 'body',
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+     $handler->view = $this->executable;
+ 
+     $field_storage = $this->getConfigFieldStorage();
+@@ -457,7 +466,7 @@ public function testQueryWithGroupByForBaseField() {
+       'entity_type' => 'test_entity',
+       'field_name' => 'title',
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+     $handler->view = $this->executable;
+     $handler->view->field = [$handler];
+ 
+@@ -519,7 +528,7 @@ public function testQueryWithGroupByForConfigField() {
+       'entity_type' => 'test_entity',
+       'field_name' => 'body',
+     ];
+-    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new EntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+     $handler->view = $this->executable;
+     $handler->view->field = [$handler];
+ 
+@@ -583,7 +592,7 @@ public function testPrepareItemsByDelta(array $options, array $expected_values)
+       'entity_type' => 'test_entity',
+       'field_name' => 'integer',
+     ];
+-    $handler = new FieldTestEntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager);
++    $handler = new FieldTestEntityField([], 'field', $definition, $this->entityTypeManager, $this->formatterPluginManager, $this->fieldTypePluginManager, $this->languageManager, $this->renderer, $this->entityRepository, $this->entityFieldManager, $this->entityTypeBundleInfo);
+     $handler->view = $this->executable;
+     $handler->view->field = [$handler];
+ 
+-- 
+GitLab
+
+
+From 83c1af6146bc0649ccf7d91b6d18aa9625b23c12 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Tue, 13 Jun 2023 15:54:26 -0600
+Subject: [PATCH 10/23] Do not hardcode the bundle name anymore
+
+---
+ core/modules/views/src/Plugin/views/field/EntityField.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index 4909be7ee923..72e1ed516520 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -379,7 +379,7 @@ protected function getFieldStorageDefinition() {
+     // Check for computed bundle base fields too.
+     $bundles = $this->entityTypeBundleInfo->getBundleInfo($entity_type_id);
+     foreach ($bundles as $bundle_id => $bundle) {
+-      $bundle_fields = $this->entityFieldManager->getFieldDefinitions($entity_type_id, 'entity_test_comp_bund_fld_bund');
++      $bundle_fields = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle_id);
+       if (isset($bundle_fields[$this->definition['field_name']])) {
+         return $bundle_fields[$this->definition['field_name']]->getFieldStorageDefinition();
+       }
+-- 
+GitLab
+
+
+From 56748bd99f5aaece972debd48db17ddecb3a0bfb Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Sun, 18 Jun 2023 15:48:31 -0600
+Subject: [PATCH 11/23] Resolve tests failing because views were imported too
+ soon
+
+---
+ .../tests/src/Kernel/Handler/ComputedBundleFieldTest.php    | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+index 08468be8a2b4..7eeca51ef781 100644
+--- a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
++++ b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+@@ -4,6 +4,7 @@
+ 
+ use Drupal\entity_test\Entity\EntityTestComputedBundleField;
+ use Drupal\Tests\views\Kernel\ViewsKernelTestBase;
++use Drupal\views\Tests\ViewTestData;
+ use Drupal\views\Views;
+ 
+ /**
+@@ -32,7 +33,8 @@ class ComputedBundleFieldTest extends ViewsKernelTestBase {
+    * {@inheritdoc}
+    */
+   protected function setUp($import_test_views = TRUE): void {
+-    parent::setUp($import_test_views);
++    // Don't install the test view until the bundles are defined.
++    parent::setUp(FALSE);
+ 
+     $this->installEntitySchema('entity_test_comp_bund_fld');
+     $this->installEntitySchema('entity_test_comp_bund_fld_bundle');
+@@ -46,6 +48,8 @@ protected function setUp($import_test_views = TRUE): void {
+     // Create a bundle that does not have the computed field.
+     entity_test_create_bundle('entity_test_bundle_no_comp_field', NULL, 'entity_test_comp_bund_fld');
+ 
++    ViewTestData::createTestViews(static::class, ['views_test_config']);
++
+     // Create an entity using the default bundle with a computed field.
+     $entity_with_comp_field = EntityTestComputedBundleField::create([
+       'type' => 'entity_test_comp_bund_fld_bund',
+-- 
+GitLab
+
+
+From 6b51f9b8df01e2a77c4dadb39f7fa95ea1f838ec Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Sun, 18 Jun 2023 15:55:23 -0600
+Subject: [PATCH 12/23] Update comments and return early if no field name
+
+---
+ core/modules/views/src/Plugin/views/field/EntityField.php | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index 72e1ed516520..cb1f61620c50 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -371,12 +371,18 @@ protected function getFieldStorageDefinition() {
+     // base fields, so we need to explicitly fetch a list of all base fields in
+     // order to support them.
+     // @see \Drupal\Core\Entity\EntityFieldManager::getFieldStorageDefinitions()
++    if (!isset($this->definition['field_name'])) {
++      return NULL;
++    }
++
+     $base_fields = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
+     if (isset($this->definition['field_name']) && isset($base_fields[$this->definition['field_name']])) {
+       return $base_fields[$this->definition['field_name']]->getFieldStorageDefinition();
+     }
+ 
+-    // Check for computed bundle base fields too.
++    // If there is still no field storage definition found, we are dealing with
++    // a bundle field. Get the storage from the field definition on the first
++    // bundle we find which has this field.
+     $bundles = $this->entityTypeBundleInfo->getBundleInfo($entity_type_id);
+     foreach ($bundles as $bundle_id => $bundle) {
+       $bundle_fields = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle_id);
+-- 
+GitLab
+
+
+From 62f10058aeed2b1bf62085adfb235d7391076fb8 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Sun, 18 Jun 2023 16:22:52 -0600
+Subject: [PATCH 13/23] Return NULL if no field definition is found
+
+---
+ core/modules/views/src/Plugin/views/field/EntityField.php | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index cb1f61620c50..90d3ecaf0a14 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -391,6 +391,7 @@ protected function getFieldStorageDefinition() {
+       }
+     }
+ 
++    return NULL;
+   }
+ 
+   /**
+-- 
+GitLab
+
+
+From 58435a14a2cf03a59d8e219b54e0c832d4dc19fe Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Sun, 18 Jun 2023 20:19:35 -0600
+Subject: [PATCH 14/23] Remove line in phpstan-baseline.neon for checking
+ return statement in getFieldStorageDefinition
+
+---
+ core/phpstan-baseline.neon | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/core/phpstan-baseline.neon b/core/phpstan-baseline.neon
+index e11a82854ed0..f9e1b062e586 100644
+--- a/core/phpstan-baseline.neon
++++ b/core/phpstan-baseline.neon
+@@ -2340,11 +2340,6 @@ parameters:
+ 			count: 9
+ 			path: modules/views/src/Plugin/views/field/Date.php
+ 
+-		-
+-			message: "#^Method Drupal\\\\views\\\\Plugin\\\\views\\\\field\\\\EntityField\\:\\:getFieldStorageDefinition\\(\\) should return Drupal\\\\Core\\\\Field\\\\FieldStorageDefinitionInterface but return statement is missing\\.$#"
+-			count: 1
+-			path: modules/views/src/Plugin/views/field/EntityField.php
+-
+ 		-
+ 			message: "#^Method Drupal\\\\views\\\\Plugin\\\\views\\\\field\\\\EntityField\\:\\:renderItems\\(\\) should return string but return statement is missing\\.$#"
+ 			count: 1
+-- 
+GitLab
+
+
+From cb3dcd7a8c2414fd214d85361ac080b6ba1f6954 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Mon, 19 Jun 2023 08:23:03 -0600
+Subject: [PATCH 15/23] Fix json api test
+
+---
+ .../src/Functional/EntityTestComputedBundleFieldTest.php      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php b/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
+index 5604dfa02dde..c61fd94a7de2 100644
+--- a/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
++++ b/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
+@@ -94,7 +94,7 @@ protected function createEntity() {
+    * {@inheritdoc}
+    */
+   protected function getExpectedDocument() {
+-    $self_url = Url::fromUri('base:/jsonapi/entity_test_computed_bundle_field/entity_test_computed_bundle_field/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
++    $self_url = Url::fromUri('base:/jsonapi/entity_test_comp_bund_fld/entity_test_comp_bund_fld/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
+     $author = User::load(0);
+     $bundle = EntityTestComputedBundleFieldBundle::load('entity_test_comp_bund_fld');
+     return [
+@@ -111,7 +111,7 @@ protected function getExpectedDocument() {
+       ],
+       'data' => [
+         'id' => $this->entity->uuid(),
+-        'type' => 'entity_test_computed_bundle_field--entity_test_computed_bundle_field',
++        'type' => 'entity_test_comp_bund_fld--entity_test_comp_bund_fld',
+         'links' => [
+           'self' => ['href' => $self_url],
+         ],
+-- 
+GitLab
+
+
+From 27ed1551f50f70f811bfbc5e7a610d8d5006d9e8 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Tue, 20 Jun 2023 15:44:52 -0600
+Subject: [PATCH 16/23] Remove unnecessary bundle type and schema from tests,
+ and the related jsonapi test
+
+---
+ .../EntityTestComputedBundleFieldTest.php     | 208 ------------------
+ .../config/schema/entity_test.schema.yml      |  14 --
+ .../Entity/EntityTestComputedBundleField.php  |   1 -
+ .../EntityTestComputedBundleFieldBundle.php   |  33 ---
+ .../Handler/ComputedBundleFieldTest.php       |   1 -
+ 5 files changed, 257 deletions(-)
+ delete mode 100644 core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
+ delete mode 100644 core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php
+
+diff --git a/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php b/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
+deleted file mode 100644
+index c61fd94a7de2..000000000000
+--- a/core/modules/jsonapi/tests/src/Functional/EntityTestComputedBundleFieldTest.php
++++ /dev/null
+@@ -1,208 +0,0 @@
+-<?php
+-
+-namespace Drupal\Tests\jsonapi\Functional;
+-
+-use Drupal\Core\Cache\Cache;
+-use Drupal\Core\Url;
+-use Drupal\entity_test\Entity\EntityTestComputedBundleField;
+-use Drupal\entity_test\Entity\EntityTestComputedBundleFieldBundle;
+-use Drupal\user\Entity\User;
+-
+-/**
+- * JSON:API integration test for the "EntityTestComputedBundleField" content entity type.
+- *
+- * @group jsonapi
+- */
+-class EntityTestComputedBundleFieldTest extends ResourceTestBase {
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected static $modules = ['entity_test'];
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected $defaultTheme = 'stark';
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected static $entityTypeId = 'entity_test_comp_bund_fld';
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected static $resourceTypeName = 'entity_test_comp_bund_fld--entity_test_comp_bund_fld';
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected static $patchProtectedFieldNames = [];
+-
+-  /**
+-   * {@inheritdoc}
+-   *
+-   * @var \Drupal\entity_test\Entity\EntityTestComputedField
+-   */
+-  protected $entity;
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected function setUpAuthorization($method) {
+-    $this->grantPermissionsToTestedRole(['administer entity_test content']);
+-
+-    switch ($method) {
+-      case 'GET':
+-        $this->grantPermissionsToTestedRole(['view test entity']);
+-        break;
+-
+-      case 'POST':
+-        $this->grantPermissionsToTestedRole(['create entity_test entity_test_with_bundle entities']);
+-        break;
+-
+-      case 'PATCH':
+-      case 'DELETE':
+-        $this->grantPermissionsToTestedRole(['administer entity_test content']);
+-        break;
+-    }
+-  }
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected function createEntity() {
+-    $bundle = EntityTestComputedBundleFieldBundle::create([
+-      'name' => 'Entity Test Computed Bundle Field Bundle',
+-      'type' => 'entity_test_comp_bund_fld',
+-      'id' => 'entity_test_comp_bund_fld',
+-    ]);
+-    $bundle->save();
+-    $entity_test = EntityTestComputedBundleField::create([
+-      'name' => 'Llama',
+-      'type' => 'entity_test_comp_bund_fld',
+-    ]);
+-
+-    $entity_test->setOwnerId(0);
+-    $entity_test->save();
+-
+-    return $entity_test;
+-  }
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected function getExpectedDocument() {
+-    $self_url = Url::fromUri('base:/jsonapi/entity_test_comp_bund_fld/entity_test_comp_bund_fld/' . $this->entity->uuid())->setAbsolute()->toString(TRUE)->getGeneratedUrl();
+-    $author = User::load(0);
+-    $bundle = EntityTestComputedBundleFieldBundle::load('entity_test_comp_bund_fld');
+-    return [
+-      'jsonapi' => [
+-        'meta' => [
+-          'links' => [
+-            'self' => ['href' => 'http://jsonapi.org/format/1.0/'],
+-          ],
+-        ],
+-        'version' => '1.0',
+-      ],
+-      'links' => [
+-        'self' => ['href' => $self_url],
+-      ],
+-      'data' => [
+-        'id' => $this->entity->uuid(),
+-        'type' => 'entity_test_comp_bund_fld--entity_test_comp_bund_fld',
+-        'links' => [
+-          'self' => ['href' => $self_url],
+-        ],
+-        'attributes' => [
+-          'created' => (new \DateTime())->setTimestamp($this->entity->get('created')->value)->setTimezone(new \DateTimeZone('UTC'))->format(\DateTime::RFC3339),
+-          'name' => 'Llama',
+-          'drupal_internal__id' => 1,
+-          'computed_string_field' => NULL,
+-          'computed_test_cacheable_string_field' => 'computed test cacheable string field',
+-        ],
+-        'relationships' => [
+-          'computed_reference_field' => [
+-            'data' => NULL,
+-            'links' => [
+-              'related' => ['href' => $self_url . '/computed_reference_field'],
+-              'self' => ['href' => $self_url . '/relationships/computed_reference_field'],
+-            ],
+-          ],
+-          'user_id' => [
+-            'data' => [
+-              'id' => $author->uuid(),
+-              'meta' => [
+-                'drupal_internal__target_id' => (int) $author->id(),
+-              ],
+-              'type' => 'user--user',
+-            ],
+-            'links' => [
+-              'related' => ['href' => $self_url . '/user_id'],
+-              'self' => ['href' => $self_url . '/relationships/user_id'],
+-            ],
+-          ],
+-          'entity_test_comp_bund_fld_type' => [
+-            'data' => [
+-              'id' => $bundle->uuid(),
+-              'meta' => [
+-                'drupal_internal__target_id' => 'entity_test_comp_bund_fld',
+-              ],
+-              'type' => 'entity_test_comp_bund_fld_bundle--entity_test_comp_bund_fld_bundle',
+-            ],
+-            'links' => [
+-              'related' => ['href' => $self_url . '/entity_test_comp_bund_fld_type'],
+-              'self' => ['href' => $self_url . '/relationships/entity_test_comp_bund_fld_type'],
+-            ],
+-          ],
+-        ],
+-      ],
+-    ];
+-  }
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected function getPostDocument() {
+-    return [
+-      'data' => [
+-        'type' => 'entity_test_comp_bund_fld--entity_test_comp_bund_fld',
+-        'attributes' => [
+-          'name' => 'Dramallama',
+-        ],
+-      ],
+-    ];
+-  }
+-
+-  /**
+-   * {@inheritdoc}
+-   */
+-  protected function getSparseFieldSets() {
+-    // EntityTest's owner field name is `user_id`, not `uid`, which breaks
+-    // nested sparse fieldset tests.
+-    return array_diff_key(parent::getSparseFieldSets(), array_flip([
+-      'nested_empty_fieldset',
+-      'nested_fieldset_with_owner_fieldset',
+-    ]));
+-  }
+-
+-  protected function getExpectedCacheContexts(array $sparse_fieldset = NULL) {
+-    $cache_contexts = parent::getExpectedCacheContexts($sparse_fieldset);
+-    if ($sparse_fieldset === NULL || in_array('computed_test_cacheable_string_field', $sparse_fieldset)) {
+-      $cache_contexts = Cache::mergeContexts($cache_contexts, ['url.query_args:computed_test_cacheable_string_field']);
+-    }
+-
+-    return $cache_contexts;
+-  }
+-
+-  protected function getExpectedCacheTags(array $sparse_fieldset = NULL) {
+-    $expected_cache_tags = parent::getExpectedCacheTags($sparse_fieldset);
+-    if ($sparse_fieldset === NULL || in_array('computed_test_cacheable_string_field', $sparse_fieldset)) {
+-      $expected_cache_tags = Cache::mergeTags($expected_cache_tags, ['field:computed_test_cacheable_string_field']);
+-    }
+-
+-    return $expected_cache_tags;
+-  }
+-
+-}
+diff --git a/core/modules/system/tests/modules/entity_test/config/schema/entity_test.schema.yml b/core/modules/system/tests/modules/entity_test/config/schema/entity_test.schema.yml
+index b78cb167f0b4..31aa1d614ca4 100644
+--- a/core/modules/system/tests/modules/entity_test/config/schema/entity_test.schema.yml
++++ b/core/modules/system/tests/modules/entity_test/config/schema/entity_test.schema.yml
+@@ -28,20 +28,6 @@ entity_test.entity_test_bundle.*:
+       type: text
+       label: 'Description'
+ 
+-entity_test.entity_test_comp_bund_fld_bundle.*:
+-  type: config_entity
+-  label: 'Entity test computed bundle field bundle'
+-  mapping:
+-    label:
+-      type: label
+-      label: 'Label'
+-    id:
+-      type: string
+-      label: 'Machine-readable name'
+-    description:
+-      type: text
+-      label: 'Description'
+-
+ entity_test.entity_test_mul_bundle.*:
+   type: entity_test.entity_test_bundle.*
+   label: 'Entity test mul bundle'
+diff --git a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
+index 411cb7f55310..ffd572a286ae 100644
+--- a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
++++ b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
+@@ -32,7 +32,6 @@
+  *   links = {
+  *     "canonical" = "/entity_test_comp_bund_fld/{entity_test_comp_bund_fld}",
+  *   },
+- *   bundle_entity_type = "entity_test_comp_bund_fld_bundle"
+  * )
+  */
+ class EntityTestComputedBundleField extends EntityTest {
+diff --git a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php
+deleted file mode 100644
+index cf95f9ab5386..000000000000
+--- a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleFieldBundle.php
++++ /dev/null
+@@ -1,33 +0,0 @@
+-<?php
+-
+-namespace Drupal\entity_test\Entity;
+-
+-use Drupal\Core\Entity\EntityDescriptionInterface;
+-
+-/**
+- * Defines the Test entity computed field bundle configuration entity.
+- *
+- * @ConfigEntityType(
+- *   id = "entity_test_comp_bund_fld_bundle",
+- *   label = @Translation("Test entity computed field bundle"),
+- *   handlers = {
+- *     "access" = "\Drupal\Core\Entity\EntityAccessControlHandler",
+- *     "route_provider" = {
+- *       "html" = "Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider",
+- *     },
+- *   },
+- *   config_prefix = "entity_test_comp_bund_fld_bundle",
+- *   bundle_of = "entity_test_comp_bund_fld",
+- *   entity_keys = {
+- *     "id" = "id",
+- *     "label" = "label"
+- *   },
+- *   config_export = {
+- *     "id",
+- *     "label",
+- *     "description",
+- *   },
+- * )
+- */
+-class EntityTestComputedBundleFieldBundle extends EntityTestBundle implements EntityDescriptionInterface {
+-}
+diff --git a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+index 7eeca51ef781..8198346b320d 100644
+--- a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
++++ b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+@@ -37,7 +37,6 @@ protected function setUp($import_test_views = TRUE): void {
+     parent::setUp(FALSE);
+ 
+     $this->installEntitySchema('entity_test_comp_bund_fld');
+-    $this->installEntitySchema('entity_test_comp_bund_fld_bundle');
+ 
+     // Create a default bundle that has a computed field.
+     entity_test_create_bundle('entity_test_comp_bund_fld_bund', NULL, 'entity_test_comp_bund_fld');
+-- 
+GitLab
+
+
+From 41fe11954b8e930132097cffe658a2023a3a4de5 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Tue, 20 Jun 2023 15:48:32 -0600
+Subject: [PATCH 17/23] Update the comment describing how to add computed
+ fields to views data
+
+---
+ core/modules/views/views.api.php | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/core/modules/views/views.api.php b/core/modules/views/views.api.php
+index f5b3f241937e..ae2a900c48ff 100644
+--- a/core/modules/views/views.api.php
++++ b/core/modules/views/views.api.php
+@@ -422,11 +422,11 @@ function hook_views_data() {
+ 
+   // Computed field example. Computed fields are not associated with actual data
+   // tables and fields, and therefore have no schema. Instead, they are computed
+-  // at render time in code. Here's the definition of a computed field that
+-  // exists for a particular entity type, the value of the field will be
+-  // calculated by a defined class. If the defined class for the computed fields
+-  // differs between multiple bundles of the same entity type, then each of
+-  // those fields should be added separately.
++  // when the value is read from the entity. Here's the definition of a computed
++  // field that exists for a particular entity type the value of the field will
++  // be calculated by a defined class. If the defined class for the computed
++  // fields differs between multiple bundles of the same entity type, then each
++  // of those fields should be added separately.
+   // @see \Drupal\Core\TypedData\DataDefinitionInterface::setComputed().
+   // @see \Drupal\Core\TypedData\DataDefinitionInterface::setClass().
+   $data['example_table']['computed_bundle_field'] = [
+-- 
+GitLab
+
+
+From d33f25b0caf589dc1476922114ea94316c4bbd23 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Tue, 20 Jun 2023 15:49:20 -0600
+Subject: [PATCH 18/23] Separate two sentences with a period
+
+---
+ core/modules/views/views.api.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/modules/views/views.api.php b/core/modules/views/views.api.php
+index ae2a900c48ff..c683d9fc6ac8 100644
+--- a/core/modules/views/views.api.php
++++ b/core/modules/views/views.api.php
+@@ -423,7 +423,7 @@ function hook_views_data() {
+   // Computed field example. Computed fields are not associated with actual data
+   // tables and fields, and therefore have no schema. Instead, they are computed
+   // when the value is read from the entity. Here's the definition of a computed
+-  // field that exists for a particular entity type the value of the field will
++  // field that exists for a particular entity type. The value of the field will
+   // be calculated by a defined class. If the defined class for the computed
+   // fields differs between multiple bundles of the same entity type, then each
+   // of those fields should be added separately.
+-- 
+GitLab
+
+
+From aa853bacd7ff589a88fdb4c5e70344b221bd14ef Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Tue, 27 Jun 2023 15:18:15 -0600
+Subject: [PATCH 19/23] Address code review issues
+
+---
+ .../tests/modules/entity_test/entity_test.routing.yml     | 8 --------
+ .../src/Entity/EntityTestComputedBundleField.php          | 3 ---
+ core/modules/views/src/Plugin/views/field/EntityField.php | 8 ++------
+ .../tests/src/Kernel/Handler/ComputedBundleFieldTest.php  | 2 +-
+ 4 files changed, 3 insertions(+), 18 deletions(-)
+
+diff --git a/core/modules/system/tests/modules/entity_test/entity_test.routing.yml b/core/modules/system/tests/modules/entity_test/entity_test.routing.yml
+index 1cebceea1f2f..52278e4d7806 100644
+--- a/core/modules/system/tests/modules/entity_test/entity_test.routing.yml
++++ b/core/modules/system/tests/modules/entity_test/entity_test.routing.yml
+@@ -97,13 +97,5 @@ entity.entity_test_computed_field.canonical:
+   requirements:
+     _entity_access: 'entity_test_computed_field.view'
+ 
+-entity.entity_test_computed_bundle_field.canonical:
+-  path: '/entity_test_computed_bundle_field/{entity_test_comp_bund_fld}'
+-  defaults:
+-    _entity_view: 'entity_test_comp_bund_fld.full'
+-    _title: 'Test full view mode'
+-  requirements:
+-    _entity_access: 'entity_test_comp_bund_fld.view'
+-
+ route_callbacks:
+   - '\Drupal\entity_test\Routing\EntityTestRoutes::routes'
+diff --git a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
+index ffd572a286ae..c97430117e22 100644
+--- a/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
++++ b/core/modules/system/tests/modules/entity_test/src/Entity/EntityTestComputedBundleField.php
+@@ -29,9 +29,6 @@
+  *     "bundle" = "type",
+  *   },
+  *   admin_permission = "administer entity_test content",
+- *   links = {
+- *     "canonical" = "/entity_test_comp_bund_fld/{entity_test_comp_bund_fld}",
+- *   },
+  * )
+  */
+ class EntityTestComputedBundleField extends EntityTest {
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index 90d3ecaf0a14..de0e17baa012 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -350,7 +350,7 @@ public function clickSort($order) {
+   /**
+    * Gets the field storage definition.
+    *
+-   * @return \Drupal\Core\Field\FieldStorageDefinitionInterface|null
++   * @return \Drupal\Core\Field\FieldStorageDefinitionInterface
+    *   The field storage definition used by this handler.
+    */
+   protected function getFieldStorageDefinition() {
+@@ -371,10 +371,6 @@ protected function getFieldStorageDefinition() {
+     // base fields, so we need to explicitly fetch a list of all base fields in
+     // order to support them.
+     // @see \Drupal\Core\Entity\EntityFieldManager::getFieldStorageDefinitions()
+-    if (!isset($this->definition['field_name'])) {
+-      return NULL;
+-    }
+-
+     $base_fields = $this->entityFieldManager->getBaseFieldDefinitions($entity_type_id);
+     if (isset($this->definition['field_name']) && isset($base_fields[$this->definition['field_name']])) {
+       return $base_fields[$this->definition['field_name']]->getFieldStorageDefinition();
+@@ -386,7 +382,7 @@ protected function getFieldStorageDefinition() {
+     $bundles = $this->entityTypeBundleInfo->getBundleInfo($entity_type_id);
+     foreach ($bundles as $bundle_id => $bundle) {
+       $bundle_fields = $this->entityFieldManager->getFieldDefinitions($entity_type_id, $bundle_id);
+-      if (isset($bundle_fields[$this->definition['field_name']])) {
++      if (isset($this->definition['field_name']) && isset($bundle_fields[$this->definition['field_name']])) {
+         return $bundle_fields[$this->definition['field_name']]->getFieldStorageDefinition();
+       }
+     }
+diff --git a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+index 8198346b320d..cb1fd31d008e 100644
+--- a/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
++++ b/core/modules/views/tests/src/Kernel/Handler/ComputedBundleFieldTest.php
+@@ -8,7 +8,7 @@
+ use Drupal\views\Views;
+ 
+ /**
+- * Provides some integration tests for the Field handler.
++ * Provides some integration tests for computed bundle fields.
+  *
+  * @see \Drupal\views\Plugin\views\field\EntityField
+  * @group views
+-- 
+GitLab
+
+
+From a016c9eef95563ccf29b30c03d82c8e1f00b97c6 Mon Sep 17 00:00:00 2001
+From: Owen Bush <owen.bush@lullabot.com>
+Date: Wed, 16 Aug 2023 16:18:20 -0600
+Subject: [PATCH 20/23] Update docs to change field ID from computed to field
+
+---
+ core/modules/views/views.api.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/modules/views/views.api.php b/core/modules/views/views.api.php
+index c683d9fc6ac8..503ef9064d5c 100644
+--- a/core/modules/views/views.api.php
++++ b/core/modules/views/views.api.php
+@@ -433,7 +433,7 @@ function hook_views_data() {
+     'title' => t('Computed Bundle Field'),
+     'help' => t('The computed bundle field'),
+     'field' => [
+-      'id' => 'computed',
++      'id' => 'field',
+       'default_formatter' => 'string',
+       'field_name' => 'computed_bundle_field',
+     ],
+-- 
+GitLab
+
+
+From 1e50a4d57af7878d0d8f0dc22dda778b1372039b Mon Sep 17 00:00:00 2001
+From: Alex Pott <1732-alexpott@users.noreply.drupalcode.org>
+Date: Sun, 26 Nov 2023 17:10:32 +0000
+Subject: [PATCH 21/23] Apply 2 suggestion(s) to 1 file(s)
+
+---
+ core/modules/views/src/Plugin/views/field/EntityField.php | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index 6f6be57522d3..2f02c1cec3ca 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -165,7 +165,7 @@ class EntityField extends FieldPluginBase implements CacheableDependencyInterfac
+    * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
+    *   The entity type bundle info service.
+    */
+-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, FormatterPluginManager $formatter_plugin_manager, FieldTypePluginManagerInterface $field_type_plugin_manager, LanguageManagerInterface $language_manager, RendererInterface $renderer, EntityRepositoryInterface $entity_repository, EntityFieldManagerInterface $entity_field_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info) {
++  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, FormatterPluginManager $formatter_plugin_manager, FieldTypePluginManagerInterface $field_type_plugin_manager, LanguageManagerInterface $language_manager, RendererInterface $renderer, EntityRepositoryInterface $entity_repository, EntityFieldManagerInterface $entity_field_manager, EntityTypeBundleInfoInterface $entity_type_bundle_info = NULL) {
+     parent::__construct($configuration, $plugin_id, $plugin_definition);
+ 
+     $this->entityTypeManager = $entity_type_manager;
+@@ -175,6 +175,10 @@ public function __construct(array $configuration, $plugin_id, $plugin_definition
+     $this->renderer = $renderer;
+     $this->entityRepository = $entity_repository;
+     $this->entityFieldManager = $entity_field_manager;
++    if ($entity_type_bundle_info === NULL) {
++       $entity_type_bundle_info = \Drupal::service('entity_type.bundle.info');
++       @trigger_error('Calling ' . __CLASS__ . '::__construct() without the $entity_type_bundle_info argument is deprecated in drupal:10.3.0 and is required in drupal:11.0.0. See https://www.drupal.org/node/3380621', E_USER_DEPRECATED);
++    }
+     $this->entityTypeBundleInfo = $entity_type_bundle_info;
+ 
+     // @todo Unify 'entity field'/'field_name' instead of converting back and
+@@ -350,7 +354,7 @@ public function clickSort($order) {
+   /**
+    * Gets the field storage definition.
+    *
+-   * @return \Drupal\Core\Field\FieldStorageDefinitionInterface
++   * @return \Drupal\Core\Field\FieldStorageDefinitionInterface|null
+    *   The field storage definition used by this handler.
+    */
+   protected function getFieldStorageDefinition() {
+-- 
+GitLab
+
+
+From 67098ee47166bdfc098570a8334d1278f98e21f9 Mon Sep 17 00:00:00 2001
+From: Alex Pott <1732-alexpott@users.noreply.drupalcode.org>
+Date: Sun, 26 Nov 2023 19:46:12 +0000
+Subject: [PATCH 22/23] Fix PHPCS
+
+---
+ core/modules/views/src/Plugin/views/field/EntityField.php | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index 2f02c1cec3ca..4daeae540cc7 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -176,8 +176,8 @@ public function __construct(array $configuration, $plugin_id, $plugin_definition
+     $this->entityRepository = $entity_repository;
+     $this->entityFieldManager = $entity_field_manager;
+     if ($entity_type_bundle_info === NULL) {
+-       $entity_type_bundle_info = \Drupal::service('entity_type.bundle.info');
+-       @trigger_error('Calling ' . __CLASS__ . '::__construct() without the $entity_type_bundle_info argument is deprecated in drupal:10.3.0 and is required in drupal:11.0.0. See https://www.drupal.org/node/3380621', E_USER_DEPRECATED);
++      $entity_type_bundle_info = \Drupal::service('entity_type.bundle.info');
++      @trigger_error('Calling ' . __CLASS__ . '::__construct() without the $entity_type_bundle_info argument is deprecated in drupal:10.3.0 and is required in drupal:11.0.0. See https://www.drupal.org/node/3380621', E_USER_DEPRECATED);
+     }
+     $this->entityTypeBundleInfo = $entity_type_bundle_info;
+ 
+-- 
+GitLab
+
+
+From d70511278f2e0600685d1875336afcc30461d6b3 Mon Sep 17 00:00:00 2001
+From: Alex Pott <alex.a.pott@googlemail.com>
+Date: Mon, 27 Nov 2023 10:33:28 +0000
+Subject: [PATCH 23/23] Remove |null because it's really not true and won't be
+ once this throws an exception
+
+---
+ core/modules/views/src/Plugin/views/field/EntityField.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/core/modules/views/src/Plugin/views/field/EntityField.php b/core/modules/views/src/Plugin/views/field/EntityField.php
+index 4daeae540cc7..0c4eed513d4b 100644
+--- a/core/modules/views/src/Plugin/views/field/EntityField.php
++++ b/core/modules/views/src/Plugin/views/field/EntityField.php
+@@ -354,7 +354,7 @@ public function clickSort($order) {
+   /**
+    * Gets the field storage definition.
+    *
+-   * @return \Drupal\Core\Field\FieldStorageDefinitionInterface|null
++   * @return \Drupal\Core\Field\FieldStorageDefinitionInterface
+    *   The field storage definition used by this handler.
+    */
+   protected function getFieldStorageDefinition() {
+-- 
+GitLab
+
