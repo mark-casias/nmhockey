@@ -1,0 +1,9 @@
+nmhockey_stats_goal_stats:
+  css:
+    component:
+      css/nmhockey-stats-goal-stats-widget.css: {}
+
+nmhockey_stats_penalty_stats:
+  css:
+    component:
+      css/nmhockey-stats-penalty-stats-widget.css: {}

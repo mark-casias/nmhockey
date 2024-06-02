@@ -1,0 +1,39 @@
+# Default value.
+field.value.nmhockey_stats_goal_stats:
+  type: mapping
+  label: Default value
+  mapping:
+    goal_period:
+      type: integer
+      label: Period
+    goal_minute:
+      type: integer
+      label: Minute
+    goal_seconds:
+      type: integer
+      label: Seconds
+    goal_type:
+      type: string
+      label: Type
+
+
+# Default value.
+field.value.nmhockey_stats_penalty_stats:
+  type: mapping
+  label: Default value
+  mapping:
+    penalty_period:
+      type: integer
+      label: Period
+    penalty_minute:
+      type: integer
+      label: Minute
+    penalty_seconds:
+      type: integer
+      label: Seconds
+    penalty_type:
+      type: string
+      label: Type
+    penalty_duration:
+      type: integer
+      label: Duration
