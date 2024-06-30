@@ -37,3 +37,19 @@ field.value.nmhockey_stats_penalty_stats:
     penalty_duration:
       type: integer
       label: Duration
+
+
+# Default value.
+field.value.nmhockey_stats_goalie_stats:
+  type: mapping
+  label: Default value
+  mapping:
+    shots_against:
+      type: integer
+      label: Shots Against
+    goals_against:
+      type: integer
+      label: Goals Against
+    w_l_otl:
+      type: string
+      label: W/L/OTL

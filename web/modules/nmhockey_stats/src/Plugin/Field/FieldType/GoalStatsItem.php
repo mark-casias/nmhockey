@@ -136,14 +136,14 @@ final class GoalStatsItem extends FieldItemBase {
    * Returns allowed values for 'goal_minute' sub-field.
    */
   public static function allowedMinuteValues(): array {
-    return array_reverse(array_combine(range(0, 20), range(0, 20)));
+    return array_reverse(array_combine(range(0, 20), range(0, 20)), TRUE);
   }
 
   /**
    * Returns allowed values for 'goal_seconds' sub-field.
    */
   public static function allowedSecondsValues(): array {
-    return array_reverse(array_combine(range(0, 60), range(0, 60)));
+    return array_reverse(array_combine(range(0, 60), range(0, 60)), TRUE);
   }
 
   /**
@@ -151,10 +151,10 @@ final class GoalStatsItem extends FieldItemBase {
    */
   public static function allowedTypeValues(): array {
     return [
-      'even' => 'Even Strength',
-      'power' => 'Power Play',
-      'short' => 'Short Handed',
-      'empty' => 'Empty Net',
+      'Even Strength' => 'Even Strength',
+      'Power Play' => 'Power Play',
+      'Short Handed' => 'Short Handed',
+      'Empty Net' => 'Empty Net',
     ];
   }
 

@@ -1,0 +1,13 @@
+.container-inline.nmhockey-stats-goalie-stats-elements .form-item {
+  margin: 0 3px;
+
+  .form-element--type-number {
+    width: 100px;
+  }
+}
+
+[class*="form-item--field-game-goalie"] {
+}
+.container-inline.nmhockey-stats-goalie-stats-elements label {
+  display: block;
+}

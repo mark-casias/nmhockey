@@ -7,3 +7,8 @@ nmhockey_stats_penalty_stats:
   css:
     component:
       css/nmhockey-stats-penalty-stats-widget.css: {}
+
+nmhockey_stats_goalie_stats:
+  css:
+    component:
+      css/nmhockey-stats-goalie-stats-widget.css: {}

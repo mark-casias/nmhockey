@@ -1,0 +1,43 @@
+
+
+.layout-container {
+  background-color: #fff;
+  margin: 0 auto;
+  width: 1280px;
+  -webkit-box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  border-radius: 2rem 2rem 0 0;
+  margin-top: 3rem;
+  position: relative;
+  text-align: left;
+  padding: 3rem;
+}
+
+header {
+  display: flex;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.layout-content {
+  flex-grow: 1;
+}
+
+.layout-sidebar-first {
+  min-width: 20rem;
+  padding: 2rem;
+}
+
+footer.page-footer {
+  background-color: var(--color-black);
+  margin: 0 auto;
+  width: 1280px;
+  padding: 2rem 3rem;
+  border-radius: 0 0 2rem 2rem;
+}

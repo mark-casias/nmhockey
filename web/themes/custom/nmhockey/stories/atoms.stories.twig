@@ -1,0 +1,26 @@
+{% stories atoms with { title: "NMHockey/Atoms" } %}
+  {% story atoms_menu with {
+    name: "Menus",
+    args: {
+      menu_name: "test",
+      items: [
+        { title: "test 1", url: "#"},
+        {
+          title: "link 2",
+          url: "#",
+          below: {
+            items: [
+              { title: "sub1", url: "#"}
+            ]
+          }
+        }
+      ]
+    }
+  } %}
+
+    <h2>Menu base</h2>
+    {% include "nmhockey:menus" %}
+
+  {% endstory %}
+
+{% endstories %}

@@ -3,13 +3,13 @@ type: theme
 base theme: stable9
 description: NM Hockey theme with SDC
 package: Custom
+logo: logo.png
 core_version_requirement: ^10
 libraries:
   - nmhockey/global
 regions:
   header: 'Header'
   primary_menu: 'Primary menu'
-  secondary_menu: 'Secondary menu'
   featured: 'Featured'
   page_top: 'Page top'
   breadcrumb: 'Breadcrumb'

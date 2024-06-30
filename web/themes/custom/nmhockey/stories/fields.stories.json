@@ -1,0 +1,1 @@
+{"title":"NMHockey\/Fields","parameters":{"server":{"url":"https:\/\/nmhockey.ddev.site\/storybook\/stories\/render"}},"stories":[{"name":"Stats","args":{"items":{"period":1,"minute":20,"seconds":15,"type":"Empty Net"}},"parameters":{"server":{"id":"eyJwYXRoIjoidGhlbWVzXC9jdXN0b21cL25taG9ja2V5XC9zdG9yaWVzXC9maWVsZHMuc3Rvcmllcy50d2lnIiwiaWQiOiJmaWVsZHNfc3RhdHMifQ%3D%3D"}}}]}

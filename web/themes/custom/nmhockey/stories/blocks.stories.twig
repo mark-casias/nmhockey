@@ -1,0 +1,26 @@
+{% stories blocks with { title: "NMHockey/Blocks" } %}
+
+  {% story blocks_main_menu with {
+    name: "Main Menu",
+    args: {
+      menu_name: "main-menu",
+      items: [
+        {title: "Link 1", url: "#"},
+        {
+          title: "Link 2",
+          attributes: create_attribute(),
+          url: "#",
+          below: {
+            items: [
+              { title: "sub1", url: "#"}
+            ]
+          }
+        }
+      ]
+    }
+  } %}
+    <h2>Main Menu</h2>
+    {% include "nmhockey:main-menu" %}
+  {% endstory %}
+
+{% endstories %}

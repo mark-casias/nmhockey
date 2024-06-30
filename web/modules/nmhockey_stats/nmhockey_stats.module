@@ -5,6 +5,8 @@
  *   Theme and other items.
  */
 
+use Drupal\node\Entity\Node;
+
 /**
  * Implements hook_theme().
  */
@@ -14,4 +16,107 @@ function nmhockey_stats_theme($existing, $type, $theme, $path) {
       'base hook' => 'field',
     ],
   ];
+}
+
+/**
+ * Implements hook_inline_entity_form_table_fields_alter().
+ */
+function nmhockey_stats_inline_entity_form_table_fields_alter(&$fields, $context) {
+  $node = $context;
+  if ($context['entity_type'] == 'node') {
+    // if (in_array('player', $context['allowed_bundles'])) {
+    unset($fields['status']);
+    // }
+
+    if ($context['parent_bundle'] === 'league'){
+      if (in_array('games', $context['allowed_bundles'])) {
+        unset($fields['label']);
+
+        $fields['field_game_date'] = [
+          'type' => 'field',
+          'label' => 'Date/Time',
+          'display_options' => [
+            'type' => 'short'
+          ],
+        ];
+        $fields['field_game_team_away'] = [
+          'type' => 'field',
+          'label' => 'Away',
+        ];
+        $fields['field_game_team_home'] = [
+          'type' => 'field',
+          'label' => 'Home',
+        ];
+      }
+    }
+  }
+
+  // select p.name , sum(goals + assists), goals, assists, pim from players p, goals g, penalties pn where
+}
+
+function nmhockey_stats_inline_entity_form_entity_form_alter(array &$entity_form, \Drupal\Core\Form\FormStateInterface &$form_state) {
+
+  $bundle = $entity_form['#bundle'];
+  $parent = $form_state->getFormObject()->getEntity();
+  $parent_type = $parent->getType();
+  $parent_nid = $parent->id();
+  $input = $form_state->getUserInput();
+  // What's the parent? Does it matter?
+  if ($parent_type === 'league') {
+    if ($bundle === 'teams') {
+      // Add $parent_nid to Season field.
+      $entity_form['field_season']['widget']['#options'] = [
+        $parent_nid => $parent->label(),
+      ];
+    }
+    if ($bundle === 'games') {
+      // Add $parent_nid to season field.
+      $entity_form['field_game_season']['widget']['#options'] = [
+        $parent_nid => $parent->label(),
+      ];
+
+      // Restrict teams from this season.
+      $options = [];
+      foreach ($parent->get('field_teams')->getValue() as $item) {
+        $nid = $item['target_id'];
+        $t = Node::load($nid);
+        $options[$nid] = $t->label();
+
+      }
+      $entity_form['field_game_team_home']['widget']['#options'] = $options;
+      $entity_form['field_game_team_away']['widget']['#options'] = $options;
+
+    }
+  }
+  if ($parent_type === 'games') {
+    $home = Node::load($input['field_game_team_home']);
+    $away = Node::load($input['field_game_team_away']);
+
+    if ($bundle === 'goal') {
+      // Add parent_nid (game) to field_game.
+      $entity_form['field_game']['widget']['#options'] = [
+        $parent_nid => $parent->label(),
+      ];
+
+      // Restrict field_team to home or away.
+      $entity_form['field_team']['widget']['#options'] = [
+        $home->id() => $home->label() . '(Home)',
+        $away->id() => $away->label() . '(Away)',
+      ];
+
+    }
+    if ($bundle === 'penalty') {
+      // Add parent_nid (game) to field_penalty_game.
+      $entity_form['field_penalty_game']['widget']['#options'] = [
+        $parent_nid => $parent->label(),
+      ];
+
+      // Restrict field_team to home or away.
+      $entity_form['field_penalty_team']['widget']['#options'] = [
+        $home->id() => $home->label() . '(Home)',
+        $away->id() => $away->label() . '(Away)',
+      ];
+
+    }
+  }
 }

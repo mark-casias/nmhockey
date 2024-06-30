@@ -1,0 +1,11 @@
+[data-component-id="nmhockey:regions"] {
+
+
+  &.footer-region {
+    background-color: black;
+    border-radius: 0 0 30px 30px;
+    margin: 0 auto;
+    width: 1280px;
+    padding: 2rem 1rem;
+  }
+}

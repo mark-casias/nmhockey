@@ -1,0 +1,51 @@
+[data-component-id="nmhockey:main-menu"] {
+
+  .toggle-expand {
+
+    @media (min-width:900px) {
+      display: none;
+    }
+  }
+
+  ul {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    li {
+      display: block;
+      position: relative;
+
+      &.main--with-below::after {
+        content: ">>";
+        color: blue;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      ul[class*="main--sub"] {
+        display: none;
+        position: absolute;
+        bottom: -1rem;
+        left: 0;
+        padding: 0;
+      }
+      &:hover {
+        ul[class*="main--sub"] {
+          display: block;
+        }
+      }
+    }
+  }
+
+  a {
+    display: block;
+    width: 12rem;
+    color: black;
+    text-align: center;
+
+    &:hover {
+      background: black;
+      color: white;
+    }
+  }
+}
