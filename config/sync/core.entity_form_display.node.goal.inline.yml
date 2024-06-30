@@ -1,0 +1,65 @@
+uuid: 6510e459-6b7e-40b8-a5bc-736cab29846b
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.node.inline
+    - field.field.node.goal.field_assist
+    - field.field.node.goal.field_game
+    - field.field.node.goal.field_goal_player
+    - field.field.node.goal.field_goal_stats
+    - field.field.node.goal.field_team
+    - node.type.goal
+  module:
+    - nmhockey_stats
+id: node.goal.inline
+targetEntityType: node
+bundle: goal
+mode: inline
+content:
+  field_assist:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_game:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_goal_player:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_goal_stats:
+    type: nmhockey_stats_goal_stats
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_team:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  title: true
+  uid: true

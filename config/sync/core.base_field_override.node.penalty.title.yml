@@ -1,0 +1,18 @@
+uuid: 94cbe114-478b-4a9a-b921-b868bc23b5ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.penalty
+id: node.penalty.title
+field_name: title
+entity_type: node
+bundle: penalty
+label: Penalty
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

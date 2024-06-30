@@ -6,6 +6,16 @@ dependencies:
     - field.storage.node.field_game
     - node.type.games
     - node.type.goal
+  module:
+    - er_auto
+third_party_settings:
+  er_auto:
+    automation:
+      enabled: 1
+      source:
+        - type
+      automated:
+        - field_game
 id: node.goal.field_game
 field_name: field_game
 entity_type: node

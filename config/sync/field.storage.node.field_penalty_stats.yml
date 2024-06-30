@@ -1,4 +1,4 @@
-uuid: 39c26eba-65da-4518-8d78-fd469a684f33
+uuid: 6a2c6de1-6619-4d2a-a277-a98b4b2effbe
 langcode: en
 status: true
 dependencies:
@@ -12,7 +12,7 @@ type: nmhockey_stats_penalty_stats
 settings: {  }
 module: nmhockey_stats
 locked: false
-cardinality: -1
+cardinality: 1
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

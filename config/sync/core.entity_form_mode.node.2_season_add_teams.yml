@@ -1,0 +1,11 @@
+uuid: 38fcb508-fafc-49df-a908-b57c0b7f10b0
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.2_season_add_teams
+label: '2: Season Add Teams'
+description: ''
+targetEntityType: node
+cache: true

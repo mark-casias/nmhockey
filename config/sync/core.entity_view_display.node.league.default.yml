@@ -11,16 +11,9 @@ dependencies:
     - node.type.league
   module:
     - datetime_range
-    - field_layout
-    - layout_discovery
     - nomarkup
     - text
     - user
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings:
-      label: ''
 id: node.league.default
 targetEntityType: node
 bundle: league
@@ -39,6 +32,7 @@ content:
     settings:
       timezone_override: ''
       format_type: olivero_medium
+      from_to: both
       separator: '-'
     third_party_settings:
       nomarkup:

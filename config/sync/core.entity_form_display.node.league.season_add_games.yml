@@ -1,0 +1,86 @@
+uuid: 70ff6392-c971-49f8-8e38-4fdcf26515d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.node.inline
+    - core.entity_form_mode.node.season_add_games
+    - field.field.node.league.body
+    - field.field.node.league.field_current
+    - field.field.node.league.field_date
+    - field.field.node.league.field_games
+    - field.field.node.league.field_teams
+    - node.type.league
+  module:
+    - datetime_range
+    - inline_entity_form
+id: node.league.season_add_games
+targetEntityType: node
+bundle: league
+mode: season_add_games
+content:
+  field_current:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_date:
+    type: daterange_default
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_games:
+    type: inline_entity_form_complex
+    weight: 4
+    region: content
+    settings:
+      form_mode: inline
+      override_labels: true
+      label_singular: Game
+      label_plural: Games
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
+  field_teams:
+    type: inline_entity_form_complex
+    weight: 3
+    region: content
+    settings:
+      form_mode: inline
+      override_labels: true
+      label_singular: Team
+      label_plural: Teams
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  body: true
+  created: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

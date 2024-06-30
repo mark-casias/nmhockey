@@ -1,0 +1,11 @@
+uuid: f0e7ceab-7851-4d92-922f-ee749323db8a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.season_add_games
+label: '3: Season Add Games'
+description: ''
+targetEntityType: node
+cache: true

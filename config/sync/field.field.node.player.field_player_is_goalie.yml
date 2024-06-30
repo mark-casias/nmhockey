@@ -1,0 +1,21 @@
+uuid: cddad6cc-9ad2-482c-bce9-be0e9bb6169e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_player_is_goalie
+    - node.type.player
+id: node.player.field_player_is_goalie
+field_name: field_player_is_goalie
+entity_type: node
+bundle: player
+label: 'Is Goalie?'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

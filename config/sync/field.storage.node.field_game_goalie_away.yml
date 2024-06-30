@@ -1,0 +1,19 @@
+uuid: ca8b257a-b812-4759-a3bb-e491034ac146
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_game_goalie_away
+field_name: field_game_goalie_away
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

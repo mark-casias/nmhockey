@@ -3,20 +3,15 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_form_mode.node.inline
     - field.field.node.team.body
     - field.field.node.team.field_media
     - field.field.node.team.field_roster
     - field.field.node.team.field_season
+    - field.field.node.team.field_team_captain
     - node.type.team
   module:
-    - field_layout
     - inline_entity_form
-    - layout_discovery
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings:
-      label: ''
 id: node.team.default
 targetEntityType: node
 bundle: team
@@ -27,7 +22,7 @@ content:
     weight: 1
     region: content
     settings:
-      form_mode: default
+      form_mode: inline
       override_labels: true
       label_singular: Player
       label_plural: Players
@@ -39,6 +34,26 @@ content:
       collapsed: false
       revision: false
       removed_reference: optional
+    third_party_settings: {  }
+  field_season:
+    type: entity_reference_autocomplete
+    weight: 3
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_team_captain:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   title:
     type: string_textfield
@@ -52,7 +67,6 @@ hidden:
   body: true
   created: true
   field_media: true
-  field_season: true
   path: true
   promote: true
   status: true

@@ -1,4 +1,4 @@
-uuid: 4665f5cb-ac39-4ff9-b83c-17ae830565a1
+uuid: eca9b3ff-8272-428d-a939-147b28f6a721
 langcode: en
 status: true
 dependencies:
@@ -13,7 +13,7 @@ entity_type: node
 bundle: goal
 label: 'Goal Stats'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''

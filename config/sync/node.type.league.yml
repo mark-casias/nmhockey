@@ -12,7 +12,7 @@ third_party_settings:
 name: 'League / Season'
 type: league
 description: 'League information. Holds Teams ie: B1 Spring 2023.'
-help: ''
+help: null
 new_revision: true
 preview_mode: 1
 display_submitted: false

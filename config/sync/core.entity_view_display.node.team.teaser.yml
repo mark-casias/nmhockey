@@ -8,16 +8,11 @@ dependencies:
     - field.field.node.team.field_media
     - field.field.node.team.field_roster
     - field.field.node.team.field_season
+    - field.field.node.team.field_team_captain
     - node.type.team
   module:
-    - field_layout
     - text
     - user
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings:
-      label: ''
 id: node.team.teaser
 targetEntityType: node
 bundle: team
@@ -40,3 +35,4 @@ hidden:
   field_media: true
   field_roster: true
   field_season: true
+  field_team_captain: true

@@ -1,0 +1,21 @@
+uuid: bf6fd53a-dea6-4695-8faa-2a7fc237bf9d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_game_goalie_stats_home
+    - node.type.games
+  module:
+    - nmhockey_stats
+id: node.games.field_game_goalie_stats_home
+field_name: field_game_goalie_stats_home
+entity_type: node
+bundle: games
+label: 'Home Team: Goalie Stats'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: nmhockey_stats_goalie_stats

@@ -11,7 +11,16 @@ module:
   block: 0
   block_content: 0
   breakpoint: 0
+  calendar_view: 0
   ckeditor5: 0
+  ckeditor5_plugin_pack: 0
+  ckeditor5_plugin_pack_find_and_replace: 0
+  ckeditor5_plugin_pack_font: 0
+  ckeditor5_plugin_pack_highlight: 0
+  ckeditor5_plugin_pack_indent_block: 0
+  ckeditor5_plugin_pack_select_all: 0
+  ckeditor5_plugin_pack_text_transformation: 0
+  ckeditor5_plugin_pack_word_count: 0
   computed_field: 0
   computed_field_ui: 0
   config: 0
@@ -23,14 +32,15 @@ module:
   dynamic_page_cache: 0
   editor: 0
   emulsify_twig: 0
+  er_auto: 0
   feeds: 0
   feeds_tamper: 0
   field: 0
   field_group: 0
-  field_layout: 0
   field_ui: 0
   file: 0
   filter: 0
+  forms_steps: 0
   help: 0
   image: 0
   inline_entity_form: 0
@@ -42,7 +52,6 @@ module:
   menu_link_content: 0
   menu_ui: 0
   mysql: 0
-  navigation: 0
   nmhockey_stats: 0
   node: 0
   nomarkup: 0
@@ -51,7 +60,6 @@ module:
   path: 0
   path_alias: 0
   responsive_image: 0
-  sdc: 0
   search: 0
   serialization: 0
   shortcut: 0
@@ -67,6 +75,7 @@ module:
   update: 0
   user: 0
   views_ui: 0
+  pathauto: 1
   views: 10
   minimal: 1000
 theme:

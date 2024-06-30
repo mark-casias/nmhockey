@@ -1,0 +1,58 @@
+uuid: ee98fa43-4f3d-4570-9964-2a8a3dec3041
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.node.inline
+    - field.field.node.player.feeds_item
+    - field.field.node.player.field_email
+    - field.field.node.player.field_first_name
+    - field.field.node.player.field_last_name
+    - field.field.node.player.field_level
+    - field.field.node.player.field_media
+    - field.field.node.player.field_number
+    - field.field.node.player.field_player_is_goalie
+    - field.field.node.player.field_telephone
+    - node.type.player
+id: node.player.inline
+targetEntityType: node
+bundle: player
+mode: inline
+content:
+  field_first_name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_last_name:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_number:
+    type: number
+    weight: 2
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  feeds_item: true
+  field_email: true
+  field_level: true
+  field_media: true
+  field_player_is_goalie: true
+  field_telephone: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  title: true
+  uid: true

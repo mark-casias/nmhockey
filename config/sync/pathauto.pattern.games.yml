@@ -1,0 +1,22 @@
+uuid: 5a503eaa-49a7-42ec-8dea-e740ed3d95f2
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: games
+label: Games
+type: 'canonical_entities:node'
+pattern: '/season/[node:field_game_season:entity:title]/[node:field_game_date:date:html_date]/[node:field_game_team_away:entity:title]-at-[node:field_game_team_home:entity:title]'
+selection_criteria:
+  bbe3f4ec-9455-47bd-8f07-72f795d6d3c9:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: bbe3f4ec-9455-47bd-8f07-72f795d6d3c9
+    context_mapping:
+      node: node
+    bundles:
+      games: games
+selection_logic: and
+weight: -9
+relationships: {  }

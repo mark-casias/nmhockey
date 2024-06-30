@@ -1,0 +1,9 @@
+status: 1
+pattern: '[node:field_team:entity:title] - [node:field_goal_player:entity:field_last_name] ([node:field_goal_stats:goal_period] - [node:field_goal_stats:goal_minute]:[node:field_goal_stats:goal_seconds] [node:field_goal_stats:goal_type])'
+escape: false
+preserve_titles: false
+save: false
+chunk: 50
+dependencies:
+  config:
+    - node.type.goal

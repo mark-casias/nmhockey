@@ -1,0 +1,57 @@
+uuid: afea4152-c201-47ef-9a2f-78acfb2308e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.node.inline
+    - core.entity_form_mode.node.summary
+    - field.field.node.team.body
+    - field.field.node.team.field_media
+    - field.field.node.team.field_roster
+    - field.field.node.team.field_season
+    - field.field.node.team.field_team_captain
+    - node.type.team
+  module:
+    - inline_entity_form
+id: node.team.summary
+targetEntityType: node
+bundle: team
+mode: summary
+content:
+  field_roster:
+    type: inline_entity_form_complex
+    weight: 1
+    region: content
+    settings:
+      form_mode: inline
+      override_labels: true
+      label_singular: Player
+      label_plural: Players
+      allow_new: true
+      allow_existing: true
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  body: true
+  created: true
+  field_media: true
+  field_season: true
+  field_team_captain: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

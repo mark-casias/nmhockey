@@ -1,0 +1,11 @@
+uuid: 17cdc7c7-db79-4447-987d-1be3123141f8
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.inline
+label: Inline
+description: 'Inline entity form style'
+targetEntityType: node
+cache: true

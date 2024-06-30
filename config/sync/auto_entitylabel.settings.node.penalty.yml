@@ -1,0 +1,9 @@
+status: 0
+pattern: '[node:field_penalty_team:entity:title] - [node:field_penalty_player:entity:field_last_name] - [node:field_penalty_stats:duration]'
+escape: false
+preserve_titles: false
+save: false
+chunk: 50
+dependencies:
+  config:
+    - node.type.penalty

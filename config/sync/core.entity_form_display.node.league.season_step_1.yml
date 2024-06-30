@@ -1,0 +1,50 @@
+uuid: 20351824-703a-4ac3-9bb4-a19e159251d9
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.node.season_step_1
+    - field.field.node.league.body
+    - field.field.node.league.field_current
+    - field.field.node.league.field_date
+    - field.field.node.league.field_games
+    - field.field.node.league.field_teams
+    - node.type.league
+  module:
+    - datetime_range
+id: node.league.season_step_1
+targetEntityType: node
+bundle: league
+mode: season_step_1
+content:
+  field_current:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_date:
+    type: daterange_default
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  body: true
+  created: true
+  field_games: true
+  field_teams: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

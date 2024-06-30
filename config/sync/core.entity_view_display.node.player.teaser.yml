@@ -11,16 +11,11 @@ dependencies:
     - field.field.node.player.field_level
     - field.field.node.player.field_media
     - field.field.node.player.field_number
+    - field.field.node.player.field_player_is_goalie
     - field.field.node.player.field_telephone
     - node.type.player
   module:
-    - field_layout
     - user
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings:
-      label: ''
 id: node.player.teaser
 targetEntityType: node
 bundle: player
@@ -39,4 +34,5 @@ hidden:
   field_level: true
   field_media: true
   field_number: true
+  field_player_is_goalie: true
   field_telephone: true

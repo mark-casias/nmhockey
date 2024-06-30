@@ -1,5 +1,5 @@
 status: 1
-pattern: '[node:field_game_team_away:entity:title] @ [node:field_game_team_home:entity:title]'
+pattern: '[node:field_game_date:date:time_only] - [node:field_game_team_away:entity:title] @ [node:field_game_team_home:entity:title]'
 escape: false
 preserve_titles: false
 save: false

@@ -1,0 +1,49 @@
+uuid: 8e1025ff-451b-42ce-9010-df3ddf0b26cc
+langcode: en
+status: true
+dependencies: {  }
+id: season_create
+label: 'Season Create'
+description: ''
+progress_steps_links_saved_only: false
+progress_steps_links_saved_only_next: false
+redirection_policy: ''
+redirection_target: ''
+steps:
+  1_name_and_add_teams:
+    label: '1: Create'
+    weight: 0
+    entity_type: node
+    entity_bundle: league
+    form_mode: node.season_step_1
+    url: /add-season/create
+    submitLabel: ''
+    cancelLabel: ''
+    hideDelete: 0
+    deleteLabel: null
+    displayPrevious: 0
+  2_teams:
+    label: '2: Teams'
+    weight: 1
+    entity_type: node
+    entity_bundle: league
+    form_mode: node.2_season_add_teams
+    url: /add-season/add-teams
+    submitLabel: ''
+    cancelLabel: ''
+    hideDelete: 0
+    deleteLabel: null
+    displayPrevious: 0
+  3_add_games:
+    label: '3: Add Games'
+    weight: 2
+    entity_type: node
+    entity_bundle: league
+    form_mode: node.season_add_games
+    url: /add-season/add-games
+    submitLabel: ''
+    cancelLabel: ''
+    hideDelete: 0
+    deleteLabel: null
+    displayPrevious: 0
+progress_steps: {  }

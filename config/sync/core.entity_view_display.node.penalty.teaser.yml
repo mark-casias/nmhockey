@@ -5,31 +5,34 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.penalty.field_penalty_game
+    - field.field.node.penalty.field_penalty_player
     - field.field.node.penalty.field_penalty_stats
     - field.field.node.penalty.field_penalty_team
-    - field.field.node.penalty.field_player
     - node.type.penalty
   module:
-    - field_layout
-    - layout_discovery
+    - nmhockey_stats
     - user
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings:
-      label: ''
 id: node.penalty.teaser
 targetEntityType: node
 bundle: penalty
 mode: teaser
 content:
-  links:
+  field_penalty_player:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_penalty_stats:
+    type: nmhockey_stats_penalty_stats_default
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 1
     region: content
 hidden:
   field_penalty_game: true
-  field_penalty_stats: true
   field_penalty_team: true
-  field_player: true
+  links: true

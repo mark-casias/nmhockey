@@ -11,15 +11,8 @@ dependencies:
     - field.field.node.league.field_teams
     - node.type.league
   module:
-    - field_layout
-    - layout_discovery
     - text
     - user
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings:
-      label: ''
 id: node.league.teaser
 targetEntityType: node
 bundle: league

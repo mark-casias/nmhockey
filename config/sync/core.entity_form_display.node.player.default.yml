@@ -10,18 +10,12 @@ dependencies:
     - field.field.node.player.field_level
     - field.field.node.player.field_media
     - field.field.node.player.field_number
+    - field.field.node.player.field_player_is_goalie
     - field.field.node.player.field_telephone
     - node.type.player
   module:
-    - field_layout
-    - layout_discovery
     - media_library
     - telephone
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings:
-      label: ''
 id: node.player.default
 targetEntityType: node
 bundle: player
@@ -37,7 +31,7 @@ content:
     third_party_settings: {  }
   field_first_name:
     type: string_textfield
-    weight: 1
+    weight: 0
     region: content
     settings:
       size: 60
@@ -45,7 +39,7 @@ content:
     third_party_settings: {  }
   field_last_name:
     type: string_textfield
-    weight: 2
+    weight: 1
     region: content
     settings:
       size: 60
@@ -73,6 +67,13 @@ content:
     settings:
       placeholder: ''
     third_party_settings: {  }
+  field_player_is_goalie:
+    type: boolean_checkbox
+    weight: 2
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_telephone:
     type: telephone_default
     weight: 5
@@ -87,18 +88,11 @@ content:
     settings:
       display_label: true
     third_party_settings: {  }
-  title:
-    type: string_textfield
-    weight: 0
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
 hidden:
   created: true
   feeds_item: true
   path: true
   promote: true
   sticky: true
+  title: true
   uid: true

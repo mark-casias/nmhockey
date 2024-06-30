@@ -1,0 +1,29 @@
+uuid: c2d1ffd7-5196-4434-8c7c-c86faf51184f
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.sidebar
+  module:
+    - system
+  theme:
+    - nmhockey
+id: nmhockey_sidebar
+theme: nmhockey
+region: sidebar_first
+weight: 0
+provider: null
+plugin: 'system_menu_block:sidebar'
+settings:
+  id: 'system_menu_block:sidebar'
+  label: 'Other League Items'
+  label_display: visible
+  provider: system
+  level: 1
+  depth: 1
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: '<front>'

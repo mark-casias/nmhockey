@@ -3,15 +3,21 @@ langcode: en
 status: true
 dependencies:
   module:
+    - autotitle
     - menu_ui
 third_party_settings:
   menu_ui:
     available_menus: {  }
     parent: ''
+  autotitle:
+    enabled: false
+    field: _none
+    fallback_title: 'Untitled [penalty]'
+    headings: {  }
 name: Penalty
 type: penalty
 description: 'Game Penalties'
-help: ''
+help: null
 new_revision: true
 preview_mode: 1
 display_submitted: false

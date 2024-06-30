@@ -1,0 +1,22 @@
+uuid: f9c00373-0283-4e6c-a985-8754dd43b642
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: season
+label: Season
+type: 'canonical_entities:node'
+pattern: '/season/[node:title]'
+selection_criteria:
+  def3dd74-42b3-41fd-886d-7eb6845c2d8b:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: def3dd74-42b3-41fd-886d-7eb6845c2d8b
+    context_mapping:
+      node: node
+    bundles:
+      league: league
+selection_logic: and
+weight: -7
+relationships: {  }

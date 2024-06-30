@@ -1,0 +1,19 @@
+uuid: e1600268-03fe-4389-96fe-3ba058afc7b0
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_team_captain
+field_name: field_team_captain
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

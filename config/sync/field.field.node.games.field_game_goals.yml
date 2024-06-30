@@ -1,0 +1,37 @@
+uuid: a284a199-40f0-4fed-886a-16fbd043daa7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_game_goals
+    - node.type.games
+    - node.type.goal
+  module:
+    - er_auto
+third_party_settings:
+  er_auto:
+    automation:
+      enabled: 0
+      source: {  }
+      automated: {  }
+id: node.games.field_game_goals
+field_name: field_game_goals
+entity_type: node
+bundle: games
+label: 'Game Goals'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      goal: goal
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -8,7 +8,7 @@ _core:
   default_config_hash: ydSxdq7R66I8UMC460rOzlfzvlUL4VRbdwc6z9DWaUI
 id: nmhockey_secondary_local_tasks
 theme: nmhockey
-region: primary_menu
+region: featured
 weight: -5
 provider: null
 plugin: local_tasks_block

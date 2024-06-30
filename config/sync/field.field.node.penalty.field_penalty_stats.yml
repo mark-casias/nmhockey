@@ -1,4 +1,4 @@
-uuid: 6d6d14b8-1ecb-4934-b23b-68a0ca840c94
+uuid: 4a046fc5-8cc5-4ae9-a930-c479791b2a47
 langcode: en
 status: true
 dependencies:
@@ -11,7 +11,7 @@ id: node.penalty.field_penalty_stats
 field_name: field_penalty_stats
 entity_type: node
 bundle: penalty
-label: Stats
+label: 'Penalty Stats'
 description: ''
 required: false
 translatable: false

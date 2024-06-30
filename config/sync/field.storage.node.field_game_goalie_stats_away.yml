@@ -1,0 +1,19 @@
+uuid: 43991ec8-f8dd-45ba-9971-eea1218e772f
+langcode: en
+status: true
+dependencies:
+  module:
+    - nmhockey_stats
+    - node
+id: node.field_game_goalie_stats_away
+field_name: field_game_goalie_stats_away
+entity_type: node
+type: nmhockey_stats_goalie_stats
+settings: {  }
+module: nmhockey_stats
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

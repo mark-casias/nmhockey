@@ -1,0 +1,21 @@
+uuid: a73d4258-b764-4b15-a374-900fa7f965f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_game_goalie_stats_away
+    - node.type.games
+  module:
+    - nmhockey_stats
+id: node.games.field_game_goalie_stats_away
+field_name: field_game_goalie_stats_away
+entity_type: node
+bundle: games
+label: 'Away Team: Goalie Stats'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: nmhockey_stats_goalie_stats

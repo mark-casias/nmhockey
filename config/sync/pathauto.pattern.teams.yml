@@ -1,0 +1,22 @@
+uuid: c69a7d3a-3537-40d8-8537-ff551a34037d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: teams
+label: Teams
+type: 'canonical_entities:node'
+pattern: '/season/[node:field_season:entity:title]/teams/[node:title]'
+selection_criteria:
+  2ced05a4-8e44-44f7-ae14-11f045f6a0ee:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 2ced05a4-8e44-44f7-ae14-11f045f6a0ee
+    context_mapping:
+      node: node
+    bundles:
+      team: team
+selection_logic: and
+weight: -8
+relationships: {  }

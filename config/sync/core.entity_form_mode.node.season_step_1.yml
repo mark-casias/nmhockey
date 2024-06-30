@@ -1,0 +1,11 @@
+uuid: 3a4e0087-2fb5-4650-b4c0-3d7a6cd530a2
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.season_step_1
+label: '1: Season Create'
+description: ''
+targetEntityType: node
+cache: true

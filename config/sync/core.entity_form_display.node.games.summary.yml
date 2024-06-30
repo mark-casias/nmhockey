@@ -1,0 +1,66 @@
+uuid: 8ec07090-ed4b-47dd-939c-aa21486a30b6
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_form_mode.node.summary
+    - field.field.node.games.body
+    - field.field.node.games.field_game_date
+    - field.field.node.games.field_game_goalie_away
+    - field.field.node.games.field_game_goalie_home
+    - field.field.node.games.field_game_goalie_stats_away
+    - field.field.node.games.field_game_goalie_stats_home
+    - field.field.node.games.field_game_goals
+    - field.field.node.games.field_game_penalties
+    - field.field.node.games.field_game_season
+    - field.field.node.games.field_game_team_away
+    - field.field.node.games.field_game_team_home
+    - node.type.games
+  module:
+    - datetime
+id: node.games.summary
+targetEntityType: node
+bundle: games
+mode: summary
+content:
+  field_game_date:
+    type: datetime_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_game_team_away:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_game_team_home:
+    type: options_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  body: true
+  created: true
+  field_game_goalie_away: true
+  field_game_goalie_home: true
+  field_game_goalie_stats_away: true
+  field_game_goalie_stats_home: true
+  field_game_goals: true
+  field_game_penalties: true
+  field_game_season: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true
