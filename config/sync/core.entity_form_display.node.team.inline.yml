@@ -11,7 +11,14 @@ dependencies:
     - field.field.node.team.field_team_captain
     - node.type.team
   module:
+    - field_layout
     - inline_entity_form
+    - layout_discovery
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.team.inline
 targetEntityType: node
 bundle: team

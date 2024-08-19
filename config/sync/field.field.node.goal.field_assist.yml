@@ -6,6 +6,14 @@ dependencies:
     - field.storage.node.field_assist
     - node.type.goal
     - node.type.player
+  module:
+    - er_auto
+third_party_settings:
+  er_auto:
+    automation:
+      enabled: 0
+      source: {  }
+      automated: {  }
 id: node.goal.field_assist
 field_name: field_assist
 entity_type: node

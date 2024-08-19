@@ -7,3 +7,4 @@ chunk: 50
 dependencies:
   config:
     - node.type.goal
+new_content_behavior: 1

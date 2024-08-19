@@ -1,9 +1,9 @@
-uuid: a284a199-40f0-4fed-886a-16fbd043daa7
+uuid: ac7de649-b5ea-40e6-90ff-6ccbbee46a50
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_game_goals
+    - field.storage.node.field_game_goals_home
     - node.type.games
     - node.type.goal
   module:
@@ -14,11 +14,11 @@ third_party_settings:
       enabled: 0
       source: {  }
       automated: {  }
-id: node.games.field_game_goals
-field_name: field_game_goals
+id: node.games.field_game_goals_home
+field_name: field_game_goals_home
 entity_type: node
 bundle: games
-label: 'Game Goals'
+label: 'Home Team: Goals'
 description: ''
 required: false
 translatable: false
@@ -32,6 +32,6 @@ settings:
     sort:
       field: _none
       direction: ASC
-    auto_create: false
+    auto_create: true
     auto_create_bundle: ''
 field_type: entity_reference

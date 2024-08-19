@@ -1,0 +1,7 @@
+<article {{attributes.addClass('goal')}}>
+  <strong>{{player}}</strong>
+  {% if assist %}
+  ({{assist}}{% if assist2 %}, {{assist2}}{% endif %})
+  {% endif %}
+  at {{minute}}:{{seconds}}, period {{period}} ({{type}})
+</article>

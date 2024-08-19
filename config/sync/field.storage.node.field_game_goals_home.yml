@@ -1,11 +1,11 @@
-uuid: e6fa6c2f-54b2-4c3c-933d-c74b829ad786
+uuid: cc94326d-0828-4833-9192-acddaf7a8b7f
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_game_goals
-field_name: field_game_goals
+id: node.field_game_goals_home
+field_name: field_game_goals_home
 entity_type: node
 type: entity_reference
 settings:

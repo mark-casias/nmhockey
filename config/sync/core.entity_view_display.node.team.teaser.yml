@@ -11,8 +11,15 @@ dependencies:
     - field.field.node.team.field_team_captain
     - node.type.team
   module:
+    - field_layout
+    - layout_discovery
     - text
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.team.teaser
 targetEntityType: node
 bundle: team

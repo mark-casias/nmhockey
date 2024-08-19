@@ -1,9 +1,9 @@
-uuid: 9c4efc5a-6fcc-4594-9574-3c2b0e1de937
+uuid: a39993ce-8385-4bd1-a601-757200f665e7
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_game_penalties
+    - field.storage.node.field_game_penalty_away
     - node.type.games
     - node.type.penalty
   module:
@@ -14,11 +14,11 @@ third_party_settings:
       enabled: 0
       source: {  }
       automated: {  }
-id: node.games.field_game_penalties
-field_name: field_game_penalties
+id: node.games.field_game_penalty_away
+field_name: field_game_penalty_away
 entity_type: node
 bundle: games
-label: 'Game Penalties'
+label: 'Away Team: Penalty'
 description: ''
 required: false
 translatable: false

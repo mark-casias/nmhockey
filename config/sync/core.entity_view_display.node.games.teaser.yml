@@ -10,16 +10,25 @@ dependencies:
     - field.field.node.games.field_game_goalie_home
     - field.field.node.games.field_game_goalie_stats_away
     - field.field.node.games.field_game_goalie_stats_home
-    - field.field.node.games.field_game_goals
-    - field.field.node.games.field_game_penalties
+    - field.field.node.games.field_game_goals_away
+    - field.field.node.games.field_game_goals_home
+    - field.field.node.games.field_game_penalty_away
+    - field.field.node.games.field_game_penalty_home
     - field.field.node.games.field_game_season
     - field.field.node.games.field_game_team_away
     - field.field.node.games.field_game_team_home
     - node.type.games
   module:
     - datetime
+    - field_layout
+    - layout_discovery
     - nomarkup
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.games.teaser
 targetEntityType: node
 bundle: games
@@ -60,7 +69,9 @@ hidden:
   field_game_goalie_home: true
   field_game_goalie_stats_away: true
   field_game_goalie_stats_home: true
-  field_game_goals: true
-  field_game_penalties: true
+  field_game_goals_away: true
+  field_game_goals_home: true
+  field_game_penalty_away: true
+  field_game_penalty_home: true
   field_game_season: true
   links: true

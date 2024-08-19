@@ -1,14 +1,5 @@
 {% stories content_types with { title: "NMHockey/Content"} %}
 
-  {% story goals with {
-    name: "Goal",
-    args: {
-      label: "I am a label"
-    }
-  } %}
-    {% include "nmhockey:goals" %}
-  {% endstory %}
-
   {% story player_card with {
     name: "Player Card",
     args: {
@@ -47,5 +38,33 @@
     }
   } %}
     {% include "nmhockey:team-card" %}
+  {% endstory %}
+
+  {% story goal_teaser with {
+    name: 'Goal Teaser',
+    args: {
+      player: 'Mark Casias',
+      assist: 'Jason Weir',
+      assist2: 'Tom Mebust',
+      period: 1,
+      minute: 15,
+      seconds: 44,
+    }
+  } %}
+    {% include "nmhockey:goal" %}
+  {% endstory %}
+
+  {% story penalty_teaser with {
+    name: 'Penalty Teaser',
+    args: {
+      player: 'Mark Casias',
+      label: 'Hooking',
+      minutes: 19,
+      seconds: 53,
+      period: 1,
+      duration: "2:00",
+    }
+  }%}
+    {% include "nmhockey:penalty" %}
   {% endstory %}
 {% endstories %}

@@ -5,27 +5,37 @@ dependencies:
   config:
     - core.entity_form_mode.node.inline
     - field.field.node.goal.field_assist
+    - field.field.node.goal.field_assist_2
     - field.field.node.goal.field_game
     - field.field.node.goal.field_goal_player
     - field.field.node.goal.field_goal_stats
     - field.field.node.goal.field_team
     - node.type.goal
   module:
+    - field_layout
+    - layout_discovery
     - nmhockey_stats
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.goal.inline
 targetEntityType: node
 bundle: goal
 mode: inline
 content:
   field_assist:
-    type: entity_reference_autocomplete
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_assist_2:
+    type: options_select
     weight: 2
     region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
   field_game:
     type: options_select
@@ -34,14 +44,10 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_goal_player:
-    type: entity_reference_autocomplete
-    weight: 1
+    type: options_select
+    weight: 0
     region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
   field_goal_stats:
     type: nmhockey_stats_goal_stats
@@ -51,7 +57,7 @@ content:
     third_party_settings: {  }
   field_team:
     type: options_select
-    weight: 0
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }

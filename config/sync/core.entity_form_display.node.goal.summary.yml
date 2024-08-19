@@ -5,13 +5,21 @@ dependencies:
   config:
     - core.entity_form_mode.node.summary
     - field.field.node.goal.field_assist
+    - field.field.node.goal.field_assist_2
     - field.field.node.goal.field_game
     - field.field.node.goal.field_goal_player
     - field.field.node.goal.field_goal_stats
     - field.field.node.goal.field_team
     - node.type.goal
   module:
+    - field_layout
+    - layout_discovery
     - nmhockey_stats
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.goal.summary
 targetEntityType: node
 bundle: goal
@@ -61,6 +69,7 @@ content:
     third_party_settings: {  }
 hidden:
   created: true
+  field_assist_2: true
   path: true
   promote: true
   status: true

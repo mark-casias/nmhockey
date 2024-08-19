@@ -12,7 +12,14 @@ dependencies:
     - node.type.league
   module:
     - datetime_range
+    - field_layout
     - inline_entity_form
+    - layout_discovery
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.league.default
 targetEntityType: node
 bundle: league

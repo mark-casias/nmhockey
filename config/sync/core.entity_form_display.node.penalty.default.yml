@@ -9,7 +9,14 @@ dependencies:
     - field.field.node.penalty.field_penalty_team
     - node.type.penalty
   module:
+    - field_layout
+    - layout_discovery
     - nmhockey_stats
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.penalty.default
 targetEntityType: node
 bundle: penalty

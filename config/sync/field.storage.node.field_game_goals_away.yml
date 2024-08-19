@@ -1,11 +1,11 @@
-uuid: 7c184ee8-9455-49f0-8629-c980a08c7197
+uuid: 5c8b98fc-7c7e-4d2d-8038-c130548e4255
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: node.field_game_penalties
-field_name: field_game_penalties
+id: node.field_game_goals_away
+field_name: field_game_goals_away
 entity_type: node
 type: entity_reference
 settings:

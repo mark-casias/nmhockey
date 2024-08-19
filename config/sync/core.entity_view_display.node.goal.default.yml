@@ -4,14 +4,22 @@ status: true
 dependencies:
   config:
     - field.field.node.goal.field_assist
+    - field.field.node.goal.field_assist_2
     - field.field.node.goal.field_game
     - field.field.node.goal.field_goal_player
     - field.field.node.goal.field_goal_stats
     - field.field.node.goal.field_team
     - node.type.goal
   module:
+    - field_layout
+    - layout_discovery
     - nmhockey_stats
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.goal.default
 targetEntityType: node
 bundle: goal
@@ -27,31 +35,32 @@ content:
         enabled: true
         separator: '|'
         referenced_entity: ''
+    weight: 1
+    region: content
+  field_assist_2:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
     weight: 2
     region: content
   field_goal_player:
     type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 1
-    region: content
-  field_goal_stats:
-    type: nmhockey_stats_goal_stats_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 3
-    region: content
-  field_team:
-    type: entity_reference_label
-    label: above
+    label: hidden
     settings:
       link: true
     third_party_settings: {  }
     weight: 0
     region: content
+  field_goal_stats:
+    type: nmhockey_stats_goal_stats_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
 hidden:
   field_game: true
+  field_team: true
   links: true

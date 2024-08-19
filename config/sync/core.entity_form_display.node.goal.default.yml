@@ -4,13 +4,21 @@ status: true
 dependencies:
   config:
     - field.field.node.goal.field_assist
+    - field.field.node.goal.field_assist_2
     - field.field.node.goal.field_game
     - field.field.node.goal.field_goal_player
     - field.field.node.goal.field_goal_stats
     - field.field.node.goal.field_team
     - node.type.goal
   module:
+    - field_layout
+    - layout_discovery
     - nmhockey_stats
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.goal.default
 targetEntityType: node
 bundle: goal
@@ -19,6 +27,16 @@ content:
   field_assist:
     type: entity_reference_autocomplete
     weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_assist_2:
+    type: entity_reference_autocomplete
+    weight: 27
     region: content
     settings:
       match_operator: CONTAINS

@@ -15,8 +15,15 @@ dependencies:
     - field.field.node.player.field_telephone
     - node.type.player
   module:
+    - field_layout
+    - layout_discovery
     - media_library
     - telephone
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.player.summary
 targetEntityType: node
 bundle: player

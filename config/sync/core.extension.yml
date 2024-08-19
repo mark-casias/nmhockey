@@ -1,10 +1,10 @@
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
 module:
+  auto_entitylabel: -100
   admin_toolbar: 0
   admin_toolbar_tools: 0
   announcements_feed: 0
-  auto_entitylabel: 0
   automated_cron: 0
   autotitle: 0
   big_pipe: 0
@@ -37,6 +37,7 @@ module:
   feeds_tamper: 0
   field: 0
   field_group: 0
+  field_layout: 0
   field_ui: 0
   file: 0
   filter: 0

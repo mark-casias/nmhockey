@@ -10,8 +10,16 @@ dependencies:
     - field.field.node.penalty.field_penalty_team
     - node.type.penalty
   module:
+    - field_layout
+    - layout_discovery
     - nmhockey_stats
+    - nomarkup
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.penalty.teaser
 targetEntityType: node
 bundle: penalty
@@ -21,8 +29,12 @@ content:
     type: entity_reference_label
     label: hidden
     settings:
-      link: true
-    third_party_settings: {  }
+      link: false
+    third_party_settings:
+      nomarkup:
+        enabled: true
+        separator: '|'
+        referenced_entity: ''
     weight: 0
     region: content
   field_penalty_stats:

@@ -15,9 +15,16 @@ dependencies:
     - image.style.thumbnail
     - node.type.player
   module:
+    - field_layout
+    - layout_discovery
     - media
     - nomarkup
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.player.default
 targetEntityType: node
 bundle: player

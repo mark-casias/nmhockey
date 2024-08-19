@@ -5,13 +5,21 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.goal.field_assist
+    - field.field.node.goal.field_assist_2
     - field.field.node.goal.field_game
     - field.field.node.goal.field_goal_player
     - field.field.node.goal.field_goal_stats
     - field.field.node.goal.field_team
     - node.type.goal
   module:
+    - field_layout
+    - layout_discovery
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
 id: node.goal.teaser
 targetEntityType: node
 bundle: goal
@@ -24,6 +32,7 @@ content:
     region: content
 hidden:
   field_assist: true
+  field_assist_2: true
   field_game: true
   field_goal_player: true
   field_goal_stats: true

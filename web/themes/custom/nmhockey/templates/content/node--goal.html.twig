@@ -1,1 +1,25 @@
-{% include "nmhockey:goals" %}
+{% set a = node.get('field_assist')[0].entity %}
+{% set b = node.get('field_assist_2')[0].entity %}
+{% set stats = node.get('field_goal_stats').getValue()[0] %}
+
+{% if a.getType() == "goal" %}
+  {% set a = null %}
+{% else %}
+  {% set a = a.get('field_last_name').value %}
+{% endif %}
+
+{% if b.getType() == "goal" %}
+  {% set b = null %}
+{% else %}
+  {% set b = b.get('field_last_name').value %}
+{% endif %}
+
+{% include "nmhockey:goal" with {
+  player: node.get('field_goal_player')[0].entity.label(),
+  assist: a,
+  assist2: b,
+  period: stats['goal_period'],
+  minute: stats['goal_minute'],
+  seconds: stats['goal_seconds'],
+  type: stats['goal_type']
+} %}
