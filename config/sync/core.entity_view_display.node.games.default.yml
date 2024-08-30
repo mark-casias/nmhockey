@@ -26,7 +26,7 @@ dependencies:
     - user
 third_party_settings:
   field_layout:
-    id: layout_twocol_bricks
+    id: layout_onecol
     settings:
       label: ''
 id: node.games.default
@@ -46,7 +46,7 @@ content:
         separator: '|'
         referenced_entity: ''
     weight: 0
-    region: top
+    region: content
   field_game_goalie_away:
     type: entity_reference_label
     label: above
@@ -54,7 +54,7 @@ content:
       link: true
     third_party_settings: {  }
     weight: 9
-    region: second_below
+    region: content
   field_game_goalie_home:
     type: entity_reference_label
     label: above
@@ -62,21 +62,21 @@ content:
       link: true
     third_party_settings: {  }
     weight: 5
-    region: first_below
+    region: content
   field_game_goalie_stats_away:
     type: nmhockey_stats_goalie_stats_default
     label: above
     settings: {  }
     third_party_settings: {  }
     weight: 10
-    region: second_below
+    region: content
   field_game_goalie_stats_home:
     type: nmhockey_stats_goalie_stats_default
     label: above
     settings: {  }
     third_party_settings: {  }
     weight: 6
-    region: first_below
+    region: content
   field_game_goals_away:
     type: entity_reference_entity_view
     label: above
@@ -89,7 +89,7 @@ content:
         separator: '|'
         referenced_entity: '0'
     weight: 7
-    region: second_below
+    region: content
   field_game_goals_home:
     type: entity_reference_entity_view
     label: above
@@ -102,7 +102,7 @@ content:
         separator: '|'
         referenced_entity: '0'
     weight: 3
-    region: first_below
+    region: content
   field_game_penalty_away:
     type: entity_reference_entity_view
     label: above
@@ -115,7 +115,7 @@ content:
         separator: '|'
         referenced_entity: '0'
     weight: 8
-    region: second_below
+    region: content
   field_game_penalty_home:
     type: entity_reference_entity_view
     label: above
@@ -128,7 +128,7 @@ content:
         separator: '|'
         referenced_entity: '0'
     weight: 4
-    region: first_below
+    region: content
   field_game_team_away:
     type: entity_reference_label
     label: above
@@ -136,7 +136,7 @@ content:
       link: true
     third_party_settings: {  }
     weight: 2
-    region: second_above
+    region: content
   field_game_team_home:
     type: entity_reference_label
     label: above
@@ -144,7 +144,7 @@ content:
       link: true
     third_party_settings: {  }
     weight: 1
-    region: first_above
+    region: content
 hidden:
   body: true
   field_game_season: true
