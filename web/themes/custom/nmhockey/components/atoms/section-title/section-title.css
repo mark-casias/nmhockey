@@ -1,0 +1,33 @@
+[data-component-id="nmhockey:section-title"] {
+  margin-bottom: 1rem;
+  font-weight: 500;
+
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.2;
+  margin: 0.2rem 0px;
+  color: rgb(54, 56, 61);
+  white-space: nowrap;
+
+  &::before {
+    content: "";
+    flex: 1 1 30%;
+    display: block;
+    height: 0.2rem;
+    background-color: var(--color-blue-vivid);
+    box-sizing: border-box;
+    margin-right: 0.75rem;
+  }
+
+  &::after {
+    content: "";
+    flex: 1 1 30%;
+    display: block;
+    height: 0.2rem;
+    background-color: var(--color-blue-vivid);
+    box-sizing: border-box;
+    margin-left: 0.75rem;
+  }
+}

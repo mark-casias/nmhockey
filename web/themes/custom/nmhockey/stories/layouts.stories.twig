@@ -1,0 +1,111 @@
+{% stories layouts with {
+  title: "NMHockey/Layouts"
+}%}
+
+  {% story layouts_box_score with {
+    name: "Box Scores"
+  } %}
+
+    {% include "nmhockey:box-scores" with {
+      title: "Goals",
+      periods: [
+        {title: "Period 1", type: "Goals"},
+        {title: "Period 2", type: "Goals", items: [
+          {
+            time: "11:15",
+            player_number: 77,
+            player_name: "Tye Gray",
+            detail: "#17 Howard, #66 Solis",
+            team: "Barley Boyos Senior"
+          },
+          {
+            time: "10:05",
+            player_number: 30,
+            player_name: "Caleb Wood",
+            detail: "Unassisted",
+            team: "Arizona Yetis"
+          }
+        ]},
+        {title: "Period 3", type: "Goals"}
+      ]
+    } %}
+  {% endstory %}
+
+  {% story game_layout with {
+    name: "Game Layout",
+    args: {
+    }
+  } %}
+    {% include "nmhockey:game-layout" with {
+      title: "Aug 23, 2024",
+      subtitle: "4:15pm",
+      visitor: {
+        team: "Barley Boyos Senior",
+        score: 4,
+        sog: 24,
+        goalie: "Brett Sladen (W)",
+      },
+      home: {
+        team: "Royal Puckers",
+        score: 0,
+        sog: 13,
+        goalie: "Teresa Lopez (L)",
+      },
+      goals: {
+        "1": [
+          {
+            time: "11:15",
+            player_number: 77,
+            player_name: "Tye Gray",
+            detail: "#17 Howard, #66 Solis",
+            team: "Barley Boyos Senior"
+          }
+        ],
+        2: [
+          {
+            time: "11:15",
+            player_number: 77,
+            player_name: "Tye Gray",
+            detail: "#17 Howard, #66 Solis",
+            team: "Barley Boyos Senior"
+          },
+          {
+            time: "10:05",
+            player_number: 30,
+            player_name: "Caleb Wood",
+            detail: "Unassisted",
+            team: "Arizona Yetis"
+          }
+        ],
+        3: [
+        ],
+
+      },
+      penalties: {
+        1: [
+          {
+            time: "10:05",
+            player_number: 30,
+            player_name: "Caleb Wood",
+            detail: "Hooking, 2 min",
+            team: "Arizona Yetis"
+          }
+        ],
+        2: [
+        ],
+        3: [
+          {
+            time: "11:15",
+            player_number: 77,
+            player_name: "Tye Gray",
+            detail: "Cross Checking, 2 min",
+            team: "Barley Boyos Senior"
+          }
+        ],
+        ot: []
+      }
+    } %}
+  {% endstory %}
+
+
+{% endstories %}

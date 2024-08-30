@@ -1,0 +1,65 @@
+<div {{attributes}}>
+
+  {% include "nmhockey:titlebar" %}
+
+  <div class="score-summary">
+    {% include "nmhockey:game-summary" %}
+  </div>
+  <div class="stats-summary">
+
+    {% include "nmhockey:summary" with {
+      title: "Scoring Summary",
+      columns: [
+        {
+          header: "Team",
+          data: [visitor.team, home.team],
+          fixed: "true"
+        },
+        {header: "1st", data: ["1", "0"]},
+        {header: "2nd", data: ["0", "0"]},
+        {header: "3rd", data: ["3", "0"]},
+        {header: "Total", data: ["4", "0"]}
+      ]
+    } %}
+
+    {% set home_sv = visitor.sog - visitor.score %}
+    {% set home_sp = (home_sv / visitor.sog)|round(3) %}
+    {% set visitor_sv = home.sog - home.score %}
+    {% set visitor_sp = (visitor_sv / home.sog)|round(3) %}
+    {% include "nmhockey:summary" with {
+      title: "Goaltending",
+      columns: [
+        {header: "Goalie", data: [visitor.goalie, home.goalie]},
+        {header: "GA", data: [home.score, visitor.score]},
+        {header: "SA", data: [home.sog, visitor.sog]},
+        {header: "SVs", data: [visitor_sv, home_sv]},
+        {header: "SP", data: [visitor_sp, home_sp]}
+      ]
+    } %}
+  </div>
+  {# detail #}
+  <div class="details">
+    {% include "nmhockey:box-scores" with {
+      title: "Goals",
+      periods: [
+        {title: "Period 1", type: "Goals", items: goals.1},
+        {title: "Period 2", type: "Goals", items: goals.2},
+        {title: "Period 3", type: "Goals", items: goals.3}
+      ]
+    } %}
+
+    {# set penalties = below object
+
+    if penalties.ot merge into array.
+    #}
+    {% include "nmhockey:box-scores" with {
+      title: "Penalties",
+      periods: [
+        {title: "Period 1", type: "Penalties", items: penalties.1},
+        {title: "Period 2", type: "Penalties", items: penalties.2},
+        {title: "Period 3", type: "Penalties", items: penalties.3},
+      ]
+    } %}
+  </div>
+
+</div>

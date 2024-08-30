@@ -23,5 +23,12 @@ function nmhockey_preprocess_page(array &$variables): void {
  * Implements hook_preprocess_HOOK() for node.html.twig.
  */
 function nmhockey_preprocess_node(array &$variables): void {
-
+  $node = $variables['node'];
+  $type = $node->getType();
+  if ($type === 'games') {
+    $home_goals = $node->get('field_game_goals_home');
+    $away_goals = $node->get('field_game_goals_away');
+    $variables['home_goals_total'] = $home_goals->count();
+    $variables['away_goals_total'] = $away_goals->count();
+  }
 }

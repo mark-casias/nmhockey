@@ -1,0 +1,26 @@
+<div {{attributes.addClass("game-summary")}}>
+  {% include "nmhockey:team-summary" with {
+    type: "visitor",
+    division: division,
+    team: visitor.team,
+    w: visitor.w,
+    l: visitor.l,
+    otl: visitor.otl
+  } %}
+
+  {% include "nmhockey:scores-container" with {
+    home: home.score,
+    home_sog: home.sog,
+    visitor: visitor.score,
+    visitor_sog: visitor.sog,
+  } %}
+
+  {% include "nmhockey:team-summary" with {
+    type: "home",
+    division: division,
+    team: home.team,
+    w: home.w,
+    l: home.l,
+    otl: home.otl
+  } %}
+</div>

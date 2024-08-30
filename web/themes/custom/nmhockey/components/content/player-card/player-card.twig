@@ -1,45 +1,38 @@
 <div {{ attributes.addClass('player-card')}}>
-  <h2>{{ name }}</h2>
-  <div>Number: {{ number }}</div>
-  <img src={{image}} />
+  <div class="player-info">
+    <h2># {{number }} {{ name }}</h2>
+    <h3>Seasons: {{ seasons }}</h3>
+  </div>
 
   {% if player_stats is defined %}
   <div class="player-stats">
-    <ol>
-      <li>Season</li>
-      <li>Goals</li>
-      <li>Assists</li>
-      <li>Penalties</li>
-    </ol>
-    {% for season in player_stats %}
-      <ul>
-        <li>{{ season.name }}</li>
-        <li>{{ season.goals }}</li>
-        <li>{{ season.assists }}</li>
-        <li>{{ season.pim }}</li>
-      </ul>
-    {% endfor %}
+      {% include "nmhockey:summary" with {
+        title: "Player Stats",
+        columns: [
+          {header: "Season", data: player_stats.seasons},
+          {header: "Games", data: player_stats.gp},
+          {header: "Points", data: player_stats.p},
+          {header: "Goals", data: player_stats.g},
+          {header: "Assists", data: player_stats.a},
+          {header: "PIM", data: player_stats.pim}
+        ]
+      } %}
   </div>
   {% endif %}
 
   {% if goalie_stats is defined %}
   <div class="goalie-stats">
-    <ol>
-      <li>Season</li>
-      <li>Wins</li>
-      <li>Losses</li>
-      <li>OTL</li>
-      <li>SO</li>
-    </ol>
-    {% for key, stat in goalie_stats %}
-      <ul>
-        <li>{{ key }}</li>
-        <li>{{ stat.wins }}</li>
-        <li>{{ stat.loss }}</li>
-        <li>{{ stat.otl }}</li>
-        <li>{{ stat.so }}</li>
-      </ul>
-    {% endfor %}
+      {% include "nmhockey:summary" with {
+      title: "Goaltending",
+      columns: [
+        {header: "Season", data: goalie_stats.seasons},
+        {header: "GP", data: goalie_stats.gp},
+        {header: "GA", data: goalie_stats.ga},
+        {header: "SA", data: goalie_stats.sa},
+        {header: "SVs", data: goalie_stats.sv},
+        {header: "SP", data: goalie_stats.sp}
+      ]
+    } %}
   </div>
   {% endif %}
 </div>

@@ -5,26 +5,34 @@
     args: {
       name: "Mark Casias",
       number: 42,
-      player_stats:[
-        { name: 'season 1', goals: 10, assists: 14, pim: 2},
-        { name: 'season 2', goals: 10, assists: 14, pim: 2}
-      ],
-      goalie_stats:[
-        { name: 'season 1', wins: 1, loss: 2, otl: 0, so: 1, sa: 100, ga: 5 },
-        { name: 'season 2', wins: 1, loss: 2, otl: 0, so: 0, sa: 100, ga: 5}
-      ]
+      seasons: 2,
+      player_stats: {
+        seasons: ["Mac North", "Outpost B1"],
+        gp: [12, 12],
+        p: [5, 7],
+        g: ["1", "3"],
+        a: [4, 4],
+        pim: [12, 16]
+      },
+      goalie_stats:{
+        seasons: ["Mac North", "Outpost B1"],
+        gp: [12, 8],
+        ga: [20, 13],
+        sa: [50, 54],
+        sv: [30, 41],
+        sp: ['.333', '.554']
+      }
     }
   } %}
-    {% include "nmhockey:player" %}
+    {% include "nmhockey:player-card" %}
   {% endstory %}
 
   {% story team_card with {
     name: 'Team Card',
     args: {
-      name: "my great team",
-      season: "the season",
-      record: "10 - 1",
-      captain: "my captain",
+      team: "Barley Boyos Senior",
+      season: "Tuesday Mac Spring 2024",
+      record: "7 - 4 - 1",
       players:[
         { name: 'player 1', image: 'img1', number: 42, player_stats:[
         { name: 'season 1', goals: 10, assists: 14, pim: 2}]},
@@ -37,34 +45,6 @@
       ]
     }
   } %}
-    {% include "nmhockey:team-card" %}
-  {% endstory %}
-
-  {% story goal_teaser with {
-    name: 'Goal Teaser',
-    args: {
-      player: 'Mark Casias',
-      assist: 'Jason Weir',
-      assist2: 'Tom Mebust',
-      period: 1,
-      minute: 15,
-      seconds: 44,
-    }
-  } %}
-    {% include "nmhockey:goal" %}
-  {% endstory %}
-
-  {% story penalty_teaser with {
-    name: 'Penalty Teaser',
-    args: {
-      player: 'Mark Casias',
-      label: 'Hooking',
-      minutes: 19,
-      seconds: 53,
-      period: 1,
-      duration: "2:00",
-    }
-  }%}
-    {% include "nmhockey:penalty" %}
+    {% include "nmhockey:team" %}
   {% endstory %}
 {% endstories %}

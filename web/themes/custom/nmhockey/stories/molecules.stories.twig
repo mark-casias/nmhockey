@@ -1,0 +1,145 @@
+{% stories molecules with { title: "NMHockey/Molecules"} %}
+
+  {% story scores_summary with {
+    name: "Scores Summary",
+    args: {
+      home: 0,
+      home_sog: 13,
+      visitor: 4,
+      visitor_sog: 24,
+    }
+  } %}
+    {% include "nmhockey:scores-container" %}
+  {% endstory %}
+
+  {% story team_summary with {
+    name: "Summary - Team",
+    args: {
+      type: "visitor",
+      division: "Novice North",
+      team: "Barley Boyos Senior",
+      w: 1,
+      l: 0,
+      otl: 0
+    }
+  } %}
+    {% include "nmhockey:team-summary" %}
+  {% endstory %}
+
+  {% story game_summary with {
+    name: "Game Score Summary",
+    args: {
+      division: "Mac Tuesdays"
+    }
+  } %}
+    {% include "nmhockey:game-summary" with {
+      visitor: {
+        team: "Barley Boyos Senior",
+        score: 4,
+        sog: 24
+      },
+      home: {
+        team: "Royal Puckers",
+        score: 0,
+        sog: 13
+      }
+    } %}
+  {% endstory %}
+
+  {% story box_score_period with {
+    name: "Box Score Period",
+  } %}
+
+    {% include "nmhockey:box-score-period" with {
+      title: "Period 1",
+      type: "Goals"
+    } %}
+
+    {% include "nmhockey:box-score-period" with {
+      title: "Period 2",
+      type: "Goals",
+      items: [
+        {
+          time: "11:15",
+          player_number: 77,
+          player_name: "Tye Gray",
+          detail: "#17 Howard, #66 Solis",
+          team: "Barley Boyos Senior"
+        },
+        {
+          time: "10:05",
+          player_number: 30,
+          player_name: "Caleb Wood",
+          detail: "Unassisted",
+          team: "Arizona Yetis"
+        }
+      ]
+    } %}
+  {% endstory %}
+
+  {% story box_score_detail with {
+    name: "Box Score Detail",
+    args: {
+      time: "11:15",
+      player_number: 77,
+      player_name: "Tye Gray",
+      detail: "Hooking, 2 min",
+      team: "Barley Boyos Senior"
+    }
+  } %}
+    {% include "nmhockey:box-score-detail" with {
+      time: "11:15",
+      player_number: 77,
+      player_name: "Tye Gray",
+      detail: "Hooking, 2 min",
+      team: "Barley Boyos Senior"
+    } %}
+    {% include "nmhockey:box-score-detail" with {
+      time: "11:15",
+      player_number: 77,
+      player_name: "Tye Gray",
+      detail: "#17 Howard, #66 Solis",
+      team: "Barley Boyos Senior"
+    } %}
+  {% endstory %}
+
+  {% story summary_table with {
+    name: "Summary Table",
+    args: {
+      title: "Scoring Summary",
+      columns: [
+        {
+          header: "Team",
+          data: ["Barley Boyos Sr", "Royal Puckers"],
+          fixed: "true"
+        },
+        {header: "1st", data: ["1", "0"]},
+        {header: "2nd", data: ["0", "0"]},
+        {header: "3rd", data: ["3", "0"]},
+        {header: "Total", data: ["4", "0"]}
+      ]
+    }
+  } %}
+    {% include "nmhockey:summary" %}
+  {% endstory %}
+
+  {% story summary_goalie with {
+    name: "Summary - Goalies"
+  } %}
+
+  {#
+    SP = Save Percentage = (SVs/(GA+SVs))
+  #}
+    {% include "nmhockey:summary" with {
+      title: "Goaltending",
+      columns: [
+        {header: "Goalie", data: ["Brett Sladen (W)", "Teresa Lopez (L)"]},
+        {header: "Team", data: ["Barley Boyos Senior",  "Royal Puckers"]},
+        {header: "GA", data: ['0', "4"]},
+        {header: "SA", data: [13, 24]},
+        {header: "SVs", data: [13, 20]},
+        {header: "SP", data: [1, ".833"]}
+      ]
+    } %}
+  {% endstory %}
+{% endstories %}

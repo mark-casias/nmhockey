@@ -1,0 +1,18 @@
+<div {{attributes.addClass("box-score-period")}}>
+  <div class="title">
+    <span>{{title}}</span>
+  </div>
+  {% if items|length %}
+    {% for item in items %}
+      {% include "nmhockey:box-score-detail" with {
+        time: item.time,
+        player_number: item.player_number,
+        player_name: item.player_name,
+        detail: item.detail,
+        team: item.team
+      }%}
+    {% endfor %}
+  {% else %}
+    <div class="period-empty">No {{type}}</div>
+  {% endif %}
+</div>

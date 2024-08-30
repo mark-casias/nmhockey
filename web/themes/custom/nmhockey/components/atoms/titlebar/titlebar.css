@@ -1,0 +1,26 @@
+[data-component-id="nmhockey:titlebar"] {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: var(--color-blue-pale);
+  color: rgb(54, 56, 61);
+  text-align: center;
+
+  .titlebar-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .title {
+    font-weight: 500;
+  }
+
+  .subtitle {
+    font-size: .75rem;
+  }
+}

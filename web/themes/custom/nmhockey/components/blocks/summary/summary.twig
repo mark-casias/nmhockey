@@ -1,0 +1,21 @@
+{#
+title: The title of the section
+columns:
+  - header: String
+  - data: array of data for each row
+#}
+
+<div {{ attributes.addClass("summary-table")}}>
+  {% include "nmhockey:section-title" %}
+
+  <div class="summary-table">
+    {% for column in columns %}
+      <div class="column" data-column={{column.header}}>
+        <div class="column-header">{{column.header}}</div>
+        {% for data in column.data %}
+        <div class="row">{{data}}</div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+</div>

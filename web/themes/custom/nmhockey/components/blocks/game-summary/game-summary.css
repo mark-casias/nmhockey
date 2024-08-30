@@ -1,0 +1,7 @@
+[data-component-id="nmhockey:game-summary"] {
+  display: flex;
+  justify-content: center;
+  margin: 2rem auto 0px;
+  padding: 0.5rem 0rem;
+  flex-direction: row;
+}

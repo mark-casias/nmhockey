@@ -23,4 +23,25 @@
 
   {% endstory %}
 
+  {% story section_title with {
+    name: "Section Title",
+    args: {
+      title: "Goals by Period"
+    }
+  } %}
+    {% include "nmhockey:section-title" with {
+      title: "Goals"
+    } %}
+  {% endstory %}
+
+  {% story titlebar with {
+    name: "Titlebar",
+    args: {
+      title: "title",
+      subtitle: "subtitle"
+    }
+  } %}
+    {% include "nmhockey:titlebar" %}
+  {% endstory %}
+
 {% endstories %}

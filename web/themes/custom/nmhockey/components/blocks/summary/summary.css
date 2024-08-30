@@ -1,0 +1,40 @@
+[data-component-id="nmhockey:summary"] {
+  .summary-table {
+    display: flex;
+    justify-content: center;
+  }
+
+  .column {
+    flex: 0 0 content;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: .5rem 0rem;
+  }
+  .column:first-of-type {
+    flex-grow: 1;
+    font-weight: 500;
+    justify-content: flex-start;
+    text-align: left;
+    padding-left: 1rem;
+  }
+  .column:last-of-type {
+    padding-right: 1rem;
+  }
+
+  .column-header {
+    background-color: var(--color-blue-vivid);
+    color: var(--color-white);
+    font-size: .75rem;
+    font-weight: 500;
+    padding: .5rem;
+  }
+
+  .row {
+    padding: .5rem;
+  }
+  .row:nth-child(odd) {
+    background-color: var(--color-blue-pale);
+  }
+
+}

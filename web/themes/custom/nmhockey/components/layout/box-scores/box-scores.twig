@@ -1,0 +1,12 @@
+<div {{attributes.addClass("box-score")}}>
+  {% include "nmhockey:section-title" with {
+    title: title
+  }%}
+  {% for period in periods %}
+    {% include "nmhockey:box-score-period" with {
+      title: period.title,
+      type: period.type,
+      items: period.items,
+    }%}
+  {% endfor %}
+</div>

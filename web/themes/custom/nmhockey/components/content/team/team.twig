@@ -1,0 +1,57 @@
+<div {{attributes}}>
+  <div class="team-data">
+  {% include "nmhockey:titlebar" with {
+    title: team,
+    subtitle: record ~ " | " ~ season
+  } %}
+  </div>
+  <div class="team-games">
+  {% include "nmhockey:summary" with {
+        title: "Games",
+        columns: [
+          {header: "Date", data: [
+            "Tuesday, August 6, 2024",
+            "Tuesday, August 13, 2024",
+          ]},
+          {header: "Visitor", data: ["Barley Boyos", "Salty Squirles"]},
+          {header: "Details", data: ["W 4 - 0", "7:15p"]},
+          {header: "Home", data: ["Royal Puckers", "Barley Boyos"]},
+        ]
+      } %}
+  </div>
+  <div class="team-players">
+    <div class="team-roster">
+      {% include "nmhockey:summary" with {
+        title: "Roster",
+        columns: [
+          {header: "Player", data: [
+            "#42 Mark Casias",
+            "#32 Jason Weir (C)",
+          ]},
+          {header: "Games", data: [12, 12]},
+          {header: "Points", data: [4, 7]},
+          {header: "Goals", data: [1, 4]},
+          {header: "Assists", data: [3, 3]},
+          {header: "PIM", data: [2, 12]}
+        ]
+      } %}
+    </div>
+    <div class="goalies">
+      {% include "nmhockey:summary" with {
+        title: "Goaltending",
+        columns: [
+          {header: "Goalie", data: ["#7 Brett Sladen", "#22 Teresa Lopez"]},
+          {header: "GP", data: [10,  2]},
+          {header: "W", data: [7, 0]},
+          {header: "L", data: [2, 2]},
+          {header: "OTL", data: [1, 0]},
+          {header: "GA", data: ['0', "4"]},
+          {header: "GAA", data: ['0', "4"]},
+          {header: "SP", data: [1, ".833"]},
+          {header: "SA", data: [13, 24]},
+          {header: "SVs", data: [13, 20]},
+        ]
+      } %}
+    </div>
+  </div>
+</div>

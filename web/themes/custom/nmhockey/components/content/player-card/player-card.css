@@ -1,5 +1,5 @@
 [data-component-id="nmhockey:player-card"] {
-  border: 1px solid red;
+  border: 1px solid var(--color-blue);
   border-radius: 3rem;
   padding: 1rem 2rem;
 

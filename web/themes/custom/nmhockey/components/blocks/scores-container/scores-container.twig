@@ -1,0 +1,11 @@
+  <div {{ attributes.addClass("scores-container")}}>
+    <div class="score-container">
+      <div class="score">{{visitor|default("0")}}</div>
+      <div class="sog">SOG: {{visitor_sog|default("0")}}</div>
+    </div>
+    <div class="divider">-</div>
+    <div class="score-container">
+      <div class="score">{{home|default("0")}}</div>
+      <div class="sog">SOG: {{home_sog|default("0")}}</div>
+    </div>
+  </div>

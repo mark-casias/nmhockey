@@ -1,0 +1,13 @@
+<div {{attributes.addClass(type)}}>
+  <div class="stats-container">
+    <div class="division-team-record-container">
+      <div class="division-container">
+        <div class="division-name">{{division}}</div>
+        <div class="type">{{type|default("home")}}</div>
+      </div>
+      <div class="team-name">{{team|default("tbd")}}</div>
+      <div class="record">({{w|default("0")}}-{{l|default("0")}}-{{otl|default("0")}})</div>
+    </div>
+  </div>
+</div>
+{% set attributes = attributes.removeClass(type) %}

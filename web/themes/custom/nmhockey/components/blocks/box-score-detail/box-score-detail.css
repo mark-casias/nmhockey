@@ -1,0 +1,42 @@
+[data-component-id="nmhockey:box-score-detail"] {
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1rem;
+  text-transform: uppercase;
+  line-height: 1.5;
+
+  &:nth-child(even) {
+    background-color: rgb(244, 245, 245);
+  }
+
+  .time-container {
+    padding: 0 .5rem;
+  }
+
+  .detail-container {
+    font-size: 0.875rem;
+    font-weight: 300;
+    text-align: left;
+    align-self: stretch;
+  }
+
+  .player {
+    font-weight: 500;
+    color: var(--color-blue);
+  }
+
+  .detail {
+    font-size: .75rem;
+  }
+
+  .team {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 6px;
+    padding-top: 2px;
+    border-top: 1px solid rgba(54, 56, 61, 0.5);
+  }
+
+}

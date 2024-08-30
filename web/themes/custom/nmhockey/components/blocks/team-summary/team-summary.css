@@ -1,0 +1,56 @@
+[data-component-id="nmhockey:team-summary"] {
+  width: 100%;
+  position: relative;
+  display: flex;
+  padding-left: 2rem;
+
+  &.visitor {
+    text-align: right;
+    justify-content: flex-end;
+    padding-right: 2rem;
+
+    .division-container {
+      flex-direction: row;
+    }
+    .type {
+      margin-left: 1rem;
+    }
+  }
+
+  .division-team-record-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  .division-container {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+    font-size: 0.875rem;
+    font-weight: 300;
+  }
+    .division-name {
+      opacity: 0.3;
+    }
+    .type {
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-right: 1rem;
+    }
+
+  .team-name {
+    margin: 1rem 0px;
+    text-transform: uppercase;
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .record {
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    font-size: 0.875rem;
+  }
+}
