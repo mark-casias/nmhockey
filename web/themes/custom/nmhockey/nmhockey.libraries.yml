@@ -13,3 +13,7 @@ global:
       css/layout/layout.css: {}
     theme:
       css/theme/print.css: { media: print }
+table:
+  css:
+    theme:
+      css/theme/table.css: {}

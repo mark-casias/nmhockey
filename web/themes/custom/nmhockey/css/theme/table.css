@@ -1,0 +1,22 @@
+table {
+  background-color: white;
+}
+
+thead tr {
+  background-color: var(--color-blue-vivid);
+  color: var(--color-white);
+  font-size: .75rem;
+  font-weight: 500;
+  padding: .5rem;
+}
+
+tr:nth-child(even) {
+  background-color: var(--color-blue-pale);
+}
+
+td.row-header {
+  font-weight: 500;
+  padding-left: 1rem;
+  text-align: left;
+  min-width: 250px;
+}

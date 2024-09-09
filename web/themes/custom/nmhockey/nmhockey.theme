@@ -26,9 +26,135 @@ function nmhockey_preprocess_node(array &$variables): void {
   $node = $variables['node'];
   $type = $node->getType();
   if ($type === 'games') {
-    $home_goals = $node->get('field_game_goals_home');
-    $away_goals = $node->get('field_game_goals_away');
-    $variables['home_goals_total'] = $home_goals->count();
-    $variables['away_goals_total'] = $away_goals->count();
+    $time = $node->get('field_game_date')->value;
+    $date = date_create($time);
+    $variables['title'] = date_format($date,"M d Y");
+    $variables['subtitle'] = date_format($date,"H:ia");
+    $variables['goals'] = [
+      '1' => [],
+      '2' => [],
+      '3' => [],
+      '4' => [],
+    ];
+    $home = $node->get('field_game_team_home')->entity->get('title')->value;
+    $home_goals = $node->get('field_game_goals_home')->referencedEntities();
+    $hgs = [
+      'team' => $home,
+      't' => count($home_goals),
+      '1' => 0,
+      '2' => 0,
+      '3' => 0,
+      '4' => NULL,
+    ];
+    foreach ($home_goals as $goal) {
+      $data = _goal_data($goal);
+      $period = $data['period'];
+      $time = $data['time'];
+      $variables['goals'][$period][$time] = $data;
+      $hgs[$period]++;
+    }
+    $away = $node->get('field_game_team_away')->entity->get('title')->value;
+    $away_goals = $node->get('field_game_goals_away')->referencedEntities();
+    $ags = [
+      'team' => $away,
+      't' => count($away_goals),
+      '1' => 0,
+      '2' => 0,
+      '3' => 0,
+      '4' => NULL,
+    ];
+    foreach ($away_goals as $goal) {
+      $data = _goal_data($goal);
+      $period = $data['period'];
+      $time = $data['time'];
+      $variables['goals'][$period][$time] = $data;
+      $ags[$period]++;
+    }
+
+    $agoalie = $node->get('field_game_goalie_away')->entity->get('title')->value;
+    $hgoalie = $node->get('field_game_goalie_home')->entity->get('title')->value;
+    $agstats = $node->get('field_game_goalie_stats_away')->getValue()[0];
+    $variables['visitor'] = [
+      "team" => $ags['team'],
+      "score" => $ags['t'],
+      "sog" => $agstats['shots_against'],
+      "goalie" => $agoalie,
+      "goals" => $ags,
+    ];
+
+    $hgstats = $node->get('field_game_goalie_stats_home')->getValue()[0];
+    $variables['home'] = [
+      "team" => $hgs["team"],
+      "score" => $hgs['t'],
+      "sog" => $hgstats['shots_against'],
+      "goalie" => $hgoalie,
+      "goals" => $hgs
+    ];
+
+    $variables['penalties'] = [
+      '1' => [],
+      '2' => [],
+      '3' => [],
+      '4' => [],
+    ];
+    $hpen = $node->get('field_game_penalty_home')->referencedEntities();
+    $apen = $node->get('field_game_penalty_away')->referencedEntities();
+    $penalties = array_merge($hpen, $apen);
+    foreach ($penalties as $penalty) {
+      $pdata = $penalty->get('field_penalty_stats')->getValue()[0];
+      $pp = $pdata['penalty_period'];
+      $pt = $pdata['penalty_minute'] . ':' . $pdata['penalty_seconds'];
+      $player = $penalty->get('field_penalty_player')->entity;
+      $variables['penalties'][$pp][$pt] = [
+        "time" => $pt,
+        "player_number" => $player->get('field_number')->value,
+        "player_name" => $player->get('title')->value,
+        "detail" => "Hooking, " . $pdata['penalty_duration'] . "min",
+        "team" => $penalty->get('field_penalty_team')->entity->get('title')->value,
+      ];
+    }
+
   }
+
+  if ($type === 'goal') {
+    $data = _goal_data($node);
+    $data = $node->get('field_goal_stats')->getValue()[0];
+    $variables['time'] = $data['time'];
+    $variables['period'] = $data['period'];
+    $variables['player'] = $data['player'];
+    $variables['number'] = $data['number'];
+    $variables['team'] = $data['team'];
+    $variables['details'] = $data['details'];
+
+  }
+
+  if ($type === 'penalty') {
+    $data = $node->get('field_penalty_stats')->getValue()[0];
+    $variables['time'] = $data['penalty_minute'] . ':' . $data['penalty_seconds'];
+    $variables['period'] = $data['penalty_period'];
+    $variables['detail'] = $node->label() . ' ' . $data['penalty_duration'];
+    $variables['team'] = $node->get('field_penalty_team')->entity->get('title')->value;
+    $variables['player'] = $node->get('field_penalty_player')->entity->get('title')->value;
+    $variables['number'] = $node->get('field_penalty_player')->entity->get('field_number')->value;
+  }
+}
+
+function _goal_data($node) {
+  $data = $node->get('field_goal_stats')->getValue()[0];
+  $return['time'] = $data['goal_minute'] . ':' . $data['goal_seconds'];
+  $return['period'] = $data['goal_period'];
+  $return['player_name'] = $node->get('field_goal_player')->entity->get('title')->value;
+  $return['player_number'] = $node->get('field_goal_player')->entity->get('field_number')->value;
+
+  $return['team'] = $node->get('field_team')->entity->get('title')->value;
+  $return['detail'] = 'Unassisted';
+  $assist1 = $node->get('field_assist')->entity;
+  if ($assist1) {
+    $return['detail'] = $assist1->get('field_last_name')->value;
+  }
+  $assist2 = $node->get('field_assist_2')->entity;
+  if ($assist2) {
+    $return['detail'] .= ', ' . $assist2->get('field_last_name')->value;
+  }
+  return $return;
 }

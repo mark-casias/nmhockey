@@ -63,8 +63,7 @@
 #}
 <article{{ attributes }}>
   <div{{ content_attributes }}>
-    <p>Home Goals: {{home_goals_total}}</p>
-    {{ content }}
+  {% include "nmhockey:game-layout" %}
   </div>
 
 </article>
