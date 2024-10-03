@@ -60,7 +60,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "php-http/discovery": true,
             "drupal/core-vendor-hardening": true,
-            "cweagans/composer-patches": true
+            "cweagans/composer-patches": true,
+            "tbachert/spi": true
         },
         "sort-packages": true
     },
