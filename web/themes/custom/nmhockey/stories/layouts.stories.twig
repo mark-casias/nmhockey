@@ -44,12 +44,24 @@
         score: 4,
         sog: 24,
         goalie: "Brett Sladen (W)",
+        goals: {
+          1: "1",
+          2: "2",
+          3: "1",
+          t: "4"
+        }
       },
       home: {
         team: "Royal Puckers",
         score: 0,
         sog: 13,
         goalie: "Teresa Lopez (L)",
+        goals: {
+          1: "0",
+          2: "0",
+          3: "0",
+          t: "0"
+        }
       },
       goals: {
         "1": [
@@ -107,5 +119,10 @@
     } %}
   {% endstory %}
 
+  {% story season_layout with {
+    name: "Season Layout",
+  } %}
+    {% include "nmhockey:season-layout" %}
+  {% endstory %}
 
 {% endstories %}

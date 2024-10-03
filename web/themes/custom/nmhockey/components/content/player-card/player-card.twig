@@ -1,8 +1,8 @@
 <div {{ attributes.addClass('player-card')}}>
-  <div class="player-info">
-    <h2># {{number }} {{ name }}</h2>
-    <h3>Seasons: {{ seasons }}</h3>
-  </div>
+    {% include "nmhockey:titlebar" with {
+      title: "#" ~ number ~ " " ~ name,
+      subtitle: "Seasons: " ~ seasons
+    } %}
 
   {% if player_stats is defined %}
   <div class="player-stats">

@@ -1,0 +1,50 @@
+[data-component-id="nmhockey:tables"] {
+  width: 100%;
+  border: 0;
+  border-spacing: 0;
+  &.centered {
+    margin: 1rem auto;
+  }
+
+  thead {
+    tr {
+      background-color: var(--color-blue-vivid);
+      color: var(--color-white);
+    }
+  }
+
+  tr {
+    &:nth-child(odd) {
+
+    }
+
+    &:nth-child(even) {
+      background-color: var(--color-blue-pale);
+    }
+  }
+
+  th {
+    text-align: left;
+    text-wrap: nowrap;
+    padding: .25rem .5rem;
+    width: 100%;
+  }
+
+  td {
+    padding: .25rem .5rem;
+    text-wrap: nowrap;
+    text-align: center;
+    &.left {
+      text-align: left;
+    }
+    &.right {
+      text-align: right;
+    }
+  }
+
+  tfoot {
+    font-size: 0.75rem;
+    line-height: 1.1rem;
+  }
+
+}

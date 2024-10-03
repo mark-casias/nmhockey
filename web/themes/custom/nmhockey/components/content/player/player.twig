@@ -1,5 +1,8 @@
 <div {{ attributes.addClass('player')}}>
-  <h2>{{ name }} {{ number }}</h2>
+  {% include "nmhockey:titlebar" with {
+    title: name,
+    subtitle: number
+  }}
 
   {% if player_stats is defined %}
   <div class="player-stats">

@@ -44,4 +44,44 @@
     {% include "nmhockey:titlebar" %}
   {% endstory %}
 
+  {% story atoms_tables with {
+    name: "Tables"
+  } %}
+      {% set games_table = {
+        header: [
+          {tag: "th", content: "heading 1"},
+          {tag: "th", content: "heading 2"},
+          {tag: "th", content: "heading 3"}
+        ],
+        rows: [
+          {cells: [
+            {tag: "th", content: "row heading"},
+            {tag: "td", content: "row 2"},
+            {tag: "td", content: "row 3"},
+          ]},
+          {cells: [
+            {tag: "th", content: "row heading"},
+            {tag: "td", content: "row 2"},
+            {tag: "td", content: "row 3"},
+          ]},
+          {cells: [
+            {tag: "th", content: "row heading"},
+            {tag: "td", content: "row 2"},
+            {tag: "td", content: "row 3"},
+          ]},
+          {cells: [
+            {tag: "th", content: "row heading"},
+            {tag: "td", content: "row 2"},
+            {tag: "td", content: "row 3"},
+          ]},
+          {cells: [
+            {tag: "th", content: "row heading"},
+            {tag: "td", content: "row 2"},
+            {tag: "td", content: "row 3"},
+          ]}
+        ]
+      } %}
+      {% include "nmhockey:tables" with games_table %}
+  {% endstory %}
+
 {% endstories %}

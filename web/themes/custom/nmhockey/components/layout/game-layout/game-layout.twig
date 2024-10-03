@@ -12,7 +12,7 @@
           data: [visitor.team, home.team],
           fixed: "true"
         },
-        {header: "1st", data: [visitor.goals[1], home.goals[1]]},
+        {header: "1st", data: [visitor.goals[1]|default("0"), home.goals[1]]},
         {header: "2nd", data: [visitor.goals[2], home.goals[2]]},
         {header: "3rd", data: [visitor.goals[3], home.goals[3]]},
       ] %}
