@@ -39,7 +39,7 @@
         "drupal/navigation": "^1.0@dev",
         "drupal/nomarkup": "^1.0",
         "drupal/pathauto": "^1.12",
-        "drupal/storybook": "^1.0@alpha",
+        "drupal/storybook": "^1.0",
         "drupal/time_field": "^2.1",
         "drupal/token": "^1.13",
         "drush/drush": "^13.0"
