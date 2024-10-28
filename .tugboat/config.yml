@@ -89,7 +89,9 @@ services:
       # from the base preview.
       build:
         # Install new configuration and database updates.
-        - vendor/bin/drush si
+        - vendor/bin/drush si minimal
+        - vendor/bin/drush config-set "system.site" uuid 2843a22b-1102-4b0d-b0ad-034f8427ac3b
+
         - vendor/bin/drush deploy
 
         # If you are downloading your files from a remove server, you won't need
