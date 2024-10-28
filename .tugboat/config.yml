@@ -59,7 +59,6 @@ services:
 
         # Create any required directories that don't exist.
         # - mkdir -p "${TUGBOAT_ROOT}/files-private"
-        - vendor/bin/drush si
 
       # Commands that import files, databases,  or other assets. When an
       # existing preview is refreshed, the build workflow starts here,
@@ -68,7 +67,7 @@ services:
       update:
         # Install/update packages managed by composer, including drush and Stage File Proxy.
         - composer install --optimize-autoloader
-        - composer require --dev drupal/stage_file_proxy
+        # - composer require --dev drupal/stage_file_proxy
 
         # Set the tugboat-specific Drupal settings.
         - cp "${TUGBOAT_ROOT}/.tugboat/settings.local.php" "${DOCROOT}/sites/default/settings.local.php"
@@ -90,6 +89,7 @@ services:
       # from the base preview.
       build:
         # Install new configuration and database updates.
+        - vendor/bin/drush si
         - vendor/bin/drush deploy
 
         # If you are downloading your files from a remove server, you won't need
