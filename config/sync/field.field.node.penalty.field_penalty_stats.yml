@@ -15,7 +15,13 @@ label: 'Penalty Stats'
 description: ''
 required: false
 translatable: false
-default_value: {  }
+default_value:
+  -
+    penalty_period: 1
+    penalty_minute: 20
+    penalty_seconds: 59
+    penalty_type: minor
+    penalty_duration: 2
 default_value_callback: ''
 settings: {  }
 field_type: nmhockey_stats_penalty_stats

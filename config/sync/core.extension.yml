@@ -29,6 +29,7 @@ module:
   datetime: 0
   datetime_range: 0
   dblog: 0
+  default_content: 0
   dynamic_page_cache: 0
   editor: 0
   emulsify_twig: 0
@@ -52,6 +53,9 @@ module:
   media_library: 0
   menu_link_content: 0
   menu_ui: 0
+  migrate: 0
+  migrate_google_sheets: 0
+  migrate_plus: 0
   mysql: 0
   nmhockey_stats: 0
   node: 0
@@ -61,6 +65,8 @@ module:
   path: 0
   path_alias: 0
   responsive_image: 0
+  sdc_styleguide: 0
+  sdc_styleguide_demo_components: 0
   search: 0
   serialization: 0
   shortcut: 0
@@ -74,6 +80,7 @@ module:
   token: 0
   toolbar: 0
   update: 0
+  upgrade_status: 0
   user: 0
   views_ui: 0
   pathauto: 1
