@@ -59,6 +59,7 @@ services:
 
         # Create any required directories that don't exist.
         # - mkdir -p "${TUGBOAT_ROOT}/files-private"
+        - vendor/bin/drush si
 
       # Commands that import files, databases,  or other assets. When an
       # existing preview is refreshed, the build workflow starts here,
@@ -93,9 +94,9 @@ services:
 
         # If you are downloading your files from a remove server, you won't need
         # to enable Stage File Proxy.
-        - vendor/bin/drush pm:enable --yes stage_file_proxy
-        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "http://www.example.com"
-        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin_dir "sites/default/files"
+        # - vendor/bin/drush pm:enable --yes stage_file_proxy
+        # - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "http://www.example.com"
+        # - vendor/bin/drush config:set --yes stage_file_proxy.settings origin_dir "sites/default/files"
 
         # One last cache rebuild.
         - vendor/bin/drush cache:rebuild

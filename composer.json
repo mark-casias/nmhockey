@@ -27,6 +27,7 @@
         "drupal/core-composer-scaffold": "^10.2",
         "drupal/core-recommended": "^10.2",
         "drupal/core-vendor-hardening": "^10.2",
+        "drupal/default_content": "^2.0@alpha",
         "drupal/devel": "^5.1",
         "drupal/emulsify_twig": "^5.0",
         "drupal/er_auto": "^1.0",
@@ -36,12 +37,15 @@
         "drupal/field_group": "^3.4",
         "drupal/forms_steps": "^1.6",
         "drupal/inline_entity_form": "^3.0@RC",
+        "drupal/migrate_google_sheets": "^2.1",
         "drupal/navigation": "^1.0@dev",
         "drupal/nomarkup": "^1.0",
         "drupal/pathauto": "^1.12",
+        "drupal/sdc_styleguide": "^1.1",
         "drupal/storybook": "^1.0",
         "drupal/time_field": "^2.1",
         "drupal/token": "^1.13",
+        "drupal/upgrade_status": "^4.3",
         "drush/drush": "^13.0"
     },
     "require-dev": {
