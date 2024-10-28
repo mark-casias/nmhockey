@@ -12,3 +12,5 @@ props:
   properties:
     label:
       type: string
+      title: Label
+      description: "Lable"

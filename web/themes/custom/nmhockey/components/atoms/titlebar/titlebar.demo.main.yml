@@ -1,0 +1,5 @@
+name: Title Bar example
+description: A titlebar example
+props:
+  title: What is Drupal Starshot?
+  subtitle: And why does it matter here?

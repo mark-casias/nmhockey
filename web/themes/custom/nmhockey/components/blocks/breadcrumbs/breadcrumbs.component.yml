@@ -1,14 +1,11 @@
-# Everything in this file is optional. Still, the file needs to exist. Adding
-# metadata here will improve the DX when using components.
-
-# This is so your IDE knows about the syntax for fixes and autocomplete.
 $schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
-
-# The human readable name.
 name: Breadcrumbs
-
-# Status can be: "experimental", "stable", "deprecated", "obsolete".
 status: experimental
-
-# Use this key to organize components together.
-group: nmhockey
+group: Blocks
+props:
+  type: object
+  properties:
+    breadcrumbs:
+      type: array
+      title: Breadcrumbs
+      description: Array of links to show in breadcrumb trail.

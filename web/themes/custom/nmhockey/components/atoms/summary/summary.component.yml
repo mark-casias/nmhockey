@@ -1,0 +1,5 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Summary
+description: A summary table layout.
+status: experimental
+group: NM Hockey

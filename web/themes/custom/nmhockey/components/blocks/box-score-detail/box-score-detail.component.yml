@@ -1,0 +1,24 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Box Score Detail
+description: How a box score will look
+status: experimental
+group: Blocks
+props:
+  type: object
+  properties:
+    time:
+      type: string
+      title: Time
+      lable: The Time
+    player_number:
+      type: string
+      title: Number
+    player_name:
+      type: string
+      title: Player
+    detail:
+      type: string
+      title: "Details"
+    team:
+      type: string
+      title: "Team Name"

@@ -1,0 +1,16 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Title Bar
+description: A title.
+status: experimental
+group: Atoms
+props:
+  type: object
+  properties:
+    title:
+      type: string
+      label: Title
+      description: The main title.
+    subtitle:
+      type: string
+      label: Subtitle
+      description: The secondary section.

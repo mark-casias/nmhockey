@@ -4,7 +4,7 @@ base theme: stable9
 description: NM Hockey theme with SDC
 package: Custom
 logo: logo.png
-core_version_requirement: ^10
+core_version_requirement: ^10 || ^11
 libraries:
   - nmhockey/global
 regions:

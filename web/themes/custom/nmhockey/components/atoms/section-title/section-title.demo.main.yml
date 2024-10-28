@@ -1,0 +1,4 @@
+name: Section Title
+description: Demo of a section title.
+props:
+  title: The title

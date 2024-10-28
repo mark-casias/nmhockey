@@ -1,0 +1,5 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Tables
+description: Refactor of tables.
+status: experimental
+group: NM Hockey

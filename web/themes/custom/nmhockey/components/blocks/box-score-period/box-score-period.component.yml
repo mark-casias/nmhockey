@@ -1,0 +1,20 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Box Score List
+description: Box Score List
+status: experimental
+group: Blocks
+props:
+  type: object
+  properties:
+    title:
+      type: string
+      title: "Title"
+      description: "A title"
+    type:
+      type: string
+      title: "Type"
+      description: "Boxscore type: Penalty or Goal"
+    items:
+      type: array
+      title: "Items"
+      description: "Each item containing a boxscore detail."

@@ -2,4 +2,4 @@ name: 'NM Hockey Stats'
 type: module
 description: 'Custom fields and views for NM Hockey'
 package: 'NM Hockey'
-core_version_requirement: ^10
+core_version_requirement: ^10 || ^11
