@@ -13,6 +13,7 @@ dependencies:
     - field.field.node.player.field_number
     - field.field.node.player.field_player_is_goalie
     - field.field.node.player.field_telephone
+    - field.field.node.player.field_usa_hockey_number
     - node.type.player
   module:
     - field_layout
@@ -99,6 +100,7 @@ content:
 hidden:
   created: true
   feeds_item: true
+  field_usa_hockey_number: true
   path: true
   promote: true
   sticky: true

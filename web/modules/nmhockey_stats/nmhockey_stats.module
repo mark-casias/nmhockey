@@ -5,6 +5,7 @@
  *   Theme and other items.
  */
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\node\Entity\Node;
 
 /**
@@ -168,5 +169,45 @@ function nmhockey_stats_node_view($build, $node, $display, $view_mode) {
   if ($type === 'games') {
     $node->label .= 'Game';
 
+  }
+}
+
+function nmhockey_stats_entity_update(EntityInterface $entity) {
+  $type = $entity->getEntityTypeId();
+  if ($type === 'node') {
+    $bundle = $entity->getType();
+    $nid = $entity->id();
+    if ($bundle === 'team') {
+      $season = $entity->get('field_season')->referencedEntities()[0];
+      if ($season) {
+        $teams = $season->get('field_teams')->referencedEntities();
+        $hasTeam = FALSE;
+        foreach($teams as $team) {
+          if ($team->id() === $nid) $hasTeam = TRUE;
+        }
+        if (!$hasTeam) {
+          $teams[] = ['target_id' => $nid];
+          $season->set('field_teams', $teams);
+          $season->save();
+        }
+      }
+    }
+    if ($bundle === 'games') {
+      $season = $entity->get('field_game_season')->referencedEntities()[0];
+      if ($season) {
+        $games = $season->get('field_games')->referencedEntities();
+        $hasGame = FALSE;
+        foreach ($games as $game) {
+          if ($game->id() === $nid) {
+            $hasGame = TRUE;
+          }
+        }
+        if (!$hasGame) {
+          $season_games[] = ['target_id' => $nid];
+          $season->set('field_games', $season_games);
+          $season->save();
+        }
+      }
+    }
   }
 }

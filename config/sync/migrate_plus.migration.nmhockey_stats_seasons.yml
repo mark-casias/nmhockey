@@ -1,0 +1,41 @@
+uuid: 6078b166-3ec1-4831-965b-02967d34c88c
+langcode: en
+status: true
+dependencies: {  }
+id: nmhockey_stats_seasons
+class: null
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - nmhockey
+migration_group: nmhockey
+label: Seasons
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: google_sheets
+  urls: 'https://sheets.googleapis.com/v4/spreadsheets/1wzVUzWUS_VHmzasl7teB2PrD9-YYkhFn_LUBVZsZnzY/values/Seasons?key=AIzaSyAvyXQntGKjwwUtGXbs1JjVe5ICtphgQks'
+  fields:
+    -
+      name: season
+      label: Season
+      selector: Season
+    -
+      name: location
+      label: Location
+      selector: Location
+  ids:
+    season:
+      type: string
+process:
+  type:
+    plugin: default_value
+    default_value: league
+  uid:
+    plugin: default_value
+    default_value: 1
+  title: season
+  field_location: location
+destination:
+  plugin: 'entity:node'
+migration_dependencies: null

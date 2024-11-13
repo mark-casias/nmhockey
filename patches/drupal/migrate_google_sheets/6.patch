@@ -1,0 +1,13 @@
+diff --git a/src/Plugin/migrate_plus/data_parser/GoogleSheets.php b/src/Plugin/migrate_plus/data_parser/GoogleSheets.php
+index 175b654d4d8b13fc7d18d1113d7c9968fb75abd0..becd2279f3c2debf8c70595ead9e2c1cd1ba8976 100644
+--- a/src/Plugin/migrate_plus/data_parser/GoogleSheets.php
++++ b/src/Plugin/migrate_plus/data_parser/GoogleSheets.php
+@@ -32,7 +32,7 @@ class GoogleSheets extends Json implements ContainerFactoryPluginInterface {
+   /**
+    * {@inheritdoc}
+    */
+-  protected function getSourceData(string $url): array {
++  protected function getSourceData(string $url, string|int $item_selector = ''): array {
+     // Since we're being explicit about the data location, we can return the
+     // array without calling getSourceIterator to get an iterator to find the
+     // correct values.

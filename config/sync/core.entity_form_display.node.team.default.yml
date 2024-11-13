@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.team.field_roster
     - field.field.node.team.field_season
     - field.field.node.team.field_team_captain
+    - field.field.node.team.field_team_goalie
     - node.type.team
   module:
     - field_layout
@@ -62,6 +63,16 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_team_goalie:
+    type: entity_reference_autocomplete
+    weight: 51
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0
@@ -69,6 +80,11 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   body: true

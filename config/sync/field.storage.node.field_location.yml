@@ -1,0 +1,30 @@
+uuid: ffadd01f-50e0-4ea4-9cdd-d3cfb751f0b8
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_location
+field_name: field_location
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: outpost
+      label: Outpost
+    -
+      value: the_mac
+      label: 'The Mac'
+    -
+      value: santa_fe
+      label: 'Santa Fe'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

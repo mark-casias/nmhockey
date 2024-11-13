@@ -1,0 +1,63 @@
+id: nmhockey_stats_players_from_google
+label: Players From Google
+migration_tags:
+  - nmhockey
+source:
+  plugin: url
+  data_fetcher_plugin: http
+  data_parser_plugin: google_sheets
+  # The feed file for the spreadsheet. The Google Spreadsheet should be either Public or set to Anyone with link can
+  # view in order for the feed to work.
+  # Template: 'https://sheets.googleapis.com/v4/spreadsheets/<SHEET>/values/<TAB>?key=<KEY>'
+  # https://sheets.googleapis.com/v4/spreadsheets/1wzVUzWUS_VHmzasl7teB2PrD9-YYkhFn_LUBVZsZnzY/edit?usp=sharing
+  urls: 'https://sheets.googleapis.com/v4/spreadsheets/1wzVUzWUS_VHmzasl7teB2PrD9-YYkhFn_LUBVZsZnzY/values/Players?key=AIzaSyAvyXQntGKjwwUtGXbs1JjVe5ICtphgQks'
+  fields:
+    -
+      name: cli
+      label: 'CLI'
+      selector: 'cli'
+    -
+      name: player
+      label: 'Player'
+      selector: 'Player'
+    -
+      name: phone
+      label: 'Phone Number'
+      selector: 'Phone'
+    -
+      name: email
+      label: 'Email'
+      selector: 'Email'
+    -
+      name: jersey
+      label: 'Jrsy Num'
+      selector: 'Jrsy Num'
+  id:
+    name
+process:
+  # See https://www.drupal.org/node/2129651 on how to define
+  # process map for the migration.
+  title:
+    - plugin: explode
+      source: player
+      delimiter: ' '
+      limit: 2
+  field_first_name:
+    - plugin: extract_value
+      value: title.0
+  field_last_name:
+    - plugin: extract_value
+      value: title.1
+  field_level: {}
+  field_media: {}
+  field_number: jersey
+  field_telephone: telephone
+  field_usa_hockey_number: cli
+  field_email: email
+destination:
+  plugin: entity:node
+# The general rule of thumb is that any migrations referenced by migration
+# process plugins should be required here.
+#migration_dependencies:
+#  required:
+#    - example

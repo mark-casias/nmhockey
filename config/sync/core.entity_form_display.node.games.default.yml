@@ -17,6 +17,8 @@ dependencies:
     - field.field.node.games.field_game_season
     - field.field.node.games.field_game_team_away
     - field.field.node.games.field_game_team_home
+    - field.field.node.games.field_location
+    - field.field.node.games.field_type
     - node.type.games
   module:
     - datetime
@@ -82,7 +84,7 @@ third_party_settings:
       label: Stats
       region: content
       parent_name: ''
-      weight: 5
+      weight: 4
       format_type: tabs
       format_settings:
         classes: ''
@@ -257,6 +259,16 @@ content:
       revision: false
       removed_reference: optional
     third_party_settings: {  }
+  field_game_season:
+    type: entity_reference_autocomplete
+    weight: 6
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_game_team_away:
     type: options_select
     weight: 3
@@ -269,6 +281,18 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_location:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_type:
+    type: options_select
+    weight: 29
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   title:
     type: string_textfield
     weight: 0
@@ -277,10 +301,14 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  url_redirects:
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   body: true
   created: true
-  field_game_season: true
   path: true
   promote: true
   status: true

@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.league.field_current
     - field.field.node.league.field_date
     - field.field.node.league.field_games
+    - field.field.node.league.field_location
     - field.field.node.league.field_teams
     - node.type.league
   module:
@@ -14,6 +15,7 @@ dependencies:
     - field_layout
     - layout_discovery
     - nomarkup
+    - options
     - text
     - user
 third_party_settings:
@@ -55,6 +57,13 @@ content:
       link: true
     third_party_settings: {  }
     weight: 3
+    region: content
+  field_location:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
     region: content
   field_teams:
     type: entity_reference_label

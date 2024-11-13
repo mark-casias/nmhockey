@@ -32,18 +32,14 @@
       columns: score_summary
     } %}
 
-    {% set home_sv = visitor.sog - visitor.score %}
-    {% set home_sp = (home_sv / visitor.sog)|round(3) %}
-    {% set visitor_sv = home.sog - home.score %}
-    {% set visitor_sp = (visitor_sv / home.sog)|round(3) %}
     {% include "nmhockey:summary" with {
       title: "Goaltending",
       columns: [
-        {header: "Goalie", data: [visitor.goalie, home.goalie]},
+        {header: "Goalie", data: [visitor.goalie.name, home.goalie.name]},
         {header: "GA", data: [home.score, visitor.score]},
         {header: "SA", data: [home.sog, visitor.sog]},
-        {header: "SVs", data: [visitor_sv, home_sv]},
-        {header: "SP", data: [visitor_sp, home_sp]}
+        {header: "SVs", data: [home.goalie.saves, visitor.goalie.saves]},
+        {header: "SP", data: [home.goalie.sp, visitor.goalie.sp]}
       ]
     } %}
   </div>

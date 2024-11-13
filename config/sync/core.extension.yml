@@ -54,8 +54,11 @@ module:
   menu_link_content: 0
   menu_ui: 0
   migrate: 0
+  migrate_devel: 0
   migrate_google_sheets: 0
   migrate_plus: 0
+  migrate_tools: 0
+  migration_tools: 0
   mysql: 0
   nmhockey_stats: 0
   node: 0
@@ -64,6 +67,7 @@ module:
   page_cache: 0
   path: 0
   path_alias: 0
+  redirect: 0
   responsive_image: 0
   sdc_styleguide: 0
   sdc_styleguide_demo_components: 0

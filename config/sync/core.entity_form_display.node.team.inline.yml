@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.team.field_roster
     - field.field.node.team.field_season
     - field.field.node.team.field_team_captain
+    - field.field.node.team.field_team_goalie
     - node.type.team
   module:
     - field_layout
@@ -56,11 +57,17 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   body: true
   created: true
   field_media: true
   field_team_captain: true
+  field_team_goalie: true
   path: true
   promote: true
   status: true

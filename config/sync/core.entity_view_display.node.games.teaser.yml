@@ -17,6 +17,8 @@ dependencies:
     - field.field.node.games.field_game_season
     - field.field.node.games.field_game_team_away
     - field.field.node.games.field_game_team_home
+    - field.field.node.games.field_location
+    - field.field.node.games.field_type
     - node.type.games
   module:
     - datetime
@@ -74,4 +76,6 @@ hidden:
   field_game_penalty_away: true
   field_game_penalty_home: true
   field_game_season: true
+  field_location: true
+  field_type: true
   links: true

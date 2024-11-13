@@ -1,0 +1,21 @@
+uuid: 56ef661b-0221-46a7-81d4-d913f01126f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_location
+    - node.type.games
+  module:
+    - options
+id: node.games.field_location
+field_name: field_location
+entity_type: node
+bundle: games
+label: Location
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

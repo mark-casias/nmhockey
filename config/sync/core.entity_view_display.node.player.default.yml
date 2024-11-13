@@ -12,12 +12,11 @@ dependencies:
     - field.field.node.player.field_number
     - field.field.node.player.field_player_is_goalie
     - field.field.node.player.field_telephone
-    - image.style.thumbnail
+    - field.field.node.player.field_usa_hockey_number
     - node.type.player
   module:
     - field_layout
     - layout_discovery
-    - media
     - nomarkup
     - user
 third_party_settings:
@@ -64,21 +63,6 @@ content:
         enabled: true
         separator: '|'
         referenced_entity: ''
-    weight: 4
-    region: content
-  field_media:
-    type: media_thumbnail
-    label: hidden
-    settings:
-      image_link: ''
-      image_style: thumbnail
-      image_loading:
-        attribute: lazy
-    third_party_settings:
-      nomarkup:
-        enabled: true
-        separator: '|'
-        referenced_entity: ''
     weight: 3
     region: content
   field_number:
@@ -102,10 +86,12 @@ content:
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    weight: 5
+    weight: 4
     region: content
 hidden:
   feeds_item: true
   field_email: true
+  field_media: true
   field_telephone: true
+  field_usa_hockey_number: true
   links: true

@@ -1,21 +1,21 @@
-uuid: 9a2743e3-9e00-4356-8b7f-105602f10c51
+uuid: 35d7db9c-a573-4fbe-b8fc-7eb6db411939
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_date
+    - field.storage.node.field_location
     - node.type.league
   module:
-    - datetime_range
-id: node.league.field_date
-field_name: field_date
+    - options
+id: node.league.field_location
+field_name: field_location
 entity_type: node
 bundle: league
-label: Dates
+label: Location
 description: ''
 required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: daterange
+field_type: list_string

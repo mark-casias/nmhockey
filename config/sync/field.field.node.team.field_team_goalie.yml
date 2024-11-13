@@ -1,10 +1,10 @@
-uuid: 65f5b6bf-1c70-446f-9e35-dbfd1a1a8e46
+uuid: a9e41b7e-b029-4659-893e-a729d8acc7e9
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_season
-    - node.type.league
+    - field.storage.node.field_team_goalie
+    - node.type.player
     - node.type.team
   module:
     - er_auto
@@ -14,11 +14,11 @@ third_party_settings:
       enabled: 0
       source: {  }
       automated: {  }
-id: node.team.field_season
-field_name: field_season
+id: node.team.field_team_goalie
+field_name: field_team_goalie
 entity_type: node
 bundle: team
-label: Season
+label: Goalie
 description: ''
 required: false
 translatable: false
@@ -28,7 +28,7 @@ settings:
   handler: 'default:node'
   handler_settings:
     target_bundles:
-      league: league
+      player: player
     sort:
       field: _none
       direction: ASC

@@ -1,0 +1,23 @@
+uuid: e6a71989-92da-49dd-972b-70bc28c553e0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_type
+    - node.type.games
+  module:
+    - options
+id: node.games.field_type
+field_name: field_type
+entity_type: node
+bundle: games
+label: Type
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: regular_season
+default_value_callback: ''
+settings: {  }
+field_type: list_string

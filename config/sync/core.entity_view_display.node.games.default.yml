@@ -16,6 +16,8 @@ dependencies:
     - field.field.node.games.field_game_season
     - field.field.node.games.field_game_team_away
     - field.field.node.games.field_game_team_home
+    - field.field.node.games.field_location
+    - field.field.node.games.field_type
     - node.type.games
   module:
     - datetime
@@ -23,6 +25,7 @@ dependencies:
     - layout_discovery
     - nmhockey_stats
     - nomarkup
+    - options
     - user
 third_party_settings:
   field_layout:
@@ -144,6 +147,20 @@ content:
       link: true
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_location:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_type:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
     region: content
 hidden:
   body: true

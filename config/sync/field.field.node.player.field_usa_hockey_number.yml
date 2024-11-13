@@ -1,0 +1,19 @@
+uuid: 0df0b257-a309-405c-9278-8e55360c370b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_usa_hockey_number
+    - node.type.player
+id: node.player.field_usa_hockey_number
+field_name: field_usa_hockey_number
+entity_type: node
+bundle: player
+label: 'USA Hockey Number'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
