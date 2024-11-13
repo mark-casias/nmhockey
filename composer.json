@@ -116,6 +116,9 @@
         "patches": {
             "drupal/migrate_google_sheets": {
                 "Migrate Plus function map (https://dgo.to/3484226)": "patches/drupal/migrate_google_sheets/6.patch"
+            },
+            "drupal/migration_tools": {
+                "Undefined array key 'map_false' (https://dgo.to/3449512)": "patches/drupal/migration_tools/3449512.patch"
             }
         }
     }

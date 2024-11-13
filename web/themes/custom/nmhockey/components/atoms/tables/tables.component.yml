@@ -8,5 +8,4 @@ props:
   type: object
   properties:
     header:
-      type: array,
-      
+      type: array

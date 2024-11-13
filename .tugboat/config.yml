@@ -94,6 +94,9 @@ services:
 
         - vendor/bin/drush deploy
 
+        # Migrate content
+        - vendor/bin/drush mim --group=nmhockey
+
         # If you are downloading your files from a remove server, you won't need
         # to enable Stage File Proxy.
         # - vendor/bin/drush pm:enable --yes stage_file_proxy

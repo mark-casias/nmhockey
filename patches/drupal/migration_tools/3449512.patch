@@ -1,0 +1,18 @@
+diff --git a/src/Plugin/migrate/process/ConvertBoolean.php b/src/Plugin/migrate/process/ConvertBoolean.php
+index 76f5796a029c91c90c683b8cd1c629c3f8a1ef97..636b757c416823a0023515c5fdf79a02c661989b 100644
+--- a/src/Plugin/migrate/process/ConvertBoolean.php
++++ b/src/Plugin/migrate/process/ConvertBoolean.php
+@@ -44,11 +44,11 @@ class ConvertBoolean extends ProcessPluginBase {
+    */
+   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
+     $map_false = ['false', 'FALSE', 'null', 'NULL', '0'];
+-    $map_false_from_config = (!empty($this->configuration['map_false'] && is_array($this->configuration['map_false']))) ? $this->configuration['map_false'] : [];
++    $map_false_from_config = (isset($this->configuration['map_false']) && !empty($this->configuration['map_false'] && is_array($this->configuration['map_false']))) ? $this->configuration['map_false'] : [];
+     $map_false = array_merge($map_false, $map_false_from_config);
+ 
+     $map_true = ['true', 'TRUE', '1'];
+-    $map_true_from_config = (!empty($this->configuration['map_true'] && is_array($this->configuration['map_true']))) ? $this->configuration['map_true'] : [];
++    $map_true_from_config = (isset($this->configuration['map_true']) && !empty($this->configuration['map_true'] && is_array($this->configuration['map_true']))) ? $this->configuration['map_true'] : [];
+     $map_true = array_merge($map_true, $map_true_from_config);
+ 
+     if (is_string($value)) {
