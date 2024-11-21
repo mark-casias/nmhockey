@@ -1,6 +1,8 @@
 <div {{attributes}}>
 
-  {% include "nmhockey:titlebar" %}
+  {% include "nmhockey:titlebar" with {
+    title: label
+  }%}
 
   <div class="score-summary">
     {% include "nmhockey:game-summary" %}

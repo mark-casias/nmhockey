@@ -1,0 +1,31 @@
+name: 'Sample Team'
+description: ''
+props:
+  label: Albuquerque
+  standings: '1 -1'
+  games:
+    - { header: "Date", data: ['Dec 1, 2024', 'Dec 2, 2024', 'Dec 3, 2024'] }
+    - { header: "Time", data: ['7:45p', '9:15p', '7:45p']}
+    - { header: "Team", data: ['team1', 'team2', 'team 3']}
+    - { header: "Home - Away", data: ['Home', 'Away', 'Away']}
+    - { header: "Score", data: ['3 - 2', '0 - 1', '']}
+    - { header: "WLT", data: ['W', 'OTL', '']}
+  goalies:
+    - { header: "Name", data: ["Ryan Laughlin"]},
+    - { header: "GP", data: ['13']}
+    - { header: "W", data: ['6']}
+    - { header: "L", data: ['6']}
+    - { header: "OTL", data: ['1']}
+    - { header: "ROW", data: ['6']}
+    - { header: "GAA", data: ['3.62']}
+    - { header: "SP", data: ['90.7']}
+    - { header: "GA", data: ['47']}
+    - { header: "SVs", data: ['461']}
+  players:
+    - {header: "Name", data: ["Bubbico, Aaron", "Meyers, Joel"]}
+    - {header: "Number", data: ["37", "71"]}
+    - {header: "GP", data: ["13", "14"]}
+    - {header: "G", data: ["9", "7"]}
+    - {header: "A", data: ["10", "11"]}
+    - {header: "Pts", data: ["19", "18"]}
+    - {header: "PIMs", data: ["8", "2"]}

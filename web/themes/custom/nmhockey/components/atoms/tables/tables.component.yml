@@ -9,3 +9,5 @@ props:
   properties:
     header:
       type: array
+      title: Header
+      description: ''

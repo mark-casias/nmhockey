@@ -1,4 +1,4 @@
-[data-component-id="nmhockey:game-layout"] {
+[data-component-id="nmhockey:game"] {
 
   .stats-summary, .details {
     display: grid;
@@ -7,3 +7,4 @@
     margin: 1rem 0;
   }
 }
+

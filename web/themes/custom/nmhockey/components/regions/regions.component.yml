@@ -1,4 +1,4 @@
 $schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
-name: Blocks - Default
+name: Regions - Default
 status: experimental
-group: Blocks
+group: Regions

@@ -8,4 +8,4 @@ props:
     title:
       type: string
       label: Title
-      decription: The main title.
+      decription: 'The main title.'

@@ -1,33 +1,18 @@
-# Everything in this file is optional. Still, the file needs to exist. Adding
-# metadata here will improve the DX when using components.
-
-# This is so your IDE knows about the syntax for fixes and autocomplete.
 $schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
-
-# The human readable name.
-name: Field Goal Time
-
-# Status can be: "experimental", "stable", "deprecated", "obsolete".
+name: Field - Goal Time
 status: stable
-
-# Use this key to organize components together.
-group: NMHockey
+group: NMHockey Stats Module
 
 # Schema for the props. We support www.json-schema.org. Learn more about the
 # syntax there.
 props:
-  # Props are always an object with keys. Each key is a variable in your
-  # component template.
   type: object
-
   properties:
-    # The key is the name of the variable in the template.
     label:
-      # You can add a human-readable name to your props.
-      title: Primary
-
-      # This variable is an array of strings: ['foo', 'bar', 'baz'].
-      # This information is required for every prop.
+      title: Title
       type: string
-      items:
-          type: string
+      description: ''
+    items:
+      type: array
+      title: Field Items
+      description: ''

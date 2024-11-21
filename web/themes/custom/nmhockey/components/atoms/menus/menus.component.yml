@@ -2,4 +2,4 @@ $schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.js
 name: Menus
 description: Menu layout
 status: experimental
-group: NM Hockey
+group: Atoms

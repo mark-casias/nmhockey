@@ -1,0 +1,5 @@
+name: 'Sample Season'
+description: ''
+props:
+  label: 'B1 - Fall 2024'
+slots: {  }

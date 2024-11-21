@@ -1,0 +1,21 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: Game Summary
+status: experimental
+group: Blocks
+props:
+  # Props are always an object with keys. Each key is a variable in your
+  # component template.
+  type: object
+  properties:
+    division:
+      type: string
+      title: Division
+      description: ''
+    home:
+      type: object
+      title: 'Home Data'
+      description: ''
+    visitor:
+      type: object
+      title: 'Visitor Data'
+      description: ''

@@ -1,11 +1,11 @@
 $schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
-name: Team - Detail Card
-status: stable
-group: Deprecated
-description: 'Team listing in season? I think this is dead.'
-
+name: Season
+status: experimental
+group: Content
 props:
   type: object
   properties:
     label:
       type: string
+      title: Title
+      description: ''
