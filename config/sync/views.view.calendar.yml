@@ -222,10 +222,10 @@ display:
           grouping: {  }
           row_class: ''
           default_row_class: false
-          calendar_display_rows: 0
           calendar_fields:
             field_game_date: field_game_date
-          calendar_weekday_start: '0'
+          calendar_display_rows: false
+          calendar_weekday_start: false
           calendar_timestamp: 'this month'
       row:
         type: fields
