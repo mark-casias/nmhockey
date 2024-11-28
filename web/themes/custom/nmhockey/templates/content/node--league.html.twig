@@ -61,8 +61,11 @@
  *
  */
 #}
-  {% embed "nmhockey:season-layout" %}
+  {% embed "nmhockey:season" %}
     {% block season_standings %}
       {{ team_table }}
+    {% endblock %}
+    {% block season_games %}
+      {{ games_table }}
     {% endblock %}
   {% endembed %}

@@ -3,3 +3,15 @@ name: Menus
 description: Menu layout
 status: experimental
 group: Atoms
+props:
+  type: object
+  properties:
+    menu_name:
+      type: string
+      title: Menu Name
+      description: 'The machine name of the menu.'
+    items:
+      type: array
+      title: Items
+      description: 'A nested list of menu items.'
+

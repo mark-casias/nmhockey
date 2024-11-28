@@ -9,3 +9,14 @@ props:
       type: array
       title: Breadcrumbs
       description: Array of links to show in breadcrumb trail.
+      items:
+        type: object
+        properties:
+          url:
+            type: string
+            title: URL
+            description: Link URL
+          text:
+            type: string
+            title: Text
+            desecription: Link Text

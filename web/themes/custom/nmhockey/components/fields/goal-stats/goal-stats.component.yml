@@ -1,7 +1,3 @@
-# Everything in this file is optional. Still, the file needs to exist. Adding
-# metadata here will improve the DX when using components.
-
-# This is so your IDE knows about the syntax for fixes and autocomplete.
 $schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
 name: Goal - Stats
 status: stable
@@ -14,3 +10,32 @@ props:
       type: string
       title: Label
       description: ''
+    content:
+      type: object
+      title: Content
+      description: The Content model
+      properties:
+        field_period:
+          type: string
+          title: Period of goal
+          description: ''
+        field_team:
+          type: string
+          title: Team
+          description: ''
+        field_player:
+          type: string
+          title: Player
+          description: ''
+        field_time:
+          type: string
+          title: Time of goal
+          description: ''
+        field_assist:
+          type: string
+          title: Assist players
+          description: 'Generated in a preprocess'
+        field_type:
+          type: string
+          title: Type
+          description: Type of goal (needs enum)

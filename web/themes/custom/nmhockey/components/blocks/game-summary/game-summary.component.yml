@@ -12,10 +12,10 @@ props:
       title: Division
       description: ''
     home:
-      type: object
+      type: array
       title: 'Home Data'
       description: ''
     visitor:
-      type: object
+      type: array
       title: 'Visitor Data'
       description: ''

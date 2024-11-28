@@ -9,16 +9,20 @@ props:
     time:
       type: string
       title: Time
-      lable: The Time
+      description: The Time
     player_number:
       type: string
       title: Number
+      description: Player Number
     player_name:
       type: string
       title: Player
+      description: Player Name
     detail:
       type: string
-      title: "Details"
+      title: Details
+      description: Scoring or Penalty details
     team:
       type: string
-      title: "Team Name"
+      title: Team
+      description: Team Name

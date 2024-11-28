@@ -9,3 +9,8 @@ props:
     title:
       type: string
       title: Title
+      description: ''
+    period:
+      type: array
+      title: Periods
+      description: Array of period data

@@ -5,6 +5,8 @@
  * Functions to support theming in the nmhockey theme.
  */
 
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 use \Drupal\node\Entity\Node;
 
 /**
@@ -117,8 +119,10 @@ function nmhockey_preprocess_node(array &$variables): void {
     $team_nodes = Node::loadMultiple($team_nids);
     foreach ($team_nodes as $team_nid => $team) {
       $team_name = $team->label();
+      $url = Url::fromRoute('entity.node.canonical', ['node' => $team->id()]);
+      $link = Link::fromTextAndUrl($team_name, $url);
       $teams[$team_nid] = [
-        'name' => $team_name,
+        'name' => $link,
         'wins' => 0,
         'loss' => 0,
         'otl' => 0,
@@ -166,23 +170,33 @@ function nmhockey_preprocess_node(array &$variables): void {
     $game_nids = $query->execute();
     $game_nodes = Node::loadMultiple($game_nids);
     foreach($game_nodes as $game_nid => $game) {
+      // For datetime fields you can also do this.
+      $date_formatter = \Drupal::service('date.formatter');
+      $date = $date_formatter->format($game->get('field_game_date')->date->getTimestamp(), 'short');
+
+      $url = Url::fromRoute('entity.node.canonical', ['node' => $game->id()]);
+      $link = Link::fromTextAndUrl($date, $url);
+
       $game_home = $game->get('field_game_team_home')->referencedEntities();
       $home_name = 'TBD';
       if (count($game_home)) {
         $game_home = $game_home[0];
         $home_name = $game_home->label();
       }
+      $game_home_goals = $game->get('field_game_goals_home')->referencedEntities();
+
       $game_away = $game->get('field_game_team_away')->referencedEntities();
       $away_name = 'TBD';
       if (count($game_away)) {
         $game_away = $game_away[0];
         $away_name = $game_away->label();
       }
+      $game_away_goals = $game->get('field_game_goals_away')->referencedEntities();
       if ($game_home && $game_away) {
         $games[$game_nid] = [
-          'date' => $game->get('field_game_date')->value,
+          'date' => $link,
           'away' => $away_name,
-          'score' => 'away - home',
+          'score' => count($game_away_goals) . ' - ' . count($game_home_goals),
           'home' => $home_name,
         ];
       }
@@ -198,6 +212,31 @@ function nmhockey_preprocess_node(array &$variables): void {
 
       // Get all Goalie Stats from Games
     }
+
+    $game_rows = [];
+    foreach ($games as $game) {
+      $game_rows[] = [
+        'cells' => [
+          ['tag' => 'th', 'content' => $game['date']],
+          ['tag' => 'td', 'content' => $game['away']],
+          ['tag' => 'td', 'content' => $game['score']],
+          ['tag' => 'td', 'content' => $game['home']],
+        ]
+      ];
+    }
+    $variables['games_table'] = [
+      '#type' => 'component',
+      '#component' => 'nmhockey:tables',
+      '#props' => [
+        'header' => [
+          ['tag' => 'th','content' => 'Date'],
+          ['tag' => 'th','content' => 'Away'],
+          ['tag' => 'th','content' => ''],
+          ['tag' => 'th','content' => 'Home'],
+        ],
+        'rows' => $game_rows,
+      ],
+    ];
 
     $team_rows = [];
     foreach ($teams as $team) {

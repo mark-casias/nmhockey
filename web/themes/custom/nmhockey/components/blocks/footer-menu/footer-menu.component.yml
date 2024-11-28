@@ -3,3 +3,14 @@ $schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.js
 name: Footer Menu
 status: experimental
 group: Blocks
+props:
+  type: object
+  properties:
+    menu_name:
+      type: string
+      title: Menu Name
+      desecription: ''
+    items:
+      type: array
+      title: menu Items
+      description: ''
