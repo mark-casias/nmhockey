@@ -2,7 +2,7 @@
   {% include "nmhockey:team-summary" with {
     type: "visitor",
     division: division,
-    team: visitor.team,
+    team: visitor.team_link,
     w: visitor.w,
     l: visitor.l,
     otl: visitor.otl
@@ -18,7 +18,7 @@
   {% include "nmhockey:team-summary" with {
     type: "home",
     division: division,
-    team: home.team,
+    team: home.team_link,
     w: home.w,
     l: home.l,
     otl: home.otl

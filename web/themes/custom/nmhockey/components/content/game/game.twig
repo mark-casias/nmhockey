@@ -11,7 +11,7 @@
     {% set score_summary = [
         {
           header: "Team",
-          data: [visitor.team, home.team],
+          data: [visitor.team_link, home.team_link],
           fixed: "true"
         },
         {header: "1st", data: [visitor.goals[1]|default("0"), home.goals[1]]},

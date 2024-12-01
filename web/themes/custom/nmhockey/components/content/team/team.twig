@@ -10,20 +10,25 @@
       } %}
 
     </div>
-    {#<div class="roster">
+    <div class="roster">
+    {% if players|length %}
       <div class="players">
         {% include "nmhockey:summary" with {
           title: "Players",
           columns: players
         } %}
       </div>
-      <div class="goalies">
+    {% endif %}
+
+    {% if goalies|length %}
+    <div class="goalies">
         {% include "nmhockey:summary" with {
           title: "Goalies",
           columns: goalies
         } %}
       </div>
-    </div>#}
+    </div>
+    {% endif %}
   </div>
 
 </div>

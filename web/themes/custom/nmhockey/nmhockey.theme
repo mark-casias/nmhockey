@@ -34,7 +34,42 @@ function nmhockey_preprocess_node(array &$variables): void {
   $type = $node->getType();
 
   if ($type === 'team') {
-    $players = $node->get('field_roster')->referencedEntities();
+    $team = $node;
+    $roster = $node->get('field_roster')->referencedEntities();
+    $team_id = $node->id();
+
+    $players = [];
+    $player_rows = [];
+    foreach ($roster as $player) {
+      $pid = $player->id();
+      $players[$pid] = $player;
+      $player_rows['name'][$pid] = $player->label();
+      $player_rows['goals'][$pid] = 0;
+      $player_rows['assists'][$pid] = 0;
+      $player_rows['points'][$pid] = 0;
+      $player_rows['pim'][$pid] = 0;
+    }
+
+    $goalie_entities = $node->get('field_team_goalie')->referencedEntities();
+    $goalie_rows = [];
+    $goalies = [];
+    foreach ($goalie_entities as $goalie) {
+      $gid = $goalie->id();
+      $goalies[$gid] = $goalie;
+      $goalie_rows['name'][$gid] = $goalie->label();
+      $goalie_rows['gp'][$gid] = 0;
+      $goalie_rows['w'][$gid] = 0;
+      $goalie_rows['l'][$gid] = 0;
+      $goalie_rows['otl'][$gid] = 0;
+      /*
+      - { header: "ROW", data: ['0']}
+      - { header: "GAA", data: ['0']}
+      - { header: "SP", data: ['0']}
+      - { header: "GA", data: ['0']}
+      - { header: "SVs", data: ['0']}
+      */
+    }
+
 
     // Get all Games in season.
     $query = \Drupal::entityQuery('node')
@@ -57,16 +92,64 @@ function nmhockey_preprocess_node(array &$variables): void {
       $h_team = $game->get('field_game_team_home')->referencedEntities();
       $v_team = $game->get('field_game_team_away')->referencedEntities();
 
-      $h_goals = count($game->get('field_game_goals_home')->referencedEntities());
-      $a_goals = count($game->get('field_game_goals_away')->referencedEntities());
+      $hgoals = $game->get('field_game_goals_home')->referencedEntities();
+      $agoals = $game->get('field_game_goals_away')->referencedEntities();
+
+      $h_goals = count($hgoals);
+      $a_goals = count($agoals);
       $isHome = 'Away';
       if ($h_team && $v_team) {
-        $isHome = $h_team[0]->id() == $nid ? 'Home' : 'Away';
+        $isHome = $h_team[0]->id() == $team_id ? 'Home' : 'Away';
         if ($isHome === 'Home') {
           $opponent = $v_team[0]->label();
+          foreach ($hgoals as $g) {
+            $goal_player = $g->get('field_goal_player')->entity->id();
+            $player_rows['goals'][$goal_player]++;
+            $a_player = $g->get('field_assist')->entity;
+            if ($a_player) {
+              $player_rows['assists'][$a_player->id()]++;
+            }
+            $aa_player = $g->get('field_assist_2')->entity;
+            if ($aa_player) {
+              $player_rows['assists'][$aa_player->id()]++;
+            }
+          }
+          $goalie_stats = $game->get('field_game_goalie_stats_home')->value;
+
         }
         else {
           $opponent = $h_team[0]->label();
+          foreach ($agoals as $g) {
+            $goal_player = $g->get('field_goal_player')->entity->id();
+            $player_rows['goals'][$goal_player]++;
+            $player_rows['points'][$goal_player]++;
+            $a_player = $g->get('field_assist')->entity;
+            if ($a_player) {
+              $player_rows['assists'][$a_player->id()]++;
+              $player_rows['points'][$a_player->id()]++;
+            }
+            $aa_player = $g->get('field_assist_2')->entity;
+            if ($aa_player) {
+              $player_rows['assists'][$aa_player->id()]++;
+              $player_rows['points'][$aa_player->id()]++;
+            }
+          }
+          $goalie = $game->get('field_game_goalie_away')->entity;
+          if ($goalie && in_array($goalie->id(), array_keys($goalies))) {
+            $goalie_stats = $game->get('field_game_goalie_stats_away')->getValue()[0];
+            switch ($goalie_stats['w_l_otl']) {
+              case 'win':
+                $goalie_rows['w'][$goalie->id()]++;
+                break;
+              case 'loss':
+                $goalie_rows['l'][$goalie->id()]++;
+                break;
+              case 'otl':
+                $goalie_rows['otl'][$goalie->id()]++;
+            }
+            $goalie_rows['gp'][$goalie->id()]++;
+          }
+
         }
       }
 
@@ -83,16 +166,49 @@ function nmhockey_preprocess_node(array &$variables): void {
       $game_rows['team'][] = $opponent;
       $game_rows['score'][] = $score;
       $game_rows['hv'][] = $isHome;
-      $game_rows['result'][] = 'yay';
+      $game_rows['result'][$game->id()] = 'yay';
     }
 
-    $variables['games'] = [
-      ['header' => "Date", 'data' => $game_rows['date']],
-      ['header' => "Team", 'data' => $game_rows['team']],
-      ['header' => "Home - Away", 'data' => $game_rows['hv']],
-      ['header' => "Score", 'data' => $game_rows['score']],
-      ['header' => "WLT", 'data' => $game_rows['result']],
-    ];
+    $variables['goalies'] = [];
+    if (count($goalie_rows)) {
+      $variables['goalies'] = [
+        ['header' => "Name", 'data' => $goalie_rows['name']],
+        ['header' => 'GP', 'data' => $goalie_rows['gp']],
+        ['header' => 'W', 'data' => $goalie_rows['w']],
+        ['header' => 'L', 'data' => $goalie_rows['l']],
+        ['header' => 'OTL', 'data' => $goalie_rows['otl']],
+      /*
+      - { header: "W", data: ['6']}
+      - { header: "L", data: ['6']}
+      - { header: "OTL", data: ['1']}
+      - { header: "ROW", data: ['6']}
+      - { header: "GAA", data: ['3.62']}
+      - { header: "SP", data: ['90.7']}
+      - { header: "GA", data: ['47']}
+      - { header: "SVs", data: ['461']}
+      */
+      ];
+    }
+
+    if (count($game_rows)) {
+      $variables['games'] = [
+        ['header' => "Date", 'data' => $game_rows['date']],
+        ['header' => "Team", 'data' => $game_rows['team']],
+        ['header' => "Home - Away", 'data' => $game_rows['hv']],
+        ['header' => "Score", 'data' => $game_rows['score']],
+        ['header' => "WLT", 'data' => $game_rows['result']],
+      ];
+    }
+
+    if (count($player_rows)) {
+      $variables['players'] = [
+        ['header' => "Player", 'data' => $player_rows['name']],
+        ['header' => "G", 'data' => $player_rows['goals']],
+        ['header' => "A", 'data' => $player_rows['assists']],
+        ['header' => "Pts", 'data' => $player_rows['points']],
+        ['header' => "PIM", 'data' => $player_rows['pim']],
+      ];
+    }
 
   }
 
@@ -340,6 +456,8 @@ function _team_data($data, &$variables) {
 
   $team_node = $data['node'];
   $team_name = $team_node->get('title')->value;
+  $url = Url::fromRoute('entity.node.canonical', ['node' => $team_node->id()]);
+  $team_title = Link::fromTextAndUrl($team_name, $url)->toString();
 
   $team_goals = $data['goals'];
   $goals_total = count($team_goals);
@@ -383,6 +501,7 @@ function _team_data($data, &$variables) {
 
   $variables[$data['team']] = [
     "team" => $team_name,
+    "team_link" => $team_title,
     "score" => $goals_total,
     "sog" => $shots_against,
     "goalie" => $goalie_data,
