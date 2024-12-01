@@ -94,7 +94,7 @@ function nmhockey_stats_inline_entity_form_entity_form_alter(array &$entity_form
 
     $home = Node::load($input['field_game_team_home']);
     $home_players = $home->get('field_roster')->referencedEntities();
-    $home_player_options = ['' => 'Select'];
+    $home_player_options = ['_none' => 'Select'];
     if ($home_players) {
       foreach ($home_players as $player) {
         $home_player_options[$player->id()] = $player->label();
@@ -102,7 +102,7 @@ function nmhockey_stats_inline_entity_form_entity_form_alter(array &$entity_form
     }
     $away = Node::load($input['field_game_team_away']);
     $away_players = $away->get('field_roster')->referencedEntities();
-    $away_player_options = ['' => 'Select'];
+    $away_player_options = ['_none' => 'Select'];
     if ($away_players) {
       foreach ($away_players as $player) {
         $away_player_options[$player->id()] = $player->label();
