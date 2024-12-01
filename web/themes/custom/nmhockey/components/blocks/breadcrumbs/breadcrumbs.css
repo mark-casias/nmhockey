@@ -1,0 +1,11 @@
+[data-component-id="nmhockey:breadcrumbs"] {
+  li {
+    list-style: none;
+    display: inline-flex;
+
+    &:not(:last-child)::after {
+      content: '>';
+      margin: 0 .5rem;
+    }
+  }
+}

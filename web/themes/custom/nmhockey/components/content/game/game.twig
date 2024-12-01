@@ -1,7 +1,7 @@
 <div {{attributes}}>
 
   {% include "nmhockey:titlebar" with {
-    title: label
+    title: visitor.team ~ ' @ ' ~ home.team
   }%}
 
   <div class="score-summary">
@@ -45,7 +45,7 @@
       ]
     } %}
   </div>
-  {# detail #}
+
   <div class="details">
     {% set periods = [
       {title: "Period 1", type: "Goals", items: goals.1},
@@ -59,7 +59,6 @@
       title: "Goals",
       periods: periods
     } %}
-
     {% set penalty_columns = [
       {title: "Period 1", type: "Penalties", items: penalties.1},
       {title: "Period 2", type: "Penalties", items: penalties.2},
@@ -75,5 +74,4 @@
       periods: penalty_columns
     } %}
   </div>
-
 </div>

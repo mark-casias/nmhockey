@@ -27,24 +27,93 @@ function nmhockey_preprocess_page(array &$variables): void {
  * Implements hook_preprocess_HOOK() for node.html.twig.
  */
 function nmhockey_preprocess_node(array &$variables): void {
+
+  $date_formatter = \Drupal::service('date.formatter');
+
   $node = $variables['node'];
   $type = $node->getType();
+
+  if ($type === 'team') {
+    $players = $node->get('field_roster')->referencedEntities();
+
+    // Get all Games in season.
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'games')
+      ->accessCheck(TRUE);
+
+    $or = $query->orConditionGroup();
+    $or->condition('field_game_team_home', $node->id(), '=');
+    $or->condition('field_game_team_away', $node->id(), '=');
+    $query->condition($or);
+    $game_nids = $query->execute();
+    $games = Node::loadMultiple($game_nids);
+
+    foreach($games as $nid => $game) {
+      $date_ts = $game->get('field_game_date')->date->getTimestamp();
+      $date = $date_formatter->format($date_ts, 'short');
+      $url = Url::fromRoute('entity.node.canonical', ['node' => $game->id()]);
+      $link = Link::fromTextAndUrl($date, $url);
+
+      $h_team = $game->get('field_game_team_home')->referencedEntities();
+      $v_team = $game->get('field_game_team_away')->referencedEntities();
+
+      $h_goals = count($game->get('field_game_goals_home')->referencedEntities());
+      $a_goals = count($game->get('field_game_goals_away')->referencedEntities());
+      $isHome = 'Away';
+      if ($h_team && $v_team) {
+        $isHome = $h_team[0]->id() == $nid ? 'Home' : 'Away';
+        if ($isHome === 'Home') {
+          $opponent = $v_team[0]->label();
+        }
+        else {
+          $opponent = $h_team[0]->label();
+        }
+      }
+
+      $score = '';
+      if ($date_ts <= time()) {
+        if ($isHome === 'Home') {
+          $score = $h_goals . ' - ' . $a_goals;
+        }
+        else {
+          $score = $a_goals . ' - ' . $h_goals;
+        }
+      }
+      $game_rows['date'][] = $link;
+      $game_rows['team'][] = $opponent;
+      $game_rows['score'][] = $score;
+      $game_rows['hv'][] = $isHome;
+      $game_rows['result'][] = 'yay';
+    }
+
+    $variables['games'] = [
+      ['header' => "Date", 'data' => $game_rows['date']],
+      ['header' => "Team", 'data' => $game_rows['team']],
+      ['header' => "Home - Away", 'data' => $game_rows['hv']],
+      ['header' => "Score", 'data' => $game_rows['score']],
+      ['header' => "WLT", 'data' => $game_rows['result']],
+    ];
+
+  }
+
   if ($type === 'games') {
     $time = $node->get('field_game_date')->value;
     $date = date_create($time);
-    $variables['title'] = date_format($date,"M d Y");
-    $variables['subtitle'] = date_format($date,"H:ia");
+    $variables['subtitle'] = date_format($date,"M d Y h:ia");
+
     $variables['goals'] = [
       '1' => [],
       '2' => [],
       '3' => [],
       '4' => [],
     ];
+    $hgoals = $node->get('field_game_goals_home')->referencedEntities();
+    $vgoals = $node->get('field_game_goals_away')->referencedEntities();
     // Process Home.
     $home_data = [
       'team' => 'home',
       'node' => $node->get('field_game_team_home')->entity,
-      'goals' => $node->get('field_game_goals_home')->referencedEntities(),
+      'goals' => $hgoals,
       'goalie' => $node->get('field_game_goalie_home')->entity,
       'goalie_stats' => $node->get('field_game_goalie_stats_home')->getValue(),
     ];
@@ -54,7 +123,7 @@ function nmhockey_preprocess_node(array &$variables): void {
     $away_data = [
       'team' => 'visitor',
       'node' => $node->get('field_game_team_away')->entity,
-      'goals' => $node->get('field_game_goals_away')->referencedEntities(),
+      'goals' => $vgoals,
       'goalie' => $node->get('field_game_goalie_away')->entity,
       'goalie_stats' => $node->get('field_game_goalie_stats_away')->getValue(),
     ];
@@ -171,7 +240,6 @@ function nmhockey_preprocess_node(array &$variables): void {
     $game_nodes = Node::loadMultiple($game_nids);
     foreach($game_nodes as $game_nid => $game) {
       // For datetime fields you can also do this.
-      $date_formatter = \Drupal::service('date.formatter');
       $date = $date_formatter->format($game->get('field_game_date')->date->getTimestamp(), 'short');
 
       $url = Url::fromRoute('entity.node.canonical', ['node' => $game->id()]);
@@ -285,32 +353,39 @@ function _team_data($data, &$variables) {
     '4' => NULL,
   ];
   foreach ($team_goals as $goal) {
-    $data = _goal_data($goal);
-    $period = $data['period'];
-    $time = $data['time'];
-    $variables['goals'][$period][$time] = $data;
+    $goal_data = _goal_data($goal);
+    $period = $goal_data['period'];
+    $time = $goal_data['time'];
+    $variables['goals'][$period][$time] = $goal_data;
     $goals[$period]++;
   }
 
   // Goalie.
-  $goalie = $data['goalie'];
-  $goalie_name = $team_name;
-  if ($goalie) $goalie_name = $goalie->get('title')->value;
-  $goalie_stats = $data['goalie_stats'];
-  $shots_against = $goalie_stats['shots_against'] ?? 0;
-  $goals_against = $goalie_stats['goals_against'] ?? 0;
-  $saves = $shots_against - $goals_against;
-  $sp = $shots_against > 0 ? $saves / $shots_against : 0;
+  $goalie_data = [];
+  $goalie_name = 'TBD';
+  $shots_against = $saves = $sp = 0;
+  if (!empty($data['goalie'])) {
+    $goalie = $data['goalie'];
+    $goalie_name = $team_name;
+    if ($goalie) $goalie_name = $goalie->get('title')->value;
+    $goalie_stats = $data['goalie_stats'];
+    $shots_against = $goalie_stats['shots_against'] ?? 0;
+    $goals_against = $goalie_stats['goals_against'] ?? 0;
+    $saves = $shots_against - $goals_against;
+    $sp = $shots_against > 0 ? $saves / $shots_against : 0;
+
+  }
+  $goalie_data = [
+    'name' => $goalie_name,
+    'saves' => $saves,
+    'sp' => $sp,
+  ];
 
   $variables[$data['team']] = [
     "team" => $team_name,
     "score" => $goals_total,
     "sog" => $shots_against,
-    "goalie" => [
-      'name' => $goalie_name,
-      'saves' => $saves,
-      'sp' => $sp,
-    ],
+    "goalie" => $goalie_data,
     "goals" => $goals,
   ];;
 }
@@ -319,8 +394,9 @@ function _goal_data($node) {
   $data = $node->get('field_goal_stats')->getValue()[0];
   $return['time'] = $data['goal_minute'] . ':' . $data['goal_seconds'];
   $return['period'] = $data['goal_period'];
-  $return['player_name'] = $node->get('field_goal_player')->entity->get('title')->value;
-  $return['player_number'] = $node->get('field_goal_player')->entity->get('field_number')->value;
+  $player = $node->get('field_goal_player')->entity;
+  $return['player_name'] = $player->get('title')->value ??'Sub';
+  $return['player_number'] = $player->get('field_number')->value ?? '0';
 
   $return['team'] = $node->get('field_team')->entity->get('title')->value;
   $return['detail'] = 'Unassisted';
