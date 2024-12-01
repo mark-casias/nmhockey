@@ -15,6 +15,8 @@ dependencies:
     - field.field.node.games.field_game_penalty_away
     - field.field.node.games.field_game_penalty_home
     - field.field.node.games.field_game_season
+    - field.field.node.games.field_game_subs_away
+    - field.field.node.games.field_game_subs_home
     - field.field.node.games.field_game_team_away
     - field.field.node.games.field_game_team_home
     - field.field.node.games.field_location
@@ -82,6 +84,8 @@ hidden:
   field_game_goals_home: true
   field_game_penalty_away: true
   field_game_penalty_home: true
+  field_game_subs_away: true
+  field_game_subs_home: true
   field_location: true
   field_type: true
   path: true

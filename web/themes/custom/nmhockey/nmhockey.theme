@@ -121,17 +121,23 @@ function nmhockey_preprocess_node(array &$variables): void {
           $opponent = $h_team[0]->label();
           foreach ($agoals as $g) {
             $goal_player = $g->get('field_goal_player')->entity->id();
-            $player_rows['goals'][$goal_player]++;
-            $player_rows['points'][$goal_player]++;
+            if (in_array($goal_player, array_keys($players))) {
+              $player_rows['goals'][$goal_player]++;
+              $player_rows['points'][$goal_player]++;
+            }
             $a_player = $g->get('field_assist')->entity;
             if ($a_player) {
-              $player_rows['assists'][$a_player->id()]++;
-              $player_rows['points'][$a_player->id()]++;
+              if (in_array($a_player->id(), array_keys($players))){
+                $player_rows['assists'][$a_player->id()]++;
+                $player_rows['points'][$a_player->id()]++;
+              }
             }
             $aa_player = $g->get('field_assist_2')->entity;
             if ($aa_player) {
-              $player_rows['assists'][$aa_player->id()]++;
-              $player_rows['points'][$aa_player->id()]++;
+              if (in_array($aa_player->id(), array_keys($players))){
+                $player_rows['assists'][$aa_player->id()]++;
+                $player_rows['points'][$aa_player->id()]++;
+              }
             }
           }
           $goalie = $game->get('field_game_goalie_away')->entity;

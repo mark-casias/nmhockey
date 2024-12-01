@@ -1,0 +1,19 @@
+uuid: 9941e052-073d-44d0-8e8e-f69115f31ac7
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_game_subs_home
+field_name: field_game_subs_home
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

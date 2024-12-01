@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - core.entity_form_mode.node.inline
     - field.field.node.games.body
     - field.field.node.games.field_game_date
     - field.field.node.games.field_game_goalie_away
@@ -15,6 +14,8 @@ dependencies:
     - field.field.node.games.field_game_penalty_away
     - field.field.node.games.field_game_penalty_home
     - field.field.node.games.field_game_season
+    - field.field.node.games.field_game_subs_away
+    - field.field.node.games.field_game_subs_home
     - field.field.node.games.field_game_team_away
     - field.field.node.games.field_game_team_home
     - field.field.node.games.field_location
@@ -84,7 +85,7 @@ third_party_settings:
       label: Stats
       region: content
       parent_name: ''
-      weight: 4
+      weight: 5
       format_type: tabs
       format_settings:
         classes: ''
@@ -131,6 +132,56 @@ third_party_settings:
       region: content
       parent_name: group_stats
       weight: 22
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_teams:
+      children:
+        - group_home_team
+        - group_team_away
+      label: Teams
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        direction: horizontal
+        width_breakpoint: 640
+    group_home_team:
+      children:
+        - field_game_team_home
+        - field_game_subs_home
+      label: Home
+      region: content
+      parent_name: group_teams
+      weight: 20
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_team_away:
+      children:
+        - field_game_team_away
+        - field_game_subs_away
+      label: Away
+      region: content
+      parent_name: group_teams
+      weight: 21
       format_type: tab
       format_settings:
         classes: ''
@@ -261,7 +312,7 @@ content:
     third_party_settings: {  }
   field_game_season:
     type: entity_reference_autocomplete
-    weight: 6
+    weight: 8
     region: content
     settings:
       match_operator: CONTAINS
@@ -269,27 +320,63 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_game_subs_away:
+    type: inline_entity_form_complex
+    weight: 5
+    region: content
+    settings:
+      form_mode: default
+      override_labels: true
+      label_singular: Substitute
+      label_plural: ''
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: keep
+    third_party_settings: {  }
+  field_game_subs_home:
+    type: inline_entity_form_complex
+    weight: 4
+    region: content
+    settings:
+      form_mode: default
+      override_labels: true
+      label_singular: Substitute
+      label_plural: ''
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: keep
+    third_party_settings: {  }
   field_game_team_away:
     type: options_select
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
   field_game_team_home:
     type: options_select
-    weight: 2
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
   field_location:
     type: options_select
-    weight: 7
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
   field_type:
     type: options_select
-    weight: 29
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -302,7 +389,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   url_redirects:
-    weight: 5
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }

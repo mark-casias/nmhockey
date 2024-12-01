@@ -90,6 +90,7 @@ services:
       build:
         # Install new configuration and database updates.
         - vendor/bin/drush si minimal
+        - vendor/bin/drush user:password admin admin
         - vendor/bin/drush config-set "system.site" uuid 2843a22b-1102-4b0d-b0ad-034f8427ac3b
 
         - vendor/bin/drush deploy

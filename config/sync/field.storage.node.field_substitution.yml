@@ -1,0 +1,19 @@
+uuid: ab485c07-6f4f-402a-8fe1-6cef12de2638
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_substitution
+field_name: field_substitution
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,24 @@
+uuid: 08f25016-72fa-4b1d-8b20-01602f9a2e81
+langcode: en
+status: true
+dependencies:
+  module:
+    - autotitle
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+  autotitle:
+    enabled: false
+    field: _none
+    fallback_title: 'Untitled []'
+    headings: {  }
+name: Substitution
+type: substitution
+description: null
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

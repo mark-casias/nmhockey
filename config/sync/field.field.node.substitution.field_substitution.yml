@@ -1,0 +1,37 @@
+uuid: 17e8f2f5-a749-4932-89d2-06e7ccd0fe42
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_substitution
+    - node.type.player
+    - node.type.substitution
+  module:
+    - er_auto
+third_party_settings:
+  er_auto:
+    automation:
+      enabled: 0
+      source: {  }
+      automated: {  }
+id: node.substitution.field_substitution
+field_name: field_substitution
+entity_type: node
+bundle: substitution
+label: Substitution
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      player: player
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

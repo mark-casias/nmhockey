@@ -14,6 +14,8 @@ dependencies:
     - field.field.node.games.field_game_penalty_away
     - field.field.node.games.field_game_penalty_home
     - field.field.node.games.field_game_season
+    - field.field.node.games.field_game_subs_away
+    - field.field.node.games.field_game_subs_home
     - field.field.node.games.field_game_team_away
     - field.field.node.games.field_game_team_home
     - field.field.node.games.field_location
@@ -131,6 +133,22 @@ content:
         separator: '|'
         referenced_entity: '0'
     weight: 4
+    region: content
+  field_game_subs_away:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  field_game_subs_home:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 13
     region: content
   field_game_team_away:
     type: entity_reference_label

@@ -90,32 +90,65 @@ function nmhockey_stats_inline_entity_form_entity_form_alter(array &$entity_form
     }
   }
   if ($parent_type === 'games') {
+    $field = $entity_form['#ief_id'];
+
     $home = Node::load($input['field_game_team_home']);
+    $home_players = $home->get('field_roster')->referencedEntities();
+    $home_player_options = ['' => 'Select'];
+    if ($home_players) {
+      foreach ($home_players as $player) {
+        $home_player_options[$player->id()] = $player->label();
+      }
+    }
     $away = Node::load($input['field_game_team_away']);
+    $away_players = $away->get('field_roster')->referencedEntities();
+    $away_player_options = ['' => 'Select'];
+    if ($away_players) {
+      foreach ($away_players as $player) {
+        $away_player_options[$player->id()] = $player->label();
+      }
+    }
+
+    // Subs?
+    $home_subs = $parent->get('field_game_subs_home')->referencedEntities();
+    $home_sub_options = [];
+    foreach ($home_subs as $sub) {
+      $player = $sub->get('field_player')->entity->id();
+      $sub_player = $sub->get('field_substitution')->entity;
+      unset($home_player_options[$player]);
+      $home_sub_options[$sub_player->id()] = $sub_player->label();
+    }
+    $away_subs = $parent->get('field_game_subs_away')->referencedEntities();
+    $away_sub_options = [];
+    foreach ($away_subs as $sub) {
+      $player = $sub->get('field_player')->entity->id();
+      $sub_player = $sub->get('field_substitution')->entity;
+      unset($away_player_options[$player]);
+      $away_sub_options[$sub_player->id()] = $sub_player->label();
+    }
+
+    if ($bundle === 'substitution') {
+      $player_options = ($field === 'field_game_subs_home-form') ? $home_player_options : $away_player_options;
+      // Restrict players to team.
+      $entity_form['field_player']['widget']['#options'] = $player_options;
+    }
+
+    // Combine players and subs.
+    $home_player_options += $home_sub_options;
+    $away_player_options += $away_sub_options;
 
     if ($bundle === 'goal') {
       // Home or away?
-      $field = $entity_form['#ief_id'];
       if ($field === "field_game_goals_home-form") {
-        $players = $home->get('field_roster')->referencedEntities();
+        $player_options = $home_player_options;
         $team_options[$home->id()] = $home->label();
       }
       if ($field === 'field_game_goals_away-form') {
-        $players = $away->get('field_roster')->referencedEntities();
+        $player_options = $away_player_options;
         $team_options[$away->id()] = $away->label();
       }
 
-      $player_options = [0 => 'Select'];
-      if ($players) {
-        foreach ($players as $player) {
-          $player_options[$player->id()] = $player->label();
-        }
-      }
-      // Add sub option.
-      $player_options[76] = 'Sub';
-
       $entity_form['field_goal_player']['widget']['#options'] = $player_options;
-
       $entity_form['field_assist']['widget']['#options'] = $player_options;
       $entity_form['field_assist_2']['widget']['#options'] = $player_options;
       // Add parent_nid (game) to field_game.
@@ -125,26 +158,16 @@ function nmhockey_stats_inline_entity_form_entity_form_alter(array &$entity_form
 
       // Restrict field_team to home or away.
       $entity_form['field_team']['widget']['#options'] = $team_options;
-
     }
     if ($bundle === 'penalty') {
-      $field = $entity_form['#ief_id'];
       if ($field === "field_game_penalty_home-form") {
-        $players = $home->get('field_roster')->referencedEntities();
+        $player_options = $home_player_options;
         $team_options[$home->id()] = $home->label();
       }
       if ($field === 'field_game_penalty_away-form') {
-        $players = $away->get('field_roster')->referencedEntities();
+        $player_options = $away_player_options;
         $team_options[$away->id()] = $away->label();
       }
-
-      $player_options = ['' => 'Select'];
-      if ($players) {
-        foreach ($players as $player) {
-          $player_options[$player->id()] = $player->label();
-        }
-      }
-      $player_options[76] = 'Sub';
 
       // Restrict players to team.
       $entity_form['field_penalty_player']['widget']['#options'] = $player_options;

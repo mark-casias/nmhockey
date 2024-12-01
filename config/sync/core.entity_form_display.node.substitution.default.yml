@@ -1,0 +1,46 @@
+uuid: d4353ef2-68fd-488f-8d39-03de771bdf7c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.substitution.field_player
+    - field.field.node.substitution.field_substitution
+    - node.type.substitution
+  module:
+    - field_layout
+    - layout_discovery
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings:
+      label: ''
+id: node.substitution.default
+targetEntityType: node
+bundle: substitution
+mode: default
+content:
+  field_player:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_substitution:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  title: true
+  uid: true
+  url_redirects: true
