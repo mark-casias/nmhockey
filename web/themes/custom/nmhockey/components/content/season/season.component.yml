@@ -9,3 +9,23 @@ props:
       type: string
       title: Title
       description: ''
+    subtitle:
+      type: string
+      title: Subtitle
+      description: ''
+    team_table:
+      type: array
+      title: Teams
+      description: List of teams and stats to render into a Summary component
+    games_table:
+      type: array
+      title: Games
+      description: List of games and results to render into a Summary component
+    goalie_table:
+      type: array
+      title: Goalies
+      description: List of goalies for the season and stats to render into a Summary component
+    player_table:
+      type: array
+      title: Players
+      description: List of players for the season and stats to render into a Summary component

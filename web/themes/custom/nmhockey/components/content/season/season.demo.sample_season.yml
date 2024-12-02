@@ -2,4 +2,54 @@ name: 'Sample Season'
 description: ''
 props:
   label: 'B1 - Fall 2024'
+  subtitle: 'Dates here'
+  team_table:
+    - header: Team
+      data: ['PHX', 'Nashville', 'Boston', 'Albuquerque']
+    - header: W
+      data: [0, 0, 0, 0]
+    - header: L
+      data: [0, 0, 0, 0]
+    - header: OTL
+      data: [0, 0, 0, 0]
+    - header: Points
+      data: [0, 0, 0, 0]
+  games_table:
+    - header: Date
+      data: ['Date 1', 'Date 1', 'Date 2', 'Date 2']
+    - header: Away
+      data: ['Team 1', 'Team 2', 'Team 3', 'Team 4']
+    - header: Score
+      data: ['1 - 1', '2 - 1', '7:45', '9:15']
+    - header: Home
+      data: ['Team 2', 'Team 3', 'Team 4', 'Team 1']
+  player_table:
+    - header: 'Name (Team)'
+      data:
+        - 'Mark Casias (Nashville)'
+        - 'Alex Lappin (Team)'
+        - 'Jordan Moenart (Team)'
+        - 'Tom Mebust (Team)'
+    - header: GP
+      data: [0, 0, 0, 0]
+    - header: "G"
+      data: [0, 0, 0, 0]
+    - header: "A"
+      data: [0, 0, 0, 0]
+    - header: "Pts"
+      data: [0, 0, 0, 0]
+    - header: "PIMS"
+      data: [0, 0, 0, 0]
+  goalie_table:
+    - header: "Name"
+      data: ['Brett', 'Josh', 'Jacob', 'Blair']
+    - header: 'GP'
+      data: [0, 0, 0, 0]
+    - header: W
+      data: [0, 0, 0, 0]
+    - header: L
+      data: [0, 0, 0, 0]
+    - header: OTL
+      data: [0, 0, 0, 0]
+
 slots: {  }
