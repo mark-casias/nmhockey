@@ -1,5 +1,5 @@
 [data-component-id="nmhockey:season"] {
-  padding: 0 1rem;
+  padding: 0;
   .details {
     margin: 1rem 0;
     @media (min-width: 768px) {

@@ -88,6 +88,7 @@ services:
       # and update steps, because the results of those are inherited
       # from the base preview.
       build:
+        - touch .env
         # Install new configuration and database updates.
         - vendor/bin/drush si minimal
         - vendor/bin/drush user:password admin admin
@@ -96,6 +97,7 @@ services:
         - vendor/bin/drush deploy
 
         # Migrate content
+        - vendor/bin/drush en migrate_google_sheets
         - vendor/bin/drush mim --group=nmhockey
 
         # If you are downloading your files from a remove server, you won't need

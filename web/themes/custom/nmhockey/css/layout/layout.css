@@ -26,6 +26,10 @@ header {
 
 .layout-content {
   flex-grow: 1;
+  padding: 0 .5rem;
+  @media (min-width: 720px) {
+    padding: 0 2rem;
+  }
 }
 
 .layout-sidebar-first {
