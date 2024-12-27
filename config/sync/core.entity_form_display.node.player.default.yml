@@ -11,6 +11,8 @@ dependencies:
     - field.field.node.player.field_media
     - field.field.node.player.field_number
     - field.field.node.player.field_player_is_goalie
+    - field.field.node.player.field_player_jersey_name
+    - field.field.node.player.field_player_jersey_size
     - field.field.node.player.field_telephone
     - field.field.node.player.field_usa_hockey_number
     - node.type.player
@@ -81,6 +83,22 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  field_player_jersey_name:
+    type: string_textfield
+    weight: 51
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_player_jersey_size:
+    type: string_textfield
+    weight: 52
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_telephone:
     type: telephone_default

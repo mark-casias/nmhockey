@@ -52,6 +52,7 @@
     <div class="stats-column">
       <div class="goalie-stats section">
         {% block season_goalies %}
+
           {% include "nmhockey:summary" with {
             title: "Goalies",
             columns: goalie_table} %}

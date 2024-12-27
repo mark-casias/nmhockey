@@ -14,7 +14,7 @@ source:
   plugin: url
   data_fetcher_plugin: http
   data_parser_plugin: google_sheets
-  urls: 'https://sheets.googleapis.com/v4/spreadsheets/1wzVUzWUS_VHmzasl7teB2PrD9-YYkhFn_LUBVZsZnzY/values/Teams?key=AIzaSyAvyXQntGKjwwUtGXbs1JjVe5ICtphgQks'
+  urls: 'https://sheets.googleapis.com/v4/spreadsheets/1wzVUzWUS_VHmzasl7teB2PrD9-YYkhFn_LUBVZsZnzY/values/Teams'
   fields:
     -
       name: season

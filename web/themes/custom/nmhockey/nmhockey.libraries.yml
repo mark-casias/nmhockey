@@ -1,7 +1,5 @@
 # Main theme library.
 global:
-  js:
-    js/nmhockey.js: {}
   css:
     base:
       css/base/variables.css: {}

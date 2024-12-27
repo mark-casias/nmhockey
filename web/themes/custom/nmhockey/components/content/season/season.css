@@ -1,10 +1,12 @@
 [data-component-id="nmhockey:season"] {
   padding: 0 1rem;
   .details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 1rem;
     margin: 1rem 0;
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1rem;
+    }
   }
   .section {
     margin-bottom: 2rem;

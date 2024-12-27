@@ -16,6 +16,22 @@
   --color-blue-vivid: #0693e3;
   --color-purple: #9b51e0;
 
+  /** Semantic Colors */
+  --color-text: var(--color-black);
+  --color-text-inverse: var(--color-gray);
+  --color-background: var(--color-gray-dark);
+  --color-background-section: var(--color-near-white);
+  --color-primary: var(--color-blue);
+  --color-secondary: var(--color-red);
+  --color-accent: var(--color-white);
+  --color-accent-high: var(--color-black);
+  --color-highlight: var(--color-blue-vivid);
+  --color-highlight-high: var(--color-blue-pale);
+  --color-muted: var(--color-gray-blue);
+  --color-warning: var(--color-yellow-light);
+  --color-error: var(--color-red-light);
+  --color-message: var(--color-green-light);
+
   --color-background: #f2f2f2;
 
 }

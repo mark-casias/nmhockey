@@ -14,12 +14,12 @@ source:
   plugin: url
   data_fetcher_plugin: http
   data_parser_plugin: google_sheets
-  urls: 'https://sheets.googleapis.com/v4/spreadsheets/1wzVUzWUS_VHmzasl7teB2PrD9-YYkhFn_LUBVZsZnzY/values/Players?key=AIzaSyAvyXQntGKjwwUtGXbs1JjVe5ICtphgQks'
+  urls: 'https://sheets.googleapis.com/v4/spreadsheets/1wzVUzWUS_VHmzasl7teB2PrD9-YYkhFn_LUBVZsZnzY/values/Players'
   fields:
     -
-      name: cli
-      label: CLI
-      selector: cli
+      name: usah
+      label: "USA Hockey Number"
+      selector: USAH
     -
       name: player
       label: Player
@@ -40,6 +40,14 @@ source:
       name: jersey
       label: 'Jrsy Num'
       selector: 'Jrsy Num'
+    -
+      name: jersey_size
+      label: 'Jersey Size'
+      selector: 'Jrsy Size'
+    -
+      name: jersey_name
+      label: 'Jersey Name'
+      selector: 'Jrsy Name'
     -
       name: rank
       label: Rank
@@ -81,8 +89,10 @@ process:
       - G
   field_level: rank
   field_number: jersey
+  field_jersey_size: jersey_size
+  field_jersey_name: jersey_name
   field_telephone: phone
-  field_usa_hockey_number: cli
+  field_usa_hockey_number: usah
   field_email: email
 destination:
   plugin: 'entity:node'

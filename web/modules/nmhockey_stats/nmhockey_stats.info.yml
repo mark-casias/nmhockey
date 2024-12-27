@@ -3,3 +3,8 @@ type: module
 description: 'Custom fields and views for NM Hockey'
 package: 'NM Hockey'
 core_version_requirement: ^10 || ^11
+dependecies:
+  - default_content
+default_content:
+  node:
+    - 6596da78-9002-4d68-8587-2ae3d4e64a02

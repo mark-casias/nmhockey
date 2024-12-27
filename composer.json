@@ -29,6 +29,7 @@
         "drupal/core-vendor-hardening": "^10.2",
         "drupal/default_content": "^2.0@alpha",
         "drupal/devel": "^5.1",
+        "drupal/dotenv": "^1.2",
         "drupal/emulsify_twig": "^5.0",
         "drupal/er_auto": "^1.0",
         "drupal/examples": "^4.0",
@@ -73,6 +74,10 @@
         },
         "sort-packages": true
     },
+
+    "autoload": {
+        "files": ["load.environment.php"]
+    },
     "extra": {
         "drupal-scaffold": {
             "locations": {
@@ -114,9 +119,6 @@
             ]
         },
         "patches": {
-            "drupal/migrate_google_sheets": {
-                "Migrate Plus function map (https://dgo.to/3484226)": "patches/drupal/migrate_google_sheets/6.patch"
-            },
             "drupal/migration_tools": {
                 "Undefined array key 'map_false' (https://dgo.to/3449512)": "patches/drupal/migration_tools/3449512.patch"
             }

@@ -1,0 +1,19 @@
+uuid: ef812742-fbb7-4085-8e6a-4cfad8d9430d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_player_jersey_size
+    - node.type.player
+id: node.player.field_player_jersey_size
+field_name: field_player_jersey_size
+entity_type: node
+bundle: player
+label: 'Jersey Size'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

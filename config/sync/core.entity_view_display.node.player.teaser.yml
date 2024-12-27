@@ -12,6 +12,8 @@ dependencies:
     - field.field.node.player.field_media
     - field.field.node.player.field_number
     - field.field.node.player.field_player_is_goalie
+    - field.field.node.player.field_player_jersey_name
+    - field.field.node.player.field_player_jersey_size
     - field.field.node.player.field_telephone
     - field.field.node.player.field_usa_hockey_number
     - node.type.player
@@ -43,5 +45,7 @@ hidden:
   field_media: true
   field_number: true
   field_player_is_goalie: true
+  field_player_jersey_name: true
+  field_player_jersey_size: true
   field_telephone: true
   field_usa_hockey_number: true

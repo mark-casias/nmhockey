@@ -30,6 +30,7 @@ module:
   datetime_range: 0
   dblog: 0
   default_content: 0
+  dotenv: 0
   dynamic_page_cache: 0
   editor: 0
   emulsify_twig: 0
@@ -55,7 +56,6 @@ module:
   menu_ui: 0
   migrate: 0
   migrate_devel: 0
-  migrate_google_sheets: 0
   migrate_plus: 0
   migrate_tools: 0
   migration_tools: 0

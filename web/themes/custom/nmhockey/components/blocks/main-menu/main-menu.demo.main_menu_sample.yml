@@ -1,0 +1,16 @@
+name: 'Main Menu sample'
+description: ''
+props:
+  items:
+    - { title: 'About Us', url: '#', below: [{title: 'Registration', url: '<front>', attributes: {}},{title: 'Registration', url: '<front>', attributes: {}},{title: 'Registration', url: '<front>', attributes: {}}]}
+    - { title: 'Item 2', url: '#', below: [
+        {title: 'Item 2 below', url: '<front>', attributes: {}}
+      ], attributes: {}}
+    - { title: 'Item 3', url: '#', below: [
+        {title: 'Item 3 below 0', url: '<front>', attributes: {}},
+        {title: 'Item 3 below 1', url: '<front>', attributes: {}},
+        {title: 'Item 3 below 2', url: '<front>', attributes: {}},
+        {title: 'Item 3 below 3', url: '<front>', attributes: {}}
+      ], attributes: {}}
+    - { title: 'Calendar', url: '#', attributes: {}}
+slots: {  }

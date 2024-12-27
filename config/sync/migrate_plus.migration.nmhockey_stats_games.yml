@@ -14,7 +14,7 @@ source:
   plugin: url
   data_fetcher_plugin: http
   data_parser_plugin: google_sheets
-  urls: 'https://sheets.googleapis.com/v4/spreadsheets/1wzVUzWUS_VHmzasl7teB2PrD9-YYkhFn_LUBVZsZnzY/values/Games?key=AIzaSyAvyXQntGKjwwUtGXbs1JjVe5ICtphgQks'
+  urls: 'https://sheets.googleapis.com/v4/spreadsheets/1wzVUzWUS_VHmzasl7teB2PrD9-YYkhFn_LUBVZsZnzY/values/Games'
   fields:
     -
       name: date
@@ -36,6 +36,9 @@ source:
       name: season
       label: Season
       selector: Season
+    - name: type
+      label: Type
+      selector: Type
   ids:
     date:
       type: string
@@ -75,6 +78,7 @@ process:
     plugin: migration_lookup
     migration: nmhockey_stats_teams
     source: away
+  field_game_type: type
 destination:
   plugin: 'entity:node'
 migration_dependencies:

@@ -29,21 +29,46 @@
 {% macro menu_links(items, attributes, menu_level, menu_name) %}
   {% import _self as menus %}
   {% if items %}
-    {% set menu_classes = [
-      menu_name,
-      menu_level > 0 ? menu_name ~ '--sub-' ~ menu_level
-    ] %}
+    {% set menu_classes = [menu_name] %}
+    {% if menu_level > 0 %}
+      {% set menu_classes = menu_classes|merge([
+        menu_name ~ '--sub',
+        menu_name ~ '--sub--' ~ menu_level]) %}
+    {% endif %}
     <ul{{ attributes.addClass(menu_classes) }}>
     {% for item in items %}
-      {% set item_classes = [
-        menu_name ~ '--item',
-        item.below ? menu_name ~ '--with-below'
-      ] %}
-      {% set item_attributes = item.attributes %}
-      <li{{ item_attributes.addClass(item_classes) }}>
-        {{ link(item.title, item.url, create_attribute({'class': [ menu_name ~ '--link']})) }}
+      {% set item_modifiers = [menu_name ~ '__item'] %}
+      {% if item.in_active_trail == TRUE %}
+        {% set item_modifiers = item_modifiers|merge(['active']) %}
+      {% endif %}
+      {% if menu_level > 0 %}
+        {% set item_modifiers = item_modifiers|merge([
+          menu_name ~ '__item--sub',
+          menu_name ~ '__item--sub-' ~ menu_level]) %}
+      {% endif %}
+      {% if item.below %}
+        {% set item_modifiers = item_modifiers|merge([menu_name ~ '__item--with-sub']) %}
+      {% endif %}
+      <li class="{{item_modifiers|join(' ')}}">
+        {% set link_classes = [menu_name ~ '__link'] %}
         {% if item.below %}
-          {{ menus.menu_links(item.below, item.attributes.removeClass(item_classes), menu_level + 1, menu_name) }}
+          {% set link_classes = link_classes|merge([menu_name ~ '__link--with-sub', 'expand-sub']) %}
+        {% endif %}
+        {% if item.in_active_trail == TRUE %}
+          {% set link_classes = link_classes|merge(['active']) %}
+        {% endif %}
+        {% embed "nmhockey:link" with {
+          url: item.url,
+          title: item.title,
+          classes: link_classes,
+          attributes: item.attributes,
+        }%}
+          {% block extra %}
+          {% endblock %}
+        {% endembed %}
+        {% if item.below %}
+          {% set sub_menu_attributes = create_attribute() %}
+          {{ menus.menu_links(item.below, sub_menu_attributes, menu_level + 1, menu_name) }}
         {% endif %}
       </li>
     {% endfor %}

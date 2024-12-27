@@ -1,11 +1,13 @@
 $schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
-name: Main Menu
+name: Links
 status: experimental
-group: Blocks
+group: Atoms
 props:
   type: object
   properties:
-    items:
-      type: array
-      title: Items
-      description: 'Menu items passed to nmhockey:menu'
+    url:
+      type: string
+      title: URL
+    content:
+      type: string
+      title: Content
