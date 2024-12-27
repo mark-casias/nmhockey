@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.player.feeds_item
     - field.field.node.player.field_email
     - field.field.node.player.field_first_name
+    - field.field.node.player.field_goalie_ranking
     - field.field.node.player.field_last_name
     - field.field.node.player.field_level
     - field.field.node.player.field_media
@@ -42,6 +43,15 @@ content:
         separator: '|'
         referenced_entity: ''
     weight: 1
+    region: content
+  field_goalie_ranking:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 7
     region: content
   field_last_name:
     type: string

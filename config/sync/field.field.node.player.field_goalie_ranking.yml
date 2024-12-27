@@ -1,0 +1,23 @@
+uuid: df70ffe0-3f4c-4d63-8aa7-f11138409919
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_goalie_ranking
+    - node.type.player
+id: node.player.field_goalie_ranking
+field_name: field_goalie_ranking
+entity_type: node
+bundle: player
+label: 'goalie ranking'
+description: 'If goalie ranking is different from player ranking'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

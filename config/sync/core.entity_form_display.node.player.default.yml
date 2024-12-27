@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.player.feeds_item
     - field.field.node.player.field_email
     - field.field.node.player.field_first_name
+    - field.field.node.player.field_goalie_ranking
     - field.field.node.player.field_last_name
     - field.field.node.player.field_level
     - field.field.node.player.field_media
@@ -33,7 +34,7 @@ mode: default
 content:
   field_email:
     type: email_default
-    weight: 5
+    weight: 6
     region: content
     settings:
       placeholder: ''
@@ -47,6 +48,13 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_goalie_ranking:
+    type: number
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
   field_last_name:
     type: string_textfield
     weight: 1
@@ -57,7 +65,7 @@ content:
     third_party_settings: {  }
   field_level:
     type: string_textfield
-    weight: 7
+    weight: 8
     region: content
     settings:
       size: 60
@@ -65,14 +73,14 @@ content:
     third_party_settings: {  }
   field_media:
     type: media_library_widget
-    weight: 8
+    weight: 9
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   field_number:
     type: number
-    weight: 4
+    weight: 5
     region: content
     settings:
       placeholder: ''
@@ -86,7 +94,7 @@ content:
     third_party_settings: {  }
   field_player_jersey_name:
     type: string_textfield
-    weight: 51
+    weight: 12
     region: content
     settings:
       size: 60
@@ -94,7 +102,7 @@ content:
     third_party_settings: {  }
   field_player_jersey_size:
     type: string_textfield
-    weight: 52
+    weight: 13
     region: content
     settings:
       size: 60
@@ -102,14 +110,14 @@ content:
     third_party_settings: {  }
   field_telephone:
     type: telephone_default
-    weight: 6
+    weight: 7
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_usa_hockey_number:
     type: string_textfield
-    weight: 3
+    weight: 4
     region: content
     settings:
       size: 60
@@ -117,13 +125,13 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 9
+    weight: 10
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   url_redirects:
-    weight: 50
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }

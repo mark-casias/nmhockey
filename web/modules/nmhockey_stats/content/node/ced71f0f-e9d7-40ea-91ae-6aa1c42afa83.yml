@@ -1,0 +1,38 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: ced71f0f-e9d7-40ea-91ae-6aa1c42afa83
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: '2025 Registration'
+  created:
+    -
+      value: 1733258291
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  path:
+    -
+      alias: /about-us/2025-registration
+      langcode: en
+      pathauto: 0
+  body:
+    -
+      value: '<p>We are starting registration for the 2025 Spring NMHockey season at the Outpost Ice Arena and the MAC. Currently rostered players will be given priority through Saturday, December 7. Payments may be made now by Venmo, Mail or in-person. See below under Payment Methods for details. We especially encourage current league members to sign up early in the process for the upcoming season to guarantee their spot in the league. Please also let us know if you are not able to play next season.</p><p>We will begin signing up players on the wait list after Sunday, December 8 or as we know what openings we have available.</p><p>New players or returning players should visit the <a href="https://nmhockey.com/sign-up/new-returning-players">New or Returning Player Information</a> page and reach out via <a href="https://nmhockey.com/about-us/the-staff">email or text</a> to let me know they are interested in joining a team.</p><p class="text-align-center">We always strive to get every player on a team who interested in joining, but given we maintain a limited number of skaters and one goalie per team, it may not be possible to accommodate everyone. Any players we are not able to get on a team may sub ( <a href="https://nmhockey.com/about-us/the-rules#subs">subbing in the league</a> ) when the league starts up. Players that are subbing will be given priority when there is a mid-season opening, based on the best match of skill level for the player they are replacing. Subbing is also a great way to get ice time, determine the best division for a player and provide and opportunity for new players to get to know New Mexico’s great hockey community.</p><p>Important notes about partial payments:</p><ul><li>Although NMHockey accommodates players that need to split their league fees into two payments, at time of registration all players are committing to a full season and paying the full amount.&nbsp; As a courtesy, the league does offer prorated refunds. If a player must drop out during the season for any reason, that player is responsible for all fees until a suitable replacement player is found, and they must also let me, their captain, and Vice-Commissioner know. A “suitable replacement player” would be one that is a close match in skill level. Typically, this can take several weeks.</li><li>If paying half, the remainder will be due the week of Sunday, February 23.</li></ul><h3 class="text-align-center">Outpost Season Details</h3><p>We are planning to fill rosters for 24 teams again: 4 E Division, 4 D Division, 4 C Division, 4 B2 Division, and 4 B1 Division teams.</p><p>If space permits, players may skate in more than one division. Players will receive $70 off ($35 if discounted for captaining, goalie, etc.) for each additional league they play. Note: The multi-division discount does not apply across rinks. Let me know if you wish to play in more than one division and I will let you know after new player sign ups if slots are available.</p><p>Season Start, Duration and Details:</p><ul><li>Season begins Thursday, Jan 2.</li><li>20 weeks of play.</li><li>Season ends Sunday, Jun 8 (if games are not pushed due to Outpost schedule conflicts)</li></ul><p>Game Days and Times:</p><p>Note: We have not received approval on the full season schedule from the Outpost. There will likely be some changes due to the Ice Wolves schedules.</p><p>See generic schedule below.</p><ul><li>E Division Sundays – South Sheet: 7:00PM &amp; 8:30PM</li><li>B2 Division Mondays – North Sheet: 8:30PM &amp; 10:00PM (TBD)</li><li>D Division Mondays – South Sheet: 8:15PM &amp; 9:45PM (TBD)</li><li>C Division Wednesdays – North Sheet: 8:15PM &amp; 9:45PM</li><li>B1 Division Thursdays – South Sheet: 8:30PM &amp; 10:00PM</li></ul><p>Weeks Off or Alternate nights and times:</p><p>See <a href="https://nmhockey.com/generic-outpost-schedule">Full Generic ’25 Spring Outpost Schedule</a></p><p>&nbsp;League Fee Costs:</p><ul><li>Skaters – $560 for the 20-week season. **Full payment is preferred, but players may make two payments of $280.<ul><li>NOTE: <em>Fees may be discounted for skaters based on divisions where 11 skaters were rostered. Each division will be notified what the discount is by email.</em></li></ul></li><li>Goalies – $280 for the 20-week season.</li></ul><h3 class="text-align-center">MAC Season Details</h3><p>We are planning to fill 4 Tuesday (Intermediate – Advanced) and 4 Thursday (Beginner- Intermediate) teams.</p><p>If space permits, players may skate in more than one division. Players will receive $40 off ($20 if discounted for captaining, goalie, etc.) if a player is playing on Tuesdays and Thursdays at the MAC. Note: The multi-division discount does not apply across rinks. Let me know if you wish to play in more than one division and I will let you know after new player sign ups if slots are available.</p><p>Season Start, Duration and Details:</p><ul><li>Season begins on Tuesday, Jan 7.</li><li>20 weeks of play.</li><li>Season ends Thursday, Jun 12.</li></ul><p>Game Days and Times:</p><ul><li>Tuesday Division: 7:45PM &amp; 9:15PM (Shifts to 7:15PM &amp; 8:45PM mid-March)</li><li>Thursday Division: 7:45PM &amp; 9:15PM (Shifts to 7:15PM &amp; 8:45PM mid-March)</li></ul><p>Weeks Off or Alternate Nights:</p><p>See <a href="https://nmhockey.com/generic-mac-schedule">Full Generic Fall ’25 Spring MAC Schedule</a></p><p>&nbsp;League Fee Costs:</p><ul><li>Skaters – $450 for the 20-week season. **Full payment is preferred, but players may make two payments of $225.</li><li>Goalies – $225 for the 20-week season. **Full payment is preferred, but players may make two payments of $115 and $110.</li></ul>'
+      format: basic_html
+      summary: ''

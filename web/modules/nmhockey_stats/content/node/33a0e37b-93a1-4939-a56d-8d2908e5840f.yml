@@ -1,0 +1,41 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 33a0e37b-93a1-4939-a56d-8d2908e5840f
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'the Staff'
+  created:
+    -
+      value: 1735315716
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  path:
+    -
+      alias: /about-us/staff
+      langcode: en
+      pathauto: 0
+  body:
+    -
+      value: '<h4><em>Founder and League Commissioner</em></h4><ul><li>Joe Hanson&nbsp;– <a href="mailto:jhanson@nmhockey.com">jhanson@nmhockey.com</a>&nbsp;(505) 401-3652</li></ul><p><em>League Vice Commissioners, Development, and Disciplinary Committee</em></p><h4>Outpost:</h4><ul><li>E – Amanda Downing</li><li>D – Monique Curley</li><li>C – Daniel Dunn</li><li>B2 – Chris Boydston</li><li>B1 – Anthony Allen</li><li>A – Anthony Allen</li><li>Tuesday MAC – James Devine</li><li>Thursday MAC – Kim Schneider</li></ul><h4><em>Scorekeepers</em></h4><ul><li>Laura Hood</li><li>Ron Nueser</li><li>Grace Hausenfleck</li><li>Chris Boydston</li><li>Sam Foist</li><li>Emma Reinsvold</li></ul><h4><em>League Photographer</em></h4><ul><li>Matt Beckmann</li></ul>'
+      format: basic_html
+      summary: ''

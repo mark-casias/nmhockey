@@ -1,0 +1,38 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 45122108-f409-466f-9122-2395a23c1bbb
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'About Us'
+  created:
+    -
+      value: 1733258237
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  path:
+    -
+      alias: /about-us
+      langcode: en
+      pathauto: 0
+  body:
+    -
+      value: "<p>Here's where we put detail about leagues, and other thigns</p>"
+      format: basic_html
+      summary: ''

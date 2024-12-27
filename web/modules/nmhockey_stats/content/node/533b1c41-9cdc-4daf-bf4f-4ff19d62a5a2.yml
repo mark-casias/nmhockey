@@ -1,0 +1,38 @@
+_meta:
+  version: '1.0'
+  entity_type: node
+  uuid: 533b1c41-9cdc-4daf-bf4f-4ff19d62a5a2
+  bundle: page
+  default_langcode: en
+default:
+  revision_uid:
+    -
+      target_id: 1
+  status:
+    -
+      value: true
+  uid:
+    -
+      target_id: 1
+  title:
+    -
+      value: 'The History'
+  created:
+    -
+      value: 1735315148
+  promote:
+    -
+      value: false
+  sticky:
+    -
+      value: false
+  path:
+    -
+      alias: /about-us/history
+      langcode: en
+      pathauto: 0
+  body:
+    -
+      value: '<p>The NMHockey league has its roots in the summer of 2002 when no league existed for beginner men or women to learn to play ice hockey, where they could have fun and develop their skills in a non-threatening environment. Wanting to play hockey, ice time was reserved at Blades (Now the MAC) for a beginner hockey game. It was hoped that enough people would show up to make two teams. By the end of the night, we had enough excited hockey-player wanna-bes for four teams (teams red, black, blue and white), a ten-week commitment with the rink and the league name of BCHL. This would later become the NMHockey league.</p><p>The fall season of 2002 saw the league change its name to become the ABHL and change the venue to the Outpost Ice Arena across town. Most players made the change as well. The winter season of 2002 saw expansion to six teams with a seeding of the new teams with a handful of veterans from the original four. Despite the league roster totaling 66 players, the substitute pool/waiting list continued to grow.</p><p>For the spring 2003 Season, the league grew and split at the same time. Eight teams would split into two levels, a beginner league (ABHL) and an intermediate league (AIHL) and both leagues fell under a new name, “NMHockey”. The ABHL would continue to allow new players to develop and have fun while the AIHL would give developing players a place to further challenge themselves.</p><p>In the Fall Season of 2005, the league grew and split again to add the competitive league (ACHL) to accommodate players with more extensive hockey experience.</p><p>Over the next couple years the league saw exponential growth; expanding to 22 teams across five divisions. In 2007, the Outpost Ice Arena also expanded, adding a second sheet of ice and during this same period, the league adopted new custom jerseys, which we still use to this day.</p><p>In the fall of 2011, in an effort to improve the playing environment of the league and in making games more fun and safe, NMHockey introduced the Sportsmanship Award. This award is a partial league credit and a framed Sportsmanship patch given to a player in each division, voted by his/her peers who exhibits characteristics that best meet the league mission.</p><p>In the spring of 2017, the league expanded back across the river where we started; at the MAC, what was Blades. Eight teams were drafted: four teams on Tuesday (Intermediate-Advanced) nights and four teams on Thursday (Beginner-Intermediate) nights.</p><p>In the fall of 2021, following a year and a half hiatus due to the COVID pandemic, the league returned with 95% of the players that were rostered the previous year and welcomed the addition of the Sunday “Premier League”; adding an A level to the league divisions.</p><p>Over 20 years have passed since the league started and it has evolved substantially. NMHockey now has an amazing community of over 300 players and consists of 32 teams; four E Div teams, four D Div teams, four C Div teams, four B2 Div, four B1 Div teams, and 4 A Div teams, all playing at the Outpost Ice Arena and four Tuesday teams and four Thursday teams that play at the MAC. All leagues are sanctioned by USA Hockey, have USA Hockey referees, full time scorekeepers/announcer, league by-laws, league events, a website and a trophy, “The Norskie Cup”, rivaling the Stanley Cup itself (of course, not in importance or nostalgia, but in appearance).</p><p>For more information about the league, visit the <a href="https://nmhockey.com/sign-up/season-details">“Season Details”</a> and <a href="https://nmhockey.com/about-us/the-rules-2">“Rules &amp; Policies”</a>&nbsp;page .</p>'
+      format: basic_html
+      summary: ''
