@@ -89,6 +89,7 @@ services:
       # from the base preview.
       build:
         - touch .env
+        - echo "GOOGLE_API_KEY=${GOOGLE_API_KEY}" >> .env
         # Install new configuration and database updates.
         - vendor/bin/drush si minimal
         - vendor/bin/drush user:password admin admin
@@ -98,6 +99,7 @@ services:
 
         # Migrate content
         - vendor/bin/drush en migrate_google_sheets
+        - vendor/bin/drush dotenv:dump
         - vendor/bin/drush mim --group=nmhockey
 
         # If you are downloading your files from a remove server, you won't need
