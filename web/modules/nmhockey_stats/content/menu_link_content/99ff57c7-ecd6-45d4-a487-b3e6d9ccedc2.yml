@@ -1,0 +1,42 @@
+_meta:
+  version: '1.0'
+  entity_type: menu_link_content
+  uuid: 99ff57c7-ecd6-45d4-a487-b3e6d9ccedc2
+  bundle: menu_link_content
+  default_langcode: en
+  depends:
+    52cc1407-0e58-47cf-93a9-896f384fcaf3: menu_link_content
+    33a0e37b-93a1-4939-a56d-8d2908e5840f: node
+default:
+  enabled:
+    -
+      value: true
+  title:
+    -
+      value: 'the Staff'
+  menu_name:
+    -
+      value: main
+  link:
+    -
+      target_uuid: 33a0e37b-93a1-4939-a56d-8d2908e5840f
+      title: ''
+      options: {  }
+  external:
+    -
+      value: false
+  rediscover:
+    -
+      value: false
+  weight:
+    -
+      value: 0
+  expanded:
+    -
+      value: false
+  parent:
+    -
+      value: 'menu_link_content:52cc1407-0e58-47cf-93a9-896f384fcaf3'
+  revision_translation_affected:
+    -
+      value: true

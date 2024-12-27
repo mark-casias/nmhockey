@@ -12,3 +12,10 @@ default_content:
     - ced71f0f-e9d7-40ea-91ae-6aa1c42afa83
     - 533b1c41-9cdc-4daf-bf4f-4ff19d62a5a2
     - 33a0e37b-93a1-4939-a56d-8d2908e5840f
+  menu_link_content:
+    - 52cc1407-0e58-47cf-93a9-896f384fcaf3	# About Us
+    - 8a7230fd-f644-4e44-9423-f6e4aa054267	# MAC Hockey
+    - 05ca91af-896d-4816-8ebb-a0f17f221f6c	# Outpost Hockey
+    - 82278139-cd22-4068-b571-c37e43949651	# League Rules
+    - 66959fc3-bd57-4ac3-9ed2-665ec08c4151	# The History
+    - 99ff57c7-ecd6-45d4-a487-b3e6d9ccedc2	# he Staff

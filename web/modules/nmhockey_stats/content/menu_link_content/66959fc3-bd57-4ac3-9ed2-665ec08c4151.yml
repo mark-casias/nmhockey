@@ -1,0 +1,42 @@
+_meta:
+  version: '1.0'
+  entity_type: menu_link_content
+  uuid: 66959fc3-bd57-4ac3-9ed2-665ec08c4151
+  bundle: menu_link_content
+  default_langcode: en
+  depends:
+    52cc1407-0e58-47cf-93a9-896f384fcaf3: menu_link_content
+    533b1c41-9cdc-4daf-bf4f-4ff19d62a5a2: node
+default:
+  enabled:
+    -
+      value: true
+  title:
+    -
+      value: 'The History'
+  menu_name:
+    -
+      value: main
+  link:
+    -
+      target_uuid: 533b1c41-9cdc-4daf-bf4f-4ff19d62a5a2
+      title: ''
+      options: {  }
+  external:
+    -
+      value: false
+  rediscover:
+    -
+      value: false
+  weight:
+    -
+      value: 0
+  expanded:
+    -
+      value: false
+  parent:
+    -
+      value: 'menu_link_content:52cc1407-0e58-47cf-93a9-896f384fcaf3'
+  revision_translation_affected:
+    -
+      value: true

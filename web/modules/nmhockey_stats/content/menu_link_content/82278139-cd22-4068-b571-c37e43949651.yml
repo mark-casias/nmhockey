@@ -1,0 +1,42 @@
+_meta:
+  version: '1.0'
+  entity_type: menu_link_content
+  uuid: 82278139-cd22-4068-b571-c37e43949651
+  bundle: menu_link_content
+  default_langcode: en
+  depends:
+    52cc1407-0e58-47cf-93a9-896f384fcaf3: menu_link_content
+    6596da78-9002-4d68-8587-2ae3d4e64a02: node
+default:
+  enabled:
+    -
+      value: true
+  title:
+    -
+      value: 'League Rules'
+  menu_name:
+    -
+      value: main
+  link:
+    -
+      target_uuid: 6596da78-9002-4d68-8587-2ae3d4e64a02
+      title: ''
+      options: {  }
+  external:
+    -
+      value: false
+  rediscover:
+    -
+      value: false
+  weight:
+    -
+      value: 0
+  expanded:
+    -
+      value: false
+  parent:
+    -
+      value: 'menu_link_content:52cc1407-0e58-47cf-93a9-896f384fcaf3'
+  revision_translation_affected:
+    -
+      value: true
