@@ -9,6 +9,9 @@
     }
   }
   .section {
-    margin-bottom: 2rem;
+    margin-bottom: .5rem;
+    @media (min-width: 768px) {
+      margin-bottom: 2rem;
+    }
   }
 }
