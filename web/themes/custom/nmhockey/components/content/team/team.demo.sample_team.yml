@@ -2,14 +2,14 @@ name: 'Sample Team'
 description: ''
 props:
   label: Albuquerque
-  standings: '1 -1'
+  record: '1 - 1 - 0'
   games:
     - { header: "Date", data: ['Dec 1, 2024', 'Dec 2, 2024', 'Dec 3, 2024'] }
     - { header: "Time", data: ['7:45p', '9:15p', '7:45p']}
     - { header: "Team", data: ['team1', 'team2', 'team 3']}
     - { header: "Home - Away", data: ['Home', 'Away', 'Away']}
-    - { header: "Score", data: ['3 - 2', '0 - 1', '']}
-    - { header: "WLT", data: ['W', 'OTL', '']}
+    - { header: "Score", data: ['3 - 2', '0 - 1', '-']}
+    - { header: "WLT", data: ['W', 'OTL', 'TBD']}
   goalies:
     - { header: "Name", data: ["Ryan Laughlin"]},
     - { header: "GP", data: ['13']}

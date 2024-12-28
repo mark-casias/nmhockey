@@ -1,9 +1,11 @@
 /* Toggle */
 .toggle-expand {
 
-  display: inline-block;
+  display: flex;
+  justify-content: center;
   text-decoration: none;
-  width: 100%;
+  background-color: var(--color-blue-pale);
+  padding: .5rem;
 
   /* See main-menu.js */
   &--open {
@@ -26,40 +28,17 @@
   color: var(--color-blue-vivid);
 }
 
-/* SVG icon */
-.toggle-expand__icon {
-  height: 3rem;
-  width: 3rem;
-  margin: 0 auto;
-}
-
 .toggle-expand__open {
   display: flex;
   text-align: center;
   justify-content: center;
   align-items: center;
-  &::before {
-    color: var(--color-highlight);
-    content: 'Ⓜ️';
-    display: block;
-    font-size: 2.5rem;
-    line-height: 2;
-    margin-right: var(--space-one-half);
-  }
 }
 .toggle-expand__close {
   display: none;
   text-align: center;
   justify-content: center;
   align-items: center;
-  &::before {
-    color: var(--color-highlight);
-    content: '❌';
-    display: block;
-    font-size: 2.5rem;
-    line-height: 2;
-    margin-right: var(--space-one-half);
-  }
 }
 
 .toggle-expand--open {
@@ -69,6 +48,62 @@
   & .toggle-expand__close {
     display: flex;
   }
+}
+
+.hamburger {
+  width: 20px;
+  height: 14px;
+  display: inline-block;
+  position: relative;
+  margin-left: .5rem;
+}
+
+.hamburger-inner {
+  display: block;
+  top: 50%;
+  margin-top: -2px;
+}
+.hamburger-inner,
+.hamburger-inner::before,
+.hamburger-inner::after {
+  width: 20px;
+  height: 2px;
+  background-color: #000;
+  border-radius: 2px;
+  position: absolute;
+  transition-property: transform;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
+.hamburger-inner::before,
+.hamburger-inner::after {
+  content: "";
+  display: block;
+}
+.hamburger-inner::before {
+  top: -5px;
+}
+.hamburger-inner::after {
+  bottom: -5px;
+}
+.hamburger .hamburger-inner,
+.hamburger .hamburger-inner::before,
+.hamburger .hamburger-inner::after {
+  transition-property: none;
+}
+
+.hamburger.is-active .hamburger-inner {
+  transform: rotate(45deg);
+}
+.hamburger.is-active
+.hamburger-inner::before {
+  top: 0;
+  opacity: 0;
+}
+.hamburger.is-active
+.hamburger-inner::after {
+  bottom: 0;
+  transform: rotate(-90deg);
 }
 /* Expand Button (mobile only) */
 .expand-sub {
@@ -107,11 +142,12 @@
 .main-nav {
   display: none;
   background-color: var(--color-blue);
-  padding: .25rem 0;
+  padding: 0;
 
   @media (min-width: 720px) {
     display: block;
     background: none;
+    padding: .25rem 0;
   }
 }
 
@@ -130,10 +166,10 @@
 .main-menu {
   padding-left: 0;
   margin-top: 0;
+  margin-bottom: 0;
   border-bottom: 1px solid;
   position: relative;
   z-index: 10;
-  list-stype: none;
 
   @media (min-width: 720px) {
     border-bottom: none;

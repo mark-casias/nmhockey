@@ -82,11 +82,17 @@ function nmhockey_preprocess_node(array &$variables): void {
     $game_nids = $query->execute();
     $games = Node::loadMultiple($game_nids);
 
+    $game_results = [
+      'w' => 0,
+      'l' => 0,
+      'otl' => 0,
+    ];
     foreach($games as $nid => $game) {
       $date_ts = $game->get('field_game_date')->date->getTimestamp();
       $date = $date_formatter->format($date_ts, 'short');
       $url = Url::fromRoute('entity.node.canonical', ['node' => $game->id()]);
       $link = Link::fromTextAndUrl($date, $url);
+      $game_result = 'TBD';
 
       $h_team = $game->get('field_game_team_home')->referencedEntities();
       $v_team = $game->get('field_game_team_away')->referencedEntities();
@@ -147,12 +153,18 @@ function nmhockey_preprocess_node(array &$variables): void {
             switch ($goalie_stats['w_l_otl']) {
               case 'win':
                 $goalie_rows['w'][$goalie->id()]++;
+                $game_results['w']++;
+                $game_result = 'W';
                 break;
               case 'loss':
                 $goalie_rows['l'][$goalie->id()]++;
+                $game_results['l']++;
+                $game_result = 'L';
                 break;
               case 'otl':
                 $goalie_rows['otl'][$goalie->id()]++;
+                $game_results['otl']++;
+                $game_result = 'OTL';
             }
             $goalie_rows['gp'][$goalie->id()]++;
           }
@@ -160,7 +172,7 @@ function nmhockey_preprocess_node(array &$variables): void {
         }
       }
 
-      $score = '';
+      $score = '-';
       if ($date_ts <= time()) {
         if ($isHome === 'Home') {
           $score = $h_goals . ' - ' . $a_goals;
@@ -173,7 +185,7 @@ function nmhockey_preprocess_node(array &$variables): void {
       $game_rows['team'][] = $opponent;
       $game_rows['score'][] = $score;
       $game_rows['hv'][] = $isHome;
-      $game_rows['result'][$game->id()] = 'yay';
+      $game_rows['result'][$game->id()] = $game_result;
     }
 
     $variables['goalies'] = [];
@@ -213,6 +225,7 @@ function nmhockey_preprocess_node(array &$variables): void {
         ['header' => "PIM", 'data' => $player_rows['pim']],
       ];
     }
+    $variables['record'] = implode(' - ', $game_results);
 
   }
 
@@ -408,7 +421,14 @@ function nmhockey_preprocess_node(array &$variables): void {
       }
 
       // Get all Penalties from Games.
-      // $player['pim'][$pid] += $pen['duration'];
+      $game_penalties = array_merge($game->get('field_game_penalty_home')->referencedEntities(), $game->get('field_game_penalty_away')->referencedEntities());
+      if (count($game_penalties)) {
+        foreach($game_penalties as $penalty) {
+          $pdata = $penalty->get('field_penalty_stats')->getValue()[0];
+          $pid = $penalty->get('field_penalty_player')->entity->id();
+          $players['pim'][$pid] += $pdata['penalty_duration'];
+        }
+      }
 
       // Get all Goalie Stats from Games
     }

@@ -9,7 +9,7 @@ props:
       type: string
       title: Team Name
       description: ''
-    standings:
+    record:
       type: string
       title: Team Standings
       description: ''
