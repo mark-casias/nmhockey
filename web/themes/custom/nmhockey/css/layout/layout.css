@@ -12,8 +12,12 @@
 
   @media (min-width: 720px) {
     padding: 3rem;
-    margin-top: 3rem;
+    margin-top: 2rem;
   }
+}
+
+main {
+  min-height: 50vh;
 }
 
 header {
@@ -21,6 +25,7 @@ header {
   @media (min-width: 720px) {
     display: flex;
     align-items: center;
+    margin-bottom: 1rem;
   }
 }
 

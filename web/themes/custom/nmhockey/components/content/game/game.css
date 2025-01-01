@@ -1,10 +1,13 @@
 [data-component-id="nmhockey:game"] {
 
   .stats-summary, .details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: .5rem;
-    margin: 1rem 0;
+
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: .5rem;
+      margin: 1rem 0;
+    }
   }
 }
 

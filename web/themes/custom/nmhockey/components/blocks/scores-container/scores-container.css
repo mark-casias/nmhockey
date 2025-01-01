@@ -9,15 +9,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 55px;
   }
 
   .score {
-    line-height: 0.8;
+    font-size: 3rem;
     text-align: center;
     font-weight: 500;
-    font-size: 9rem;
     color: rgb(54, 56, 61);
+
+    @media (min-width: 768px) {
+      font-size: 9rem;
+    }
   }
 
   .sog {
@@ -31,14 +33,15 @@
   }
 
   .divider {
-    font-size: 80px;
+    font-size: 2rem;
     color: rgb(54, 56, 61);
     font-weight: 900;
-    padding: 0px 1.2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     margin-bottom: 24px;
+
+    @media (min-width: 768px) {
+      font-size: 5rem;
+      padding: 0px 1.2rem;
+    }
+
   }
 }

@@ -1,0 +1,19 @@
+$schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
+name: System Branding
+status: experimental
+group: Blocks
+
+props:
+  type: object
+
+  properties:
+    site_logo:
+      type: string
+      title: Site Logo
+      description: The logo for the site
+      default: /themes/custom/nmhockey/assets/images/logo.svg
+    site_name:
+      type: string
+      title: Site Name
+      description: The name of the site
+      default: 'NM Hockey'
