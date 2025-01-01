@@ -36,7 +36,8 @@ source:
       name: season
       label: Season
       selector: Season
-    - name: type
+    -
+      name: type
       label: Type
       selector: Type
   ids:

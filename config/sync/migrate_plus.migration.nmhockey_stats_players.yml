@@ -18,7 +18,7 @@ source:
   fields:
     -
       name: usah
-      label: "USA Hockey Number"
+      label: 'USA Hockey Number'
       selector: USAH
     -
       name: player

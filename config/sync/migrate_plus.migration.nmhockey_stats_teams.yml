@@ -49,11 +49,11 @@ process:
     source: season
   field_team_captain:
     plugin: migration_lookup
-    migration: nmhockey_stats_players_from_google
+    migration: nmhockey_stats_players
     source: captain
   field_team_goalie:
     plugin: migration_lookup
-    migration: nmhockey_stats_players_from_google
+    migration: nmhockey_stats_players
     source: goalie
 destination:
   plugin: 'entity:node'
