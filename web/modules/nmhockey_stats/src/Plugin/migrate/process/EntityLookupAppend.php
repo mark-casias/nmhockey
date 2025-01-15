@@ -20,10 +20,13 @@ class EntityLookupAppend extends EntityLookup {
    * {@inheritdoc}
    */
   public function transform($value, MigrateExecutableInterface $migrate_executable, Row $row, $destination_property) {
+    // Custom code to update the sourceid1 value. @todo: remove and use process.
+    // $sourceid1 = $row->getSourceProperty('player');.
     $player = $row->getSourceProperty('player');
     $parts = explode(", ", $player);
     $sourceid1 = implode(' ', array_reverse($parts));
-    $target = $row->getDestination()['nid'];
+
+    // The migration to look up.
     $migration = $this->configuration['migration'];
 
     // Find the migrated item.
@@ -32,13 +35,22 @@ class EntityLookupAppend extends EntityLookup {
     $query->condition('m.sourceid1', $sourceid1);
     $nid = $query->execute()->fetchField();
 
-    // Find the existing values.
+    $values = [];
+
+    // The referenced destination property. (@todo)
+    $target_id = $this->configuration['target_id'];
+    // @todo Use $target_id to get the target entity.
+    $target = $row->getDestination()['nid'];
+    // The entity type. (@todo)
+    $type = $this->configuration['type'];
+    // Find the existing values. @todo: Use $type.
     if ($node = \Drupal::entityTypeManager()->getStorage('node')->load($target)) {
 
       $values = $node->get($destination_property)->getValue();
 
     }
 
+    // Append the looked up value as a target_id.
     $values[] = [
       'target_id' => $nid,
     ];

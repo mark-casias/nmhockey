@@ -1,6 +1,6 @@
 [data-component-id="nmhockey:game"] {
 
-  .stats-summary, .details {
+  .stats-summary, .details, .rosters {
 
     @media (min-width: 768px) {
       display: grid;
@@ -8,6 +8,38 @@
       column-gap: .5rem;
       margin: 1rem 0;
     }
+  }
+
+  table {
+    width: 100%;
+    border-spacing: 0;
+    text-align: center;
+  }
+
+  tr {
+    &.subbed {
+      text-decoration: line-through;
+    }
+    &.sub {
+      td:first-child {
+        &::after {
+          content: ' (sub)';
+          font-size: .75rem;
+          color: #999;
+        }
+      }
+    }
+  }
+
+  td {
+    padding: .5rem 0;
+    text-align: center;
+
+    &:first-child {
+      text-align: left;
+      padding-left: .5rem;
+    }
+
   }
 }
 

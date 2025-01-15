@@ -1,5 +1,4 @@
 <div {{attributes}}>
-
   {% include "nmhockey:titlebar" with {
     title: visitor.team ~ ' @ ' ~ home.team
   }%}
@@ -44,6 +43,17 @@
         {header: "SP", data: [home.goalie.sp, visitor.goalie.sp]}
       ]
     } %}
+  </div>
+
+  <div class="team-rosters">
+    {% include "nmhockey:section-title" with {
+      title: 'Team Rosters',
+      collapse: true
+    } %}
+    <div class="rosters">
+      <div class="away_roster">{{ away_roster }}</div>
+      <div class="home_roster">{{ home_roster }}</div>
+    </div>
   </div>
 
   <div class="details">

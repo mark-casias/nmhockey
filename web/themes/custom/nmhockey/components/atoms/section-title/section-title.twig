@@ -1,4 +1,9 @@
-<div {{attributes}}>
+{% set section_title_classes = [
+  'section-title',
+  collapse ? 'section-title--collapse'
+] %}
+
+<div class="{{section_title_classes|join(' ')}}"{{attributes|without('class')}}>
   <div>
     <span>{{ title }}</span>
   </div>

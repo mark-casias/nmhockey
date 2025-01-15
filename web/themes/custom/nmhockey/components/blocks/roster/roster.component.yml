@@ -1,12 +1,14 @@
 $schema: https://git.drupalcode.org/project/sdc/-/raw/1.x/src/metadata.schema.json
-name: Game
-status: stable
-group: Content
 
+name: Roster
+status: experimental
+group: Game
 props:
   type: object
+
   properties:
-    label:
+    title:
+      title: Title
       type: string
-      title: 'Label'
-      description: 'Game Title.'
+      description: The title of the Roster.
+

@@ -1,0 +1,8 @@
+<div {{ attributes.addClass('roster')}}>
+
+  {% include "nmhockey:summary" with {
+    title: title,
+    columns: players
+  } %}
+
+</div>

@@ -263,8 +263,8 @@ content:
     settings:
       form_mode: inline
       override_labels: true
-      label_singular: Goal
-      label_plural: Goals
+      label_singular: 'Home Goal'
+      label_plural: 'Home Goals'
       allow_new: true
       allow_existing: false
       match_operator: CONTAINS
@@ -327,7 +327,7 @@ content:
     settings:
       form_mode: default
       override_labels: true
-      label_singular: Substitute
+      label_singular: 'Away Substitute'
       label_plural: ''
       allow_new: true
       allow_existing: false
@@ -345,7 +345,7 @@ content:
     settings:
       form_mode: default
       override_labels: true
-      label_singular: Substitute
+      label_singular: 'Home Substitute'
       label_plural: ''
       allow_new: true
       allow_existing: false

@@ -30,4 +30,21 @@
     box-sizing: border-box;
     margin-left: 0.75rem;
   }
+
+}
+
+.section-title--collapse span::after {
+  content: "▼";
+  margin-left: 0.5rem;
+  color: black;
+  transition: all 0.2s;
+}
+
+.section-title--closed {
+  & span::after {
+    transform: rotate(-90deg);
+  }
+  + div {
+    display: none;
+  }
 }

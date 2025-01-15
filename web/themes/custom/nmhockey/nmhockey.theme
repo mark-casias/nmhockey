@@ -285,6 +285,12 @@ function nmhockey_preprocess_node(array &$variables): void {
       ];
     }
 
+    $h_roster = $node->get('field_game_team_home')->referencedEntities()[0]->get('field_roster')->referencedEntities();
+    $h_subs = $node->get('field_game_subs_home')->referencedEntities();
+    $variables['home_roster'] = _game_roster($h_roster, $h_subs, $hgoals, $hpen);
+    $a_roster = $node->get('field_game_team_away')->referencedEntities()[0]->get('field_roster')->referencedEntities();
+    $variables['away_roster'] = _game_roster($a_roster, $node->get('field_game_subs_away')->referencedEntities(), $vgoals, $apen);
+
   }
 
   if ($type === 'goal') {
@@ -574,4 +580,84 @@ function _goal_data($node) {
     $return['detail'] .= ', ' . $assist2->get('field_last_name')->value;
   }
   return $return;
+}
+
+function _game_roster($players, $subs, $goals, $penalties) {
+
+  foreach ($players as $player) {
+    $pid = $player->id();
+    $roster[$pid] = [
+      'class' => 'player',
+      'data' => [
+        'name' => $player->label(),
+        'number' => $player->get('field_number')->value,
+        'goals' => 0,
+        'assists' => 0,
+        'points' => 0,
+        'pim' => 0,
+      ]
+    ];
+  }
+  foreach ($subs as $sub) {
+    $substitute = $sub->get('field_substitution')->referencedEntities();
+    $roster[$substitute[0]->id()] = [
+      'class' => 'sub',
+      'data' => [
+        'name' => $substitute[0]->label(),
+        'number' => $substitute[0]->get('field_number')->value,
+        'goals' => 0,
+        'assists' => 0,
+        'points' => 0,
+        'pim' => 0,
+      ],
+    ];
+    $player = $sub->get('field_player')->referencedEntities();
+    $roster[$player[0]->id()]['class'] = 'subbed';
+  }
+
+  foreach ($goals as $goal) {
+    $player = $goal->get('field_goal_player')->entity;
+    if ($player) {
+      $pid = $player->id();
+      $roster[$pid]['goals']++;
+      $roster[$pid]['points']++;
+    }
+    $assist = $goal->get('field_assist')->entity;
+    if ($assist) {
+      $aid = $assist->id();
+      $roster[$aid]['assists']++;
+      $roster[$aid]['points']++;
+    }
+    $assist2 = $goal->get('field_assist_2')->entity;
+    if ($assist2) {
+      $aid2 = $assist2->id();
+      $roster[$aid2]['assists']++;
+      $roster[$aid2]['points']++;
+    }
+  }
+
+  foreach ($penalties as $penalty) {
+    $pdata = $penalty->get('field_penalty_stats')->getValue()[0];
+    $pid = $penalty->get('field_penalty_player')->entity->id();
+    $roster[$pid]['pim'] += $pdata['penalty_duration'];
+  }
+
+  foreach ($roster as $row) {
+    $rows[] = $row;
+  }
+
+  $out = [
+    '#theme' => 'table',
+    '#header' => [
+      ['data' => 'Player'],
+      ['data' => '#'],
+      ['data' => 'Goals'],
+      ['data' => 'Assists'],
+      ['data' => 'Points'],
+      ['data' => 'PIM'],
+    ],
+    '#rows' => $rows,
+  ];
+
+  return $out;
 }
